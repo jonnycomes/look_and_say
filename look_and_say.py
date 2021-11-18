@@ -1,368 +1,546 @@
+"""
+    A module for playing with look and say sequences in the spirit of John Conway.
+"""
+
 import numpy
 import sympy
 
-class GenLookAndSay():
-  """docstring for GenLookAndSay"""
-  def __init__(self, chunk_op = (lambda a,n : str(n) + a)):
-    super(GenLookAndSay, self).__init__()
-    self.chunk_op = chunk_op
-    self.sequence = []
 
-  def set_chunk_op(self, chunk_op):
-    self.chunk_op = chunk_op
+def split_Conway(string):
+    """
+    Splits a string into a list of substrings according to Conway's Splitting Theorem.
+    Assumes the string is not empty. 
 
-  def get_sequence(self):
-    return self.sequence
+    Example usage:
 
-  def say_what_you_see(self, word):
-    if not word: return None # handles empty word, which is falsy
-    letter = word[0]
-    result = ''
-    count = 0
-    for ch in word:
-      if ch == letter: 
-        count += 1
-      else:
-        result += self.chunk_op(letter, count)
-        count = 1
-        letter = ch 
-    result += self.chunk_op(letter, count)
-    return result
-   
-  def generate_sequence(self, seed, num_iterations):
-    if not seed: return None # handles empty seed, which is falsy
-    result = [seed]
-    for _ in range(num_iterations):
-      result.append(self.say_what_you_see(result[-1]))
-    self.sequence = result
+        string = '121113'
+        chunks = split_Conway(string)
+        print(chunks)
 
-  def get_length_ratio(self):
-    if len(self.sequence) < 2:
-      print('Look and say sequence does not have enough rows to compute the ratio of lengths.')
-      return None
-    return len(self.sequence[-1]) / len(self.sequence[-2])
+    Output:
+
+        ```
+        ['12', '1113']
+        ```
+    """
+    chunks = []
+    start = 0
+    for i in range(1, len(string)):
+        if _is_split_pair_Conway(string[start:i], string[i:]):
+            chunks.append(string[start:i])
+            start = i
+    chunks.append(string[start:])
+    return chunks
+
+def _is_split_pair_Conway(L, R):
+    """Implementation of Conway's Splitting Theorem"""
+    if L == '' or R == '':
+            return True
+    if L[-1] not in ['1', '2', '3'] and R[0] in ['1', '2', '3']: # n] and [m
+            return True
+    if L[-1] == '2': # 2]
+            if len(R) > 1 and R[0] == '1' and R[1] != '1' and (len(R) == 2 or R[2] != R[1]): #[1^1X^1
+                    return True
+            if len(R) > 2 and R[0] == '1' and R[1] == '1' and R[2] == '1' and (len(R) == 3 or R[3] != '1'): #[1^3
+                    return True
+            if R[0] == '3' and (len(R) == 1 or (R[1] != '3' and (len(R) < 4 or R[2] != R[1] or R[3] != R[1]))): #[3^1X^\not=3
+                    return True
+            if R[0] not in ['1', '2', '3'] and (len(R) == 1 or R[1] != R[0]): #[n^1
+                    return True
+    if L[-1] != '2' and len(R) > 1 and R[0] == '2' and R[1] == '2': # \not=2]
+            if len(R) > 3 and R[2] == '1' and R[3] != '1' and (len(R) == 4 or R[4] != R[3]): #[2^21^1X^1
+                    return True
+            if len(R) > 4 and R[2] == '1' and R[3] == '1' and R[4] == '1' and (len(R) == 5 or R[5] != '1'): #[2^21^3
+                    return True
+            if len(R) > 2 and R[2] == '3' and (len(R) == 3 or (R[3] != '3' and (len(R) < 6 or R[4] != R[3] or R[5] != R[3]))): #[2^23^1X^\not=3
+                    return True 
+            if len(R) == 2 or (len(R) > 2 and R[2] not in ['1', '2', '3'] and (len(R) == 3 or R[3] != R[2])): #[2^2n^(0 or 1)
+                    return True
+    return False
 
 class LookAndSay():
-  """docstring for LookAndSay"""
-  def __init__(self, say = (lambda n : str(n))):
-    super(LookAndSay, self).__init__()
-    self.say = say
-    self.sequence = []
+    """
+    A class responsible for the fundamental say-what-you-see operation
+    that generates a look and say sequence. The parameter ``say`` in the
+    constructor is a function that determines the decay of chunk of the form
+    \\(a^b\\). The say function can have one or two parameters:
 
-  def set_say(self, say):
-    self.say = say
+    * If the say function accepts one parameter, the LookAndSay object will correspond to the decay \\(a^b\\to say(b)a\\).
+    * If the say function accepts two parameters, the LookAndSay object will correspond to the decay \\(a^b\\to say(b, a)\\).
 
-  def get_sequence(self):
-    return self.sequence
+    When no parameter is passed to the constructor, the LookAndSay
+    object will correspond to standard base ten look and say sequences.
 
-  def say_what_you_see(self, word):
-    if not word: return None # handles empty word, which is falsy
-    letter = word[0]
-    result = ''
-    count = 0
-    for ch in word:
-      if ch == letter: 
-        count += 1
-      else:
-        result += self.say(count) + letter
-        count = 1
-        letter = ch 
-    result += self.say(count) + letter
-    return result
-   
-  def generate_sequence(self, seed, num_iterations):
-    if not seed: return None # handles empty seed, which is falsy
-    result = [seed]
-    for _ in range(num_iterations):
-      result.append(self.say_what_you_see(result[-1]))
-    self.sequence = result
+    The following example uses the default (standard) look and say sequences.
+    Note that the ratio of lengths are approaching Conway's constant.
+        
+        ls = LookAndSay()  
+        ls.generate_sequence('55555', 50)
+        sequence = ls.get_sequence()
+        first_terms = sequence[:10]
+        print('Sequence:', first_terms)
+        print('Ratios of lengths:', ls.get_length_ratios())
+        print('Just the last ratio:', ls.get_last_length_ratio())
 
-  def get_length_ratio(self):
-    if len(self.sequence) < 2:
-      print('Look and say sequence does not have enough rows to compute the ratio of lengths.')
-      return None
-    return len(self.sequence[-1]) / len(self.sequence[-2])
+    Output:
 
+        ```
+        Sequence: ['55555', '55', '25', '1215', '11121115', '31123115', '132112132115', '11131221121113122115', '311311222112311311222115', '1321132132211213211321322115']
+        Ratios of lengths: [0.4, 1.0, 2.0, 2.0, 1.0, 1.5, 1.6666666666666667, 1.2, 1.1666666666666667, 1.5714285714285714, 1.1818181818181819, 1.1538461538461537, 1.4666666666666666, 1.2727272727272727, 1.25, 1.4, 1.3265306122448979, 1.2461538461538462, 1.3333333333333333, 1.3518518518518519, 1.226027397260274, 1.312849162011173, 1.3361702127659574, 1.2611464968152866, 1.3257575757575757, 1.318095238095238, 1.2919075144508672, 1.3053691275167785, 1.3161953727506426, 1.2936197916666667, 1.2989431303472572, 1.3142192948469587, 1.2951061320754718, 1.2997951286137037, 1.312784588441331, 1.2996264674493063, 1.3030178608088687, 1.3061288797857256, 1.3046441495778045, 1.300263510702233, 1.304700277323473, 1.3052921299324176, 1.299567840664732, 1.3057126333376172, 1.304461231821649, 1.3014789104353732, 1.3050192770385831, 1.304147670163319, 1.3026438489740129, 1.3036460274187538]
+        Just the last ratio: 1.3036460274187538
+        ```
 
-########### Knave #####################
+    Here is a Roman look and say:
 
-class LookKnave(LookAndSay):
-  """docstring for LookKnave"""
-  def __init__(self, say, lie = None):
-    super().__init__(say)
-    self.lie = lie
-    if lie == None:
-      def lie_a_bit(bit):
-        if bit == '0':
-          return '1'
-        if bit == '1':
-          return '0'
+        def roman_say(num):
+            assert num < 10, "This Roman can only count to 9."
+            roman = {1:'I', 2:'II', 3:'III', 4:'IV', 5:'V', 6:'VI', 7:'VII', 8:'VIII', 9:'IX'}
+            return roman[num]
 
-      self.lie = lie_a_bit
+        roman_ls = LookAndSay(roman_say)
 
-  def say_what_you_see(self, word):
-    """override"""
-    if not word: return None # handles empty word, which is falsy
-    letter = word[0]
-    result = ''
-    count = 0
-    for ch in word:
-      if ch == letter: 
-        count += 1
-      else:
-        result += self.say(count) + self.lie(letter)
-        count = 1
-        letter = ch 
-    result += self.say(count) + self.lie(letter)
-    return result
+        roman_ls.generate_sequence('I', 10)
+        print(roman_ls.get_sequence())
+
+        roman_ls.generate_sequence('V', 10)
+        print(roman_ls.get_sequence())
+
+    Output:
+
+        ```
+        ['I', 'II', 'III', 'IIII', 'IVI', 'IIIVII', 'IIIIIVIII', 'VIIVIIII', 'IVIIIIVIVI', 'IIIVIVIIVIIIVII', 'IIIIIVIIIVIIIIVIIIIIVIII']
+        ['V', 'IV', 'IIIV', 'IIIIIV', 'VIIV', 'IVIIIIV', 'IIIVIVIIV', 'IIIIIVIIIVIIIIV', 'VIIVIIIIIVIVIIV', 'IVIIIIVVIIVIIIVIIIIV', 'IIIVIVIIIVIIIIVIIIIIVIVIIV']
+        ```
+    
+    Here is a standard binary look and say:
+
+        def binary_say(num):
+            return "{0:b}".format(num)
+
+        binary_ls = LookAndSay(binary_say)
+
+        binary_ls.generate_sequence('0', 9)
+        print(binary_ls.get_sequence())
+
+        binary_ls.generate_sequence('1', 9)
+        print(binary_ls.get_sequence())
+
+    Output:
+
+        ```
+        ['0', '10', '1110', '11110', '100110', '1110010110', '111100111010110', '100110011110111010110', '1110010110010011011110111010110', '1111001110101100111001011010011011110111010110']
+        ['1', '11', '101', '111011', '11110101', '100110111011', '111001011011110101', '111100111010110100110111011', '100110011110111010110111001011011110101', '1110010110010011011110111010110111100111010110100110111011']
+        ```
+    
+    Here is a *look-and-say-again* from the paper *Stuttering Conway Sequences Are Still Conway Sequences* by Brier et al.
+    
+        def say_again(char_count, char):
+            return 2 * str(char_count) + 2 * char
+
+        look_and_say_again = LookAndSay(say_again)
+
+        look_and_say_again.generate_sequence('1', 10)
+        print(look_and_say_again.get_sequence())
+
+        look_and_say_again.generate_sequence('2', 10)
+        print(look_and_say_again.get_sequence())
+
+    Output:
+
+        ```
+        ['1', '1111', '4411', '22442211', '2222224422222211', '6622224466222211', '226644222244226644222211', '2222226622444422224422222266224444222211', '662222662222444444222244662222662222444444222211', '22664422226644226644442222442266442222664422664444222211', '2222226622444422226622442222226644444422224422222266224444222266224422222266444444222211']
+        ['2', '1122', '22112222', '222222114422', '6622221122442222', '226644222211222222444422', '22222266224444222211662244442222', '6622226622224444442222112266222244444422', '226644222266442266444422221122222266442266442222', '222222662244442222662244222222664444442222116622226622442222226622444422', '66222266222244444422226622222244662222666644442222112266442222662222224466222266222244442222']
+        ```
+
+    Here is Morrill's *Look Knave*.
+
+        def knave_say(bit_count, bit):
+            flip = {'0':'1', '1':'0'}
+            return "{0:b}".format(bit_count) + flip[bit]
+
+        look_knave = LookAndSay(knave_say)
+
+        look_knave.generate_sequence('0', 12)
+        print(look_knave.get_sequence())
+
+        look_knave.generate_sequence('1', 12)
+        print(look_knave.get_sequence())
+
+    Output:
+
+        ```
+        ['0', '11', '100', '10101', '1011101110', '10111101111011', '1011100011100011100', '1011110111110111110101', '1011100011101011101011101110', '10111101111101110111101110111101111011', '10111000111010111101110001111011100011100011100', '1011110111110111011100011110111100011110111110111110101', '1011100011101011110111101111000111000111100011101011101011101110']
+        ['1', '10', '1011', '1011100', '1011110101', '1011100011101110', '10111101111101111011', '1011100011101011100011100', '1011110111110111011110111110101', '101110001110101111011100011101011101110', '10111101111101110111000111101111101110111101111011', '10111000111010111101111011110001110101111011100011100011100', '10111101111101110111000111000111000111110111011100011110111110111110101']
+        ```
+
+    """
+    def __init__(self, say = None):
+        super(LookAndSay, self).__init__()
+        if say == None:
+            say = (lambda n : str(n))
+        self.say = say
+        self.sequence = []
+
+    def _chunk_op(self, char_count, char):
+        """
+        Conversion of the say function to a two parameter function 
+        if the say function takes only one parameter; 
+        just a copy of the say function otherwise.
+        """
+        try:
+            return self.say(char_count, char)
+        except:
+            return self.say(char_count) + char
+
+    def get_sequence(self):
+        """Returns the look and say sequence as a list of strings"""
+        return self.sequence
+
+    def say_what_you_see(self, string):
+        """
+        The fundamental look and say operation that generates each 
+        term of a look and say sequence from its predecessor. For example, 
+        using the standard (default) LookAndSay object, 
+        ``say_what_you_see('1112222333')`` returns ``'314233'``.
+        """
+        if not string: return None # handles empty string, which is falsy
+        letter = string[0]
+        result = ''
+        count = 0
+        for ch in string:
+            if ch == letter: 
+                count += 1
+            else:
+                result += self._chunk_op(count, letter)
+                count = 1
+                letter = ch 
+        result += self._chunk_op(count, letter)
+        return result
+     
+    def generate_sequence(self, seed, num_iterations):
+        """
+        Generates the look and say sequence. The parameter ``seed`` is 
+        the initial term in the sequence, and ``num_iterations`` is the 
+        number of terms generated.
+        """
+        if not seed: return None # handles empty seed, which is falsy
+        result = [seed]
+        for _ in range(num_iterations):
+            result.append(self.say_what_you_see(result[-1]))
+        self.sequence = result
+
+    def get_length_ratios(self):
+        """
+        Returns a list of the ratios of lengths of 
+        successive terms in the look and say sequence.
+        """
+        num_iterations = len(self.sequence)
+        assert num_iterations > 1, 'Look and say sequence does not have enough terms to compute the ratio of lengths.'
+        return [len(self.sequence[i+1]) / len(self.sequence[i]) for i in range(num_iterations - 1)]
+
+    def get_last_length_ratio(self):
+        """
+        Returns the ratio of the lengths of the last 
+        two terms of the look and say sequence
+        """
+        return self.get_length_ratios()[-1]
+
 
 ########### CHEMISTRY #####################
 
 class Chemistry():
-  """docstring for Chemistry"""
-  def __init__(self, las, splitting_strategy = None, elements = None):
-    super(Chemistry, self).__init__()
-    self.las = las
-    if splitting_strategy == None:
-      splitting_strategy = ConwaySplittingStrategy()
-    self.splitting_strategy = splitting_strategy
-    if elements == None:
-      elements = []
-    self.elements = elements
+    """
+    A class responsible for generating all the persistent elements 
+    appearing in look and say sequences, along with 
+    the chemical properties of those elements.
 
-  def get_elements(self):
-    return self.elements
+    Parameters in the constructor are a LookAndSay object ``las`` and
+    a splitting function ``split``. The user is responsible
+    for verifying that the provided splitting function is valid for the given
+    LookAndSay object. The default splitting function corresponds to 
+    Conway's original Splitting Theorem.
 
-  def clear_elements(self):
-    self.elements = []
+    """
+    def __init__(self, las, split = split_Conway, elements = None):
+        super(Chemistry, self).__init__()
+        self.las = las
+        self.split = split
+        if elements == None:
+            elements = []
+        self.elements = elements
 
-  def split_to_elements(self, string): 
-    return [Element(chunk, self.las) for chunk in self.splitting_strategy.split(string)]
+    def get_elements(self):
+        """Returns the elements as a list."""
+        return self.elements
 
-  def generate_all_elements(self, strings):
-    for string in strings:
-      for elt in self.split_to_elements(string):
-        if elt not in self.elements:
-          # add elt to the chemistry:
-          self.elements.append(elt)
-          # recursively set the decay for elt:
-          decay_elts = self.split_to_elements(self.las.say_what_you_see(elt.get_string()))
-          self.generate_all_elements(map(lambda e : e.get_string(), decay_elts))
-          elt.set_decay(decay_elts)
-    # clean up decay for all elements:
-    for elt in self.elements:
-      dec = []
-      for d in elt.get_decay():
-        dec += [e for e in self.elements if e == d]
-      elt.set_decay(dec)
+    def clear_elements(self):
+        """Resets the list of elements back to the empty list"""
+        self.elements = []
 
-  def remove_extinct_elements(self): 
-    while True:
-      common_elements = []
-      for elt in self.elements:
-        for d in elt.get_decay():
-          if d not in common_elements:
-            common_elements.append(d)
-      if len(common_elements) < len(self.elements):
-        self.elements = common_elements[:]
-      else: 
-        break
+    def _split_to_elements(self, string): 
+        return [Element(chunk, self.las) for chunk in self.split(string)]
 
-  def generate_elements(self, seeds, reset = True):
-    if reset:
-      self.clear_elements()
-    strings = [self.las.say_what_you_see(seed) for seed in seeds] #only look at 2-day-old strings
-    self.generate_all_elements(strings)
-    self.remove_extinct_elements()
+    def _generate_all_elements(self, strings):
+        for string in strings:
+            for elt in self._split_to_elements(string):
+                if elt not in self.elements:
+                    # add elt to the chemistry:
+                    self.elements.append(elt)
+                    # recursively set the decay for elt:
+                    decay_elts = self._split_to_elements(self.las.say_what_you_see(elt.get_string()))
+                    self._generate_all_elements(map(lambda e : e.get_string(), decay_elts))
+                    elt._set_decay(decay_elts)
+        # clean up decay for all elements:
+        for elt in self.elements:
+            dec = []
+            for d in elt.get_decay():
+                dec += [e for e in self.elements if e == d]
+            elt._set_decay(dec)
 
-  def get_decay_matrix(self):
-    mat = []
-    e = self.elements
-    for i in range(len(e)):
-      row = []
-      for j in range(len(e)):
-        row.append(e[j].get_decay().count(e[i]))
-      mat.append(row)
-    return mat
+    def _remove_extinct_elements(self): 
+        while True:
+            common_elements = []
+            for elt in self.elements:
+                for d in elt.get_decay():
+                    if d not in common_elements:
+                        common_elements.append(d)
+            if len(common_elements) < len(self.elements):
+                self.elements = common_elements[:]
+            else: 
+                break
 
-  def get_max_eigenvalue(self):
-    eigenstuff = numpy.linalg.eig(numpy.array(self.get_decay_matrix()))
-    eigenvalues = eigenstuff[0]
-    return max(eigenvalues).real
+    def generate_elements(self, seeds, reset = True):
+        """
+        Collects all the persistent elements from all the look and
+        say sequences generated by the given seeds. The parameter ``seeds``
+        should be a nonempty list of strings. By default, this method will 
+        clear any elements in the chemistry that exist before this method is called
+        prior to collecting from the given seeds. Use ``reset = False`` 
+        to keep the old elements. 
+        """
+        assert type(seeds) == type(['0']), "The parameter seeds in generate_elements should be a list of strings."
+        if reset:
+            self.clear_elements()
+        strings = [self.las.say_what_you_see(seed) for seed in seeds] #only look at 2-day-old strings
+        self._generate_all_elements(strings)
+        self._remove_extinct_elements()
 
-  def get_char_poly(self, factored = True):
-    chi = sympy.Matrix(self.get_decay_matrix()).charpoly()
-    if factored:
-      return sympy.factor(chi.as_expr())
-    else:
-      return chi.as_expr()
+    def get_decay_matrix(self):
+        """
+        Returns the decay matrix as a nested list of integers 
+        (i.e. a list of the rows).
+        The order of the columns and rows correspond to the order
+        in the list of elements.
+        """
+        mat = []
+        e = self.elements
+        for i in range(len(e)):
+            row = []
+            for j in range(len(e)):
+                row.append(e[j].get_decay().count(e[i]))
+            mat.append(row)
+        return mat
+
+    def get_max_eigenvalue(self):
+        """
+        Returns the maximal real eigenvalue of the decay matrix.
+        This method assumes the existence of a real eigenvalue which
+        is larger than (the absolute value) of every other eigenvalue.
+        This assumption is usually guaranteed by the Perron-Frobenius Theorem.
+        """
+        eigenstuff = numpy.linalg.eig(numpy.array(self.get_decay_matrix()))
+        eigenvalues = eigenstuff[0]
+        return max(eigenvalues).real
+
+    def get_char_poly(self, factor = True):
+        """
+        Returns the characteristic polynomial of the decay matrix using sympy.
+        By default the returned polynomial will be factored. 
+        Use ``factor = False`` to get the expanded (i.e. unfactored) polynomial. 
+        """
+        chi = sympy.Matrix(self.get_decay_matrix()).charpoly()
+        if factor:
+            return sympy.factor(chi.as_expr())
+        else:
+            return chi.as_expr()
+
+    def get_abundances(self):
+        """
+        Returns a list of relative abundances of each element.
+        Note that the abundances are given in percentages, so they will
+        differ from Conway's abundances by a factor of \\(10^6\\). 
+        The order of the list corresponds to the order of the list of elements.
+        """
+        eigenstuff = numpy.linalg.eig(numpy.array(self.get_decay_matrix()))
+        eigenvalues = eigenstuff[0]
+        eigenvectors = eigenstuff[1]
+        index = numpy.where(eigenvalues == max(eigenvalues))
+        limiting_eigenvector_nparray = eigenvectors[:,index].real
+        # The next two lines are converting the numpy array to a list
+        limiting_eigenvector = limiting_eigenvector_nparray.tolist()
+        limiting_eigenvector = [elt[0][0] for elt in limiting_eigenvector]
+        abundance = [num / sum(limiting_eigenvector) for num in limiting_eigenvector]
+        return abundance
 
 class BinaryChemistry(Chemistry):
-  """docstring for BinaryChemistry"""
-  def __init__(self, las, elements = None):
-    super().__init__(las, Leading1SplittingStrategy(), elements)
+    """
+    A chemistry for binary look and say sequences that split as 1.0 
+    (i.e. whenever a 1 is left of a 0). This chemistry is valid whenever
+    the say-what-you-see operation maps 
+    \\(a^b\\) to \\([b]a\\) where \\([b]\\) is a binary
+    string that always starts with a 1. For example, this chemistry is 
+    valid for the standard base two binary look and say sequences. 
+    """
+    def __init__(self, las, elements = None):
+        super().__init__(las, Leading1SplittingStrategy(), elements)
 
-class Leading1Chemistry(Chemistry):
-  """docstring for Leading1Chemistry"""
-  def __init__(self, las, elements = None):
-    super().__init__(las, Leading1SplittingStrategy(), elements)
 
-class Leading0Chemistry(Chemistry):
-  """docstring for Leading1Chemistry"""
-  def __init__(self, las, elements = None):
-    super().__init__(las, Leading0SplittingStrategy(), elements)
-
-class Ending0Chemistry(Chemistry):
-  """docstring for Ending0Chemistry"""
-  def __init__(self, las, elements = None):
-    super().__init__(las, Ending0SplittingStrategy(), elements)
-
-class EndingWithCharsChemistry(Chemistry):
-  """docstring for EndingWithCharsChemistry"""
-  def __init__(self, las, ending_characters, elements = None):
-    super().__init__(las, EndingWithCharsSplittingStrategy(ending_characters), elements)
+########### ELEMENT #######################
 
 class Element():
-  """docstring for Element"""
-  def __init__(self, string, las, decay = []):
-    super(Element, self).__init__()
-    self.string = string
-    self.las = las
-    self.name = string
-    self.decay = decay
+    """docstring for Element"""
+    def __init__(self, string, las, decay = []):
+        super(Element, self).__init__()
+        self.string = string
+        self.las = las
+        self.name = string
+        self.decay = decay
 
-  def __str__(self):
-    return self.name
+    def __str__(self):
+        return self.name
 
-  def __repr__(self):
-    return self.name
+    def __repr__(self):
+        return self.name
 
-  def __eq__(self, other):
-    """Overrides the default implementation"""
-    if isinstance(other, Element):
-        return self.string == other.string and self.las == other.las
-    return NotImplemented
+    def __eq__(self, other):
+        """Overrides the default implementation"""
+        if isinstance(other, Element):
+                return self.string == other.string and self.las == other.las
+        return NotImplemented
 
-  def __hash__(self):
-    """Overrides the default implementation"""
-    return hash(tuple(sorted(self.__dict__.items())))
+    def __hash__(self):
+        """Overrides the default implementation"""
+        return hash(tuple(sorted(self.__dict__.items())))
 
-  def set_decay(self, elements):
-    self.decay = elements
+    def _set_decay(self, elements):
+        self.decay = elements
 
-  def get_decay(self):
-    return self.decay
+    def get_decay(self):
+        return self.decay
 
-  def set_name(self, name):
-    self.name = name
+    def set_name(self, name):
+        self.name = name
 
-  def get_name(self):
-    return self.name
+    def get_name(self):
+        return self.name
 
-  def get_string(self):
-    return self.string
+    def get_string(self):
+        return self.string
 
 ########### SPLITTING STRATEGY #####################
 
 class SplittingStrategy():
-  """docstring for SplittingStrategy"""
-  def __init__(self, splitting_function):
-    self.splitting_function = splitting_function
+    """docstring for SplittingStrategy"""
+    def __init__(self, splitting_function):
+        self.splitting_function = splitting_function
 
-  def split(self, string):
-    self.splitting_function(string)
+    def split(self, string):
+        self.splitting_function(string)
 
 
 class SplittingStrategyBySplittablePairs(SplittingStrategy):
-  """docstring for SplittingStrategyBySplittablePairs"""
-  def __init__(self):
-    super().__init__(None)
-  
-  def is_split(self, L, R):
-    pass
+    """docstring for SplittingStrategyBySplittablePairs"""
+    def __init__(self):
+        super().__init__(None)
+    
+    def is_split(self, L, R):
+        pass
 
-  def split(self, string):
-    chunks = []
-    start = 0
-    for i in range(1, len(string)):
-      if self.is_split(string[start:i], string[i:]):
-        chunks.append(string[start:i])
-        start = i
-    chunks.append(string[start:])
-    return chunks
+    def split(self, string):
+        chunks = []
+        start = 0
+        for i in range(1, len(string)):
+            if self.is_split(string[start:i], string[i:]):
+                chunks.append(string[start:i])
+                start = i
+        chunks.append(string[start:])
+        return chunks
 
 
 class Ending0SplittingStrategy(SplittingStrategyBySplittablePairs):
-  """docstring for Ending0SplittingStrategy"""
-  def __init__(self):
-    super().__init__()
+    """docstring for Ending0SplittingStrategy"""
+    def __init__(self):
+        super().__init__()
 
-  def is_split(self, L, R):
-    if L == '' or R == '':
-        return True
-    return L[-1] == '0' and R[0] != '0'
+    def is_split(self, L, R):
+        if L == '' or R == '':
+                return True
+        return L[-1] == '0' and R[0] != '0'
 
 class EndingWithCharsSplittingStrategy(SplittingStrategyBySplittablePairs):
-  """docstring for EndingWithCharsSplittingStrategy"""
-  def __init__(self, ending_characters):
-    super().__init__()
-    self.ending_characters = ending_characters
+    """docstring for EndingWithCharsSplittingStrategy"""
+    def __init__(self, ending_characters):
+        super().__init__()
+        self.ending_characters = ending_characters
 
-  def is_split(self, L, R):
-    if L == '' or R == '':
-        return True
-    return L[-1] in self.ending_characters and R[0] not in self.ending_characters
+    def is_split(self, L, R):
+        if L == '' or R == '':
+                return True
+        return L[-1] in self.ending_characters and R[0] not in self.ending_characters
 
 class LeadingCharSplittingStrategy(SplittingStrategyBySplittablePairs):
-  """docstring for LeadingCharSplittingStrategy"""
-  def __init__(self, leading_chars):
-    super().__init__()
-    self.leading_chars = leading_chars
+    """docstring for LeadingCharSplittingStrategy"""
+    def __init__(self, leading_chars):
+        super().__init__()
+        self.leading_chars = leading_chars
 
-  def is_split(self, L, R):
-    if L == '' or R == '':
-        return True
-    return L[-1] not in self.leading_chars and L[-1] != R[0]
+    def is_split(self, L, R):
+        if L == '' or R == '':
+                return True
+        return L[-1] not in self.leading_chars and L[-1] != R[0]
 
 class Leading1SplittingStrategy(LeadingCharSplittingStrategy):
-  """docstring for Leading1SplittingStrategy"""
-  def __init__(self):
-    super().__init__('1')
+    """docstring for Leading1SplittingStrategy"""
+    def __init__(self):
+        super().__init__('1')
 
 class Leading0SplittingStrategy(LeadingCharSplittingStrategy):
-  """docstring for Leading1SplittingStrategy"""
-  def __init__(self):
-    super().__init__('0')
+    """docstring for Leading1SplittingStrategy"""
+    def __init__(self):
+        super().__init__('0')
 
 class ConwaySplittingStrategy(SplittingStrategyBySplittablePairs):
-  """docstring for ConwaySplittingStrategy"""
-  def __init__(self):
-    super().__init__()
+    """docstring for ConwaySplittingStrategy"""
+    def __init__(self):
+        super().__init__()
 
-  def is_split(self, L, R):
-    # Implementing Conway's Splitting Theorem:
-    if L == '' or R == '':
-        return True
-    if L[-1] not in ['1', '2', '3'] and R[0] in ['1', '2', '3']: # n] and [m
-        return True
-    if L[-1] == '2': # 2]
-        if len(R) > 1 and R[0] == '1' and R[1] != '1' and (len(R) == 2 or R[2] != R[1]): #[1^1X^1
-            return True
-        if len(R) > 2 and R[0] == '1' and R[1] == '1' and R[2] == '1' and (len(R) == 3 or R[3] != '1'): #[1^3
-            return True
-        if R[0] == '3' and (len(R) == 1 or (R[1] != '3' and (len(R) < 4 or R[2] != R[1] or R[3] != R[1]))): #[3^1X^\not=3
-            return True
-        if R[0] not in ['1', '2', '3'] and (len(R) == 1 or R[1] != R[0]): #[n^1
-            return True
-    if L[-1] != '2' and len(R) > 1 and R[0] == '2' and R[1] == '2': # \not=2]
-        if len(R) > 3 and R[2] == '1' and R[3] != '1' and (len(R) == 4 or R[4] != R[3]): #[2^21^1X^1
-            return True
-        if len(R) > 4 and R[2] == '1' and R[3] == '1' and R[4] == '1' and (len(R) == 5 or R[5] != '1'): #[2^21^3
-            return True
-        if len(R) > 2 and R[2] == '3' and (len(R) == 3 or (R[3] != '3' and (len(R) < 6 or R[4] != R[3] or R[5] != R[3]))): #[2^23^1X^\not=3
-            return True 
-        if len(R) == 2 or (len(R) > 2 and R[2] not in ['1', '2', '3'] and (len(R) == 3 or R[3] != R[2])): #[2^2n^(0 or 1)
-            return True
-    return False
+    def is_split(self, L, R):
+        # Implementing Conway's Splitting Theorem:
+        if L == '' or R == '':
+                return True
+        if L[-1] not in ['1', '2', '3'] and R[0] in ['1', '2', '3']: # n] and [m
+                return True
+        if L[-1] == '2': # 2]
+                if len(R) > 1 and R[0] == '1' and R[1] != '1' and (len(R) == 2 or R[2] != R[1]): #[1^1X^1
+                        return True
+                if len(R) > 2 and R[0] == '1' and R[1] == '1' and R[2] == '1' and (len(R) == 3 or R[3] != '1'): #[1^3
+                        return True
+                if R[0] == '3' and (len(R) == 1 or (R[1] != '3' and (len(R) < 4 or R[2] != R[1] or R[3] != R[1]))): #[3^1X^\not=3
+                        return True
+                if R[0] not in ['1', '2', '3'] and (len(R) == 1 or R[1] != R[0]): #[n^1
+                        return True
+        if L[-1] != '2' and len(R) > 1 and R[0] == '2' and R[1] == '2': # \not=2]
+                if len(R) > 3 and R[2] == '1' and R[3] != '1' and (len(R) == 4 or R[4] != R[3]): #[2^21^1X^1
+                        return True
+                if len(R) > 4 and R[2] == '1' and R[3] == '1' and R[4] == '1' and (len(R) == 5 or R[5] != '1'): #[2^21^3
+                        return True
+                if len(R) > 2 and R[2] == '3' and (len(R) == 3 or (R[3] != '3' and (len(R) < 6 or R[4] != R[3] or R[5] != R[3]))): #[2^23^1X^\not=3
+                        return True 
+                if len(R) == 2 or (len(R) > 2 and R[2] not in ['1', '2', '3'] and (len(R) == 3 or R[3] != R[2])): #[2^2n^(0 or 1)
+                        return True
+        return False
 
-
+# ls = LookAndSay()
+# chem = Chemistry(ls)
+# chem.generate_elements('1')
+# print(len(chem.get_elements()))
