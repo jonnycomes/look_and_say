@@ -433,7 +433,7 @@ class Chemistry():
         else:
             return chi.as_expr()
 
-    def get_abundances(self, dec_places = 7):
+    def _get_abundances(self, dec_places = 7):
         &#34;&#34;&#34;
         Returns a list of relative abundances of each element.
         Note that the abundances are given in percentages, so they will
@@ -457,13 +457,14 @@ class Chemistry():
         Returns the periodic table as a nested dictionary.
         &#34;&#34;&#34;
         return {e.get_name() : {&#39;string&#39; : e.get_string(), 
-                                &#39;abundance&#39; : self.get_abundances(dec_places)[i],
+                                &#39;abundance&#39; : self._get_abundances(dec_places)[i],
                                 &#39;decay&#39; : e.get_decay()}
                                 for i, e in enumerate(self.get_elements())}
 
     def print_periodic_table(self, dec_places = 7):
         &#34;&#34;&#34;
-        Prints the periodic table. 
+        Prints the periodic table. Note the abundances are given as percentages, 
+        so they will differ from Conway&#39;s abundances by a factor of \\(10^6\\).
         The parameter ``dec_places`` refers to the accuracy of the abundances.
         &#34;&#34;&#34;
         pt = self.periodic_table(dec_places)
@@ -829,7 +830,6 @@ lambda**4*(lambda - 1)**2*(lambda + 1)*(lambda**3 - lambda**2 - 1)
 <ul class="hlist">
 <li><code><a title="look_and_say.Chemistry.clear_elements" href="#look_and_say.Chemistry.clear_elements">clear_elements</a></code></li>
 <li><code><a title="look_and_say.Chemistry.generate_elements" href="#look_and_say.Chemistry.generate_elements">generate_elements</a></code></li>
-<li><code><a title="look_and_say.Chemistry.get_abundances" href="#look_and_say.Chemistry.get_abundances">get_abundances</a></code></li>
 <li><code><a title="look_and_say.Chemistry.get_char_poly" href="#look_and_say.Chemistry.get_char_poly">get_char_poly</a></code></li>
 <li><code><a title="look_and_say.Chemistry.get_decay_matrix" href="#look_and_say.Chemistry.get_decay_matrix">get_decay_matrix</a></code></li>
 <li><code><a title="look_and_say.Chemistry.get_elements" href="#look_and_say.Chemistry.get_elements">get_elements</a></code></li>
@@ -985,7 +985,7 @@ Conway's original Splitting Theorem.</p></div>
         else:
             return chi.as_expr()
 
-    def get_abundances(self, dec_places = 7):
+    def _get_abundances(self, dec_places = 7):
         &#34;&#34;&#34;
         Returns a list of relative abundances of each element.
         Note that the abundances are given in percentages, so they will
@@ -1009,13 +1009,14 @@ Conway's original Splitting Theorem.</p></div>
         Returns the periodic table as a nested dictionary.
         &#34;&#34;&#34;
         return {e.get_name() : {&#39;string&#39; : e.get_string(), 
-                                &#39;abundance&#39; : self.get_abundances(dec_places)[i],
+                                &#39;abundance&#39; : self._get_abundances(dec_places)[i],
                                 &#39;decay&#39; : e.get_decay()}
                                 for i, e in enumerate(self.get_elements())}
 
     def print_periodic_table(self, dec_places = 7):
         &#34;&#34;&#34;
-        Prints the periodic table. 
+        Prints the periodic table. Note the abundances are given as percentages, 
+        so they will differ from Conway&#39;s abundances by a factor of \\(10^6\\).
         The parameter ``dec_places`` refers to the accuracy of the abundances.
         &#34;&#34;&#34;
         pt = self.periodic_table(dec_places)
@@ -1094,37 +1095,6 @@ to keep the old elements.</p></div>
     self._remove_extinct_elements()
     self.order_elements()
     self._name_elements()</code></pre>
-</details>
-</dd>
-<dt id="look_and_say.Chemistry.get_abundances"><code class="name flex">
-<span>def <span class="ident">get_abundances</span></span>(<span>self, dec_places=7)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns a list of relative abundances of each element.
-Note that the abundances are given in percentages, so they will
-differ from Conway's abundances by a factor of <span><span class="MathJax_Preview">10^6</span><script type="math/tex">10^6</script></span>.
-The order of the list corresponds to the order of the list of elements.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_abundances(self, dec_places = 7):
-    &#34;&#34;&#34;
-    Returns a list of relative abundances of each element.
-    Note that the abundances are given in percentages, so they will
-    differ from Conway&#39;s abundances by a factor of \\(10^6\\). 
-    The order of the list corresponds to the order of the list of elements.
-    &#34;&#34;&#34;
-    eigenstuff = numpy.linalg.eig(numpy.array(self.get_decay_matrix()))
-    eigenvalues = eigenstuff[0]
-    eigenvectors = eigenstuff[1]
-    index = numpy.where(eigenvalues == max(eigenvalues))
-    limiting_eigenvector_nparray = eigenvectors[:,index].real
-    # The next two lines are converting the numpy array to a list
-    limiting_eigenvector = limiting_eigenvector_nparray.tolist()
-    limiting_eigenvector = [elt[0][0] for elt in limiting_eigenvector]
-    abundance = [round(num / sum(limiting_eigenvector), dec_places) for num in limiting_eigenvector]
-    return abundance</code></pre>
 </details>
 </dd>
 <dt id="look_and_say.Chemistry.get_char_poly"><code class="name flex">
@@ -1262,7 +1232,7 @@ Returns the periodic table as a nested dictionary.</p></div>
     Returns the periodic table as a nested dictionary.
     &#34;&#34;&#34;
     return {e.get_name() : {&#39;string&#39; : e.get_string(), 
-                            &#39;abundance&#39; : self.get_abundances(dec_places)[i],
+                            &#39;abundance&#39; : self._get_abundances(dec_places)[i],
                             &#39;decay&#39; : e.get_decay()}
                             for i, e in enumerate(self.get_elements())}</code></pre>
 </details>
@@ -1271,7 +1241,8 @@ Returns the periodic table as a nested dictionary.</p></div>
 <span>def <span class="ident">print_periodic_table</span></span>(<span>self, dec_places=7)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Prints the periodic table.
+<div class="desc"><p>Prints the periodic table. Note the abundances are given as percentages,
+so they will differ from Conway's abundances by a factor of <span><span class="MathJax_Preview">10^6</span><script type="math/tex">10^6</script></span>.
 The parameter <code>dec_places</code> refers to the accuracy of the abundances.</p></div>
 <details class="source">
 <summary>
@@ -1279,7 +1250,8 @@ The parameter <code>dec_places</code> refers to the accuracy of the abundances.<
 </summary>
 <pre><code class="python">def print_periodic_table(self, dec_places = 7):
     &#34;&#34;&#34;
-    Prints the periodic table. 
+    Prints the periodic table. Note the abundances are given as percentages, 
+    so they will differ from Conway&#39;s abundances by a factor of \\(10^6\\).
     The parameter ``dec_places`` refers to the accuracy of the abundances.
     &#34;&#34;&#34;
     pt = self.periodic_table(dec_places)
@@ -2020,7 +1992,6 @@ such that LR always splits as L.R</p></div>
 <ul class="">
 <li><code><a title="look_and_say.Chemistry.clear_elements" href="#look_and_say.Chemistry.clear_elements">clear_elements</a></code></li>
 <li><code><a title="look_and_say.Chemistry.generate_elements" href="#look_and_say.Chemistry.generate_elements">generate_elements</a></code></li>
-<li><code><a title="look_and_say.Chemistry.get_abundances" href="#look_and_say.Chemistry.get_abundances">get_abundances</a></code></li>
 <li><code><a title="look_and_say.Chemistry.get_char_poly" href="#look_and_say.Chemistry.get_char_poly">get_char_poly</a></code></li>
 <li><code><a title="look_and_say.Chemistry.get_decay_matrix" href="#look_and_say.Chemistry.get_decay_matrix">get_decay_matrix</a></code></li>
 <li><code><a title="look_and_say.Chemistry.get_elements" href="#look_and_say.Chemistry.get_elements">get_elements</a></code></li>
