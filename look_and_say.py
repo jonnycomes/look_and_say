@@ -59,7 +59,7 @@ def _is_split_pair_Conway(L, R):
                     return True
     return False
 
-_CONWAY_ELEMENTS = {'3': {'name': 'U', 'number': 92}, '13': {'name': 'Pa', 'number': 91}, '1113': {'name': 'Th', 'number': 90}, '3113': {'name': 'Ac', 'number': 89}, '132113': {'name': 'Ra', 'number': 88}, '1113122113': {'name': 'Fr', 'number': 87}, '311311222113': {'name': 'Rn', 'number': 86}, '1322113': {'name': 'At', 'number': 85}, '1113222113': {'name': 'Po', 'number': 84}, '3113322113': {'name': 'Bi', 'number': 83}, '123222113': {'name': 'Pb', 'number': 82}, '111213322113': {'name': 'Tl', 'number': 81}, '31121123222113': {'name': 'Hg', 'number': 80}, '132112211213322113': {'name': 'Au', 'number': 79}, '111312212221121123222113': {'name': 'Pt', 'number': 78}, '3113112211322112211213322113': {'name': 'Ir', 'number': 77}, '1321132122211322212221121123222113': {'name': 'Os', 'number': 76}, '111312211312113221133211322112211213322113': {'name': 'Re', 'number': 75}, '312211322212221121123222113': {'name': 'W', 'number': 74}, '13112221133211322112211213322113': {'name': 'Ta', 'number': 73}, '11132': {'name': 'Hf', 'number': 72}, '311312': {'name': 'Lu', 'number': 71}, '1321131112': {'name': 'Yb', 'number': 70}, '11131221133112': {'name': 'Tm', 'number': 69}, '311311222': {'name': 'Er', 'number': 68}, '1321132': {'name': 'Ho', 'number': 67}, '111312211312': {'name': 'Dy', 'number': 66}, '3113112221131112': {'name': 'Tb', 'number': 65}, '13221133112': {'name': 'Gd', 'number': 64}, '1113222': {'name': 'Eu', 'number': 63}, '311332': {'name': 'Sm', 'number': 62}, '132': {'name': 'Pm', 'number': 61}, '111312': {'name': 'Nd', 'number': 60}, '31131112': {'name': 'Pr', 'number': 59}, '1321133112': {'name': 'Ce', 'number': 58}, '11131': {'name': 'La', 'number': 57}, '311311': {'name': 'Ba', 'number': 56}, '13211321': {'name': 'Cs', 'number': 55}, '11131221131211': {'name': 'Xe', 'number': 54}, '311311222113111221': {'name': 'I', 'number': 53}, '1322113312211': {'name': 'Te', 'number': 52}, '3112221': {'name': 'Sb', 'number': 51}, '13211': {'name': 'Sn', 'number': 50}, '11131221': {'name': 'In', 'number': 49}, '3113112211': {'name': 'Cd', 'number': 48}, '132113212221': {'name': 'Ag', 'number': 47}, '111312211312113211': {'name': 'Pd', 'number': 46}, '311311222113111221131221': {'name': 'Rh', 'number': 45}, '132211331222113112211': {'name': 'Ru', 'number': 44}, '311322113212221': {'name': 'Tc', 'number': 43}, '13211322211312113211': {'name': 'Mo', 'number': 42}, '11131221133221131112211312221': {'name': 'Nb', 'number': 41}, '12322211331222113112211': {'name': 'Zr', 'number': 40}, '1112133': {'name': 'Y', 'number': 39}, '3112112': {'name': 'Sr', 'number': 38}, '1321122112': {'name': 'Rb', 'number': 37}, '11131221222112': {'name': 'Kr', 'number': 36}, '3113112211322112': {'name': 'Br', 'number': 35}, '13211321222113222112': {'name': 'Se', 'number': 34}, '11131221131211322113322112': {'name': 'As', 'number': 33}, '31131122211311122113222': {'name': 'Ge', 'number': 32}, '13221133122211332': {'name': 'Ga', 'number': 31}, '312': {'name': 'Zn', 'number': 30}, '131112': {'name': 'Cu', 'number': 29}, '11133112': {'name': 'Ni', 'number': 28}, '32112': {'name': 'Co', 'number': 27}, '13122112': {'name': 'Fe', 'number': 26}, '111311222112': {'name': 'Mn', 'number': 25}, '31132': {'name': 'Cr', 'number': 24}, '13211312': {'name': 'V', 'number': 23}, '11131221131112': {'name': 'Ti', 'number': 22}, '3113112221133112': {'name': 'Sc', 'number': 21}, '12': {'name': 'Ca', 'number': 20}, '1112': {'name': 'K', 'number': 19}, '3112': {'name': 'Ar', 'number': 18}, '132112': {'name': 'Cl', 'number': 17}, '1113122112': {'name': 'S', 'number': 16}, '311311222112': {'name': 'P', 'number': 15}, '1322112': {'name': 'Si', 'number': 14}, '1113222112': {'name': 'Al', 'number': 13}, '3113322112': {'name': 'Mg', 'number': 12}, '123222112': {'name': 'Na', 'number': 11}, '111213322112': {'name': 'Ne', 'number': 10}, '31121123222112': {'name': 'F', 'number': 9}, '132112211213322112': {'name': 'O', 'number': 8}, '111312212221121123222112': {'name': 'N', 'number': 7}, '3113112211322112211213322112': {'name': 'C', 'number': 6}, '1321132122211322212221121123222112': {'name': 'B', 'number': 5}, '111312211312113221133211322112211213322112': {'name': 'Be', 'number': 4}, '312211322212221121123222112': {'name': 'Li', 'number': 3}, '13112221133211322112211213322112': {'name': 'He', 'number': 2}, '22': {'name': 'H', 'number': 1}}
+_CONWAY_ELEMENTS = {'3': {'name': 'U', 'number': 92}, '13': {'name': 'Pa', 'number': 91}, '1113': {'name': 'Th', 'number': 90}, '3113': {'name': 'Ac', 'number': 89}, '132113': {'name': 'Ra', 'number': 88}, '1113122113': {'name': 'Fr', 'number': 87}, '311311222113': {'name': 'Rn', 'number': 86}, '1322113': {'name': 'At', 'number': 85}, '1113222113': {'name': 'Po', 'number': 84}, '3113322113': {'name': 'Bi', 'number': 83}, '123222113': {'name': 'Pb', 'number': 82}, '111213322113': {'name': 'Tl', 'number': 81}, '31121123222113': {'name': 'Hg', 'number': 80}, '132112211213322113': {'name': 'Au', 'number': 79}, '111312212221121123222113': {'name': 'Pt', 'number': 78}, '3113112211322112211213322113': {'name': 'Ir', 'number': 77}, '1321132122211322212221121123222113': {'name': 'Os', 'number': 76}, '111312211312113221133211322112211213322113': {'name': 'Re', 'number': 75}, '312211322212221121123222113': {'name': 'W', 'number': 74}, '13112221133211322112211213322113': {'name': 'Ta', 'number': 73}, '11132': {'name': 'Hf', 'number': 72}, '311312': {'name': 'Lu', 'number': 71}, '1321131112': {'name': 'Yb', 'number': 70}, '11131221133112': {'name': 'Tm', 'number': 69}, '311311222': {'name': 'Er', 'number': 68}, '1321132': {'name': 'Ho', 'number': 67}, '111312211312': {'name': 'Dy', 'number': 66}, '3113112221131112': {'name': 'Tb', 'number': 65}, '13221133112': {'name': 'Gd', 'number': 64}, '1113222': {'name': 'Eu', 'number': 63}, '311332': {'name': 'Sm', 'number': 62}, '132': {'name': 'Pm', 'number': 61}, '111312': {'name': 'Nd', 'number': 60}, '31131112': {'name': 'Pr', 'number': 59}, '1321133112': {'name': 'Ce', 'number': 58}, '11131': {'name': 'La', 'number': 57}, '311311': {'name': 'Ba', 'number': 56}, '13211321': {'name': 'Cs', 'number': 55}, '11131221131211': {'name': 'Xe', 'number': 54}, '311311222113111221': {'name': 'I', 'number': 53}, '1322113312211': {'name': 'Te', 'number': 52}, '3112221': {'name': 'Sb', 'number': 51}, '13211': {'name': 'Sn', 'number': 50}, '11131221': {'name': 'In', 'number': 49}, '3113112211': {'name': 'Cd', 'number': 48}, '132113212221': {'name': 'Ag', 'number': 47}, '111312211312113211': {'name': 'Pd', 'number': 46}, '311311222113111221131221': {'name': 'Rh', 'number': 45}, '132211331222113112211': {'name': 'Ru', 'number': 44}, '311322113212221': {'name': 'Tc', 'number': 43}, '13211322211312113211': {'name': 'Mo', 'number': 42}, '1113122113322113111221131221': {'name': 'Nb', 'number': 41}, '12322211331222113112211': {'name': 'Zr', 'number': 40}, '1112133': {'name': 'Y', 'number': 39}, '3112112': {'name': 'Sr', 'number': 38}, '1321122112': {'name': 'Rb', 'number': 37}, '11131221222112': {'name': 'Kr', 'number': 36}, '3113112211322112': {'name': 'Br', 'number': 35}, '13211321222113222112': {'name': 'Se', 'number': 34}, '11131221131211322113322112': {'name': 'As', 'number': 33}, '31131122211311122113222': {'name': 'Ge', 'number': 32}, '13221133122211332': {'name': 'Ga', 'number': 31}, '312': {'name': 'Zn', 'number': 30}, '131112': {'name': 'Cu', 'number': 29}, '11133112': {'name': 'Ni', 'number': 28}, '32112': {'name': 'Co', 'number': 27}, '13122112': {'name': 'Fe', 'number': 26}, '111311222112': {'name': 'Mn', 'number': 25}, '31132': {'name': 'Cr', 'number': 24}, '13211312': {'name': 'V', 'number': 23}, '11131221131112': {'name': 'Ti', 'number': 22}, '3113112221133112': {'name': 'Sc', 'number': 21}, '12': {'name': 'Ca', 'number': 20}, '1112': {'name': 'K', 'number': 19}, '3112': {'name': 'Ar', 'number': 18}, '132112': {'name': 'Cl', 'number': 17}, '1113122112': {'name': 'S', 'number': 16}, '311311222112': {'name': 'P', 'number': 15}, '1322112': {'name': 'Si', 'number': 14}, '1113222112': {'name': 'Al', 'number': 13}, '3113322112': {'name': 'Mg', 'number': 12}, '123222112': {'name': 'Na', 'number': 11}, '111213322112': {'name': 'Ne', 'number': 10}, '31121123222112': {'name': 'F', 'number': 9}, '132112211213322112': {'name': 'O', 'number': 8}, '111312212221121123222112': {'name': 'N', 'number': 7}, '3113112211322112211213322112': {'name': 'C', 'number': 6}, '1321132122211322212221121123222112': {'name': 'B', 'number': 5}, '111312211312113221133211322112211213322112': {'name': 'Be', 'number': 4}, '312211322212221121123222112': {'name': 'Li', 'number': 3}, '13112221133211322112211213322112': {'name': 'He', 'number': 2}, '22': {'name': 'H', 'number': 1}}
 
 def _conway_name(element):
     string = element.get_string()
@@ -77,7 +77,7 @@ def _conway_number(element):
     string = element.get_string()
     if string in _CONWAY_ELEMENTS:
         return _CONWAY_ELEMENTS[string]['number']
-    else:
+    else: # Handling transuranic elements
         return 92 * len(string) + ord(string[-1])
 
 ################# LOOK AND SAY #################################
@@ -352,6 +352,7 @@ class Chemistry():
         strings = [self.las.say_what_you_see(seed) for seed in seeds] #only look at 2-day-old strings
         self._generate_all_elements(strings)
         self._remove_extinct_elements()
+        self.order_elements()
         self._name_elements()
 
     def _name_elements(self):
@@ -402,7 +403,7 @@ class Chemistry():
         else:
             return chi.as_expr()
 
-    def get_abundances(self, dec_places = 0):
+    def get_abundances(self, dec_places = 7):
         """
         Returns a list of relative abundances of each element.
         Note that the abundances are given in percentages, so they will
@@ -420,7 +421,7 @@ class Chemistry():
         abundance = [round(num / sum(limiting_eigenvector), dec_places) for num in limiting_eigenvector]
         return abundance
 
-    def periodic_table(self, dec_places = 0):
+    def periodic_table(self, dec_places = 7):
         """
         Creates a periodic table including each element's name, string, relative abundance, and decay.
         Returns the periodic table as a nested dictionary.
@@ -429,6 +430,36 @@ class Chemistry():
                                 'abundance' : self.get_abundances(dec_places)[i],
                                 'decay' : e.get_decay()}
                                 for i, e in enumerate(self.get_elements())}
+
+    def print_periodic_table(self, dec_places = 7):
+        """
+        Prints the periodic table. 
+        The parameter ``dec_places`` refers to the accuracy of the abundances.
+        """
+        pt = self.periodic_table(dec_places)
+        elt_width = 2 + max(len('element'), max([len(e.get_name()) for e in self.get_elements()]))
+        str_width = 2 + max(len('string'), max([len(e.get_string()) for e in self.get_elements()]))
+        ab_width  = 2 + max(len('abundance'), max([len(str(prop['abundance'])) for elt, prop in pt.items()]))
+        print("{:<{elt_width}} {:<{str_width}} {:<{ab_width}} {}".format('element', 'string', 'abundance', 'decay', elt_width=elt_width, str_width=str_width, ab_width=ab_width))
+        for elt, prop in pt.items():
+            print("{:<{elt_width}} {:<{str_width}} {:<{ab_width}} {}".format(elt, prop['string'], prop['abundance'], str(prop['decay']), elt_width=elt_width, str_width=str_width, ab_width=ab_width))
+
+    def order_elements(self, order_on = 'abundance', reverse = True):
+        """
+        Reorders the list of elements depending on the parameter ``order_on``.
+        Valid parameter are 'abundance', 'name', 'string', and 'string length'
+        """
+        assert order_on in ['abundance', 'name', 'string', 'string length'], "Invalid parameter passed to order_elements. Valid parameter are 'abundance', 'name', 'string', and 'string length'."
+        pt = self.periodic_table()
+        sorted_key = {
+            'abundance': lambda e : pt[e.get_string()]['abundance'],
+            'name': lambda e : pt[e.get_string()]['name'],
+            'string': lambda e : e.get_string(),
+            'string length': lambda e : len(e.get_string())
+        }
+        self.elements = sorted(self.get_elements(), key = sorted_key[order_on])
+        if reverse:
+            self.elements.reverse()
 
 class BinaryChemistry(Chemistry):
     """
@@ -447,12 +478,7 @@ class BinaryChemistry(Chemistry):
     binary_ls = LookAndSay(binary_say)
     binary_chem = BinaryChemistry(binary_ls)
     binary_chem.generate_elements(['1'])
-
-    pt = binary_chem.periodic_table(dec_places = 7)
-    print("{:<9} {:<9} {:<11} {:<10}".format('element', 'string', 'abundance', 'decay'))
-    for elt, prop in pt.items():
-        print("{:<9} {:<9} {:<11} {:<10}".format(elt, prop['string'], prop['abundance'], str(prop['decay'])))
-
+    binary_chem.print_periodic_table()
     print(binary_chem.get_char_poly())
     print(binary_chem.get_max_eigenvalue())
     ```
@@ -460,19 +486,19 @@ class BinaryChemistry(Chemistry):
     ### Output:
 
     ```sh
-    element   string    abundance   decay     
-    E1        11        0.0         [E2, E10] 
-    E2        10        0.2167566   [E3]      
-    E3        1110      0.147899    [E4]      
-    E4        11110     0.1009156   [E5, E9]  
-    E5        100       0.1009156   [E6]      
-    E6        11100     0.0688575   [E7]      
-    E7        111100    0.0469834   [E5, E8]  
-    E8        1100      0.1009156   [E2, E8]  
-    E9        110       0.2167566   [E2, E9]  
-    E10       1         0.0         [E1]     
+    element   string   abundance   decay
+    E1        110      0.2167566   [E2, E1]
+    E2        10       0.2167566   [E3]
+    E3        1110     0.147899    [E6]
+    E4        1100     0.1009156   [E2, E4]
+    E5        100      0.1009156   [E7]
+    E6        11110    0.1009156   [E5, E1]
+    E7        11100    0.0688575   [E8]
+    E8        111100   0.0469834   [E5, E4]
+    E9        1        0.0         [E10]
+    E10       11       0.0         [E2, E9]
     lambda**4*(lambda - 1)**2*(lambda + 1)*(lambda**3 - lambda**2 - 1)
-    1.4655712318767709
+    1.4655712318767664
     ```
     """
     def __init__(self, las, elements = None):
@@ -612,8 +638,8 @@ class SplittingFactory():
 # split = sf.get_split()
 # print(split('1234024350034X3450X34500X2345XX003425'))
 
-ls = LookAndSay()
-chem = Chemistry(ls)
-chem.generate_elements(['1', '4', '5', 'X'])
-print(chem.periodic_table())
+# ls = LookAndSay()
+# chem = Chemistry(ls)
+# chem.generate_elements(['1', '4', '5', 'X'])
+# chem.print_periodic_table()
       
