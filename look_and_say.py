@@ -403,7 +403,7 @@ class Chemistry():
         else:
             return chi.as_expr()
 
-    def get_abundances(self, dec_places = 7):
+    def _get_abundances(self, dec_places = 7):
         """
         Returns a list of relative abundances of each element.
         Note that the abundances are given in percentages, so they will
@@ -427,13 +427,14 @@ class Chemistry():
         Returns the periodic table as a nested dictionary.
         """
         return {e.get_name() : {'string' : e.get_string(), 
-                                'abundance' : self.get_abundances(dec_places)[i],
+                                'abundance' : self._get_abundances(dec_places)[i],
                                 'decay' : e.get_decay()}
                                 for i, e in enumerate(self.get_elements())}
 
     def print_periodic_table(self, dec_places = 7):
         """
-        Prints the periodic table. 
+        Prints the periodic table. Note the abundances are given as percentages, 
+        so they will differ from Conway's abundances by a factor of \\(10^6\\).
         The parameter ``dec_places`` refers to the accuracy of the abundances.
         """
         pt = self.periodic_table(dec_places)
