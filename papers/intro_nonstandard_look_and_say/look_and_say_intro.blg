@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: look_and_say_intro.aux
+The style file: alphanum.bst
+Database file #1: references.bib.bib
+Warning--entry type for "Conway-numberphile" isn't style-file defined
+--line 8 of file references.bib.bib
+You've used 11 entries,
+            2534 wiz_defined-function locations,
+            625 strings with 6072 characters,
+and the built_in function-call counts, 3787 in all, are:
+= -- 379
+> -- 164
+< -- 7
++ -- 56
+- -- 52
+* -- 263
+:= -- 642
+add.period$ -- 30
+call.type$ -- 11
+change.case$ -- 76
+chr.to.int$ -- 0
+cite$ -- 11
+duplicate$ -- 133
+empty$ -- 287
+format.name$ -- 67
+if$ -- 761
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 7
+newline$ -- 56
+num.names$ -- 33
+pop$ -- 77
+preamble$ -- 1
+purify$ -- 65
+quote$ -- 0
+skip$ -- 108
+stack$ -- 0
+substring$ -- 204
+swap$ -- 11
+text.length$ -- 7
+text.prefix$ -- 6
+top$ -- 0
+type$ -- 88
+warning$ -- 0
+while$ -- 37
+width$ -- 13
+write$ -- 133
+(There was 1 warning)
