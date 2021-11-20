@@ -5,6 +5,7 @@
 import numpy
 import sympy
 
+################## Conway's Conventions ############################
 
 def split_Conway(string):
     """
@@ -18,7 +19,7 @@ def split_Conway(string):
     print(chunks)
     ```
     ### Output:
-    
+
     ```sh
     ['12', '1113', '22', '13']
     ```
@@ -58,6 +59,29 @@ def _is_split_pair_Conway(L, R):
                     return True
     return False
 
+_CONWAY_ELEMENTS = {'3': {'name': 'U', 'number': 92}, '13': {'name': 'Pa', 'number': 91}, '1113': {'name': 'Th', 'number': 90}, '3113': {'name': 'Ac', 'number': 89}, '132113': {'name': 'Ra', 'number': 88}, '1113122113': {'name': 'Fr', 'number': 87}, '311311222113': {'name': 'Rn', 'number': 86}, '1322113': {'name': 'At', 'number': 85}, '1113222113': {'name': 'Po', 'number': 84}, '3113322113': {'name': 'Bi', 'number': 83}, '123222113': {'name': 'Pb', 'number': 82}, '111213322113': {'name': 'Tl', 'number': 81}, '31121123222113': {'name': 'Hg', 'number': 80}, '132112211213322113': {'name': 'Au', 'number': 79}, '111312212221121123222113': {'name': 'Pt', 'number': 78}, '3113112211322112211213322113': {'name': 'Ir', 'number': 77}, '1321132122211322212221121123222113': {'name': 'Os', 'number': 76}, '111312211312113221133211322112211213322113': {'name': 'Re', 'number': 75}, '312211322212221121123222113': {'name': 'W', 'number': 74}, '13112221133211322112211213322113': {'name': 'Ta', 'number': 73}, '11132': {'name': 'Hf', 'number': 72}, '311312': {'name': 'Lu', 'number': 71}, '1321131112': {'name': 'Yb', 'number': 70}, '11131221133112': {'name': 'Tm', 'number': 69}, '311311222': {'name': 'Er', 'number': 68}, '1321132': {'name': 'Ho', 'number': 67}, '111312211312': {'name': 'Dy', 'number': 66}, '3113112221131112': {'name': 'Tb', 'number': 65}, '13221133112': {'name': 'Gd', 'number': 64}, '1113222': {'name': 'Eu', 'number': 63}, '311332': {'name': 'Sm', 'number': 62}, '132': {'name': 'Pm', 'number': 61}, '111312': {'name': 'Nd', 'number': 60}, '31131112': {'name': 'Pr', 'number': 59}, '1321133112': {'name': 'Ce', 'number': 58}, '11131': {'name': 'La', 'number': 57}, '311311': {'name': 'Ba', 'number': 56}, '13211321': {'name': 'Cs', 'number': 55}, '11131221131211': {'name': 'Xe', 'number': 54}, '311311222113111221': {'name': 'I', 'number': 53}, '1322113312211': {'name': 'Te', 'number': 52}, '3112221': {'name': 'Sb', 'number': 51}, '13211': {'name': 'Sn', 'number': 50}, '11131221': {'name': 'In', 'number': 49}, '3113112211': {'name': 'Cd', 'number': 48}, '132113212221': {'name': 'Ag', 'number': 47}, '111312211312113211': {'name': 'Pd', 'number': 46}, '311311222113111221131221': {'name': 'Rh', 'number': 45}, '132211331222113112211': {'name': 'Ru', 'number': 44}, '311322113212221': {'name': 'Tc', 'number': 43}, '13211322211312113211': {'name': 'Mo', 'number': 42}, '11131221133221131112211312221': {'name': 'Nb', 'number': 41}, '12322211331222113112211': {'name': 'Zr', 'number': 40}, '1112133': {'name': 'Y', 'number': 39}, '3112112': {'name': 'Sr', 'number': 38}, '1321122112': {'name': 'Rb', 'number': 37}, '11131221222112': {'name': 'Kr', 'number': 36}, '3113112211322112': {'name': 'Br', 'number': 35}, '13211321222113222112': {'name': 'Se', 'number': 34}, '11131221131211322113322112': {'name': 'As', 'number': 33}, '31131122211311122113222': {'name': 'Ge', 'number': 32}, '13221133122211332': {'name': 'Ga', 'number': 31}, '312': {'name': 'Zn', 'number': 30}, '131112': {'name': 'Cu', 'number': 29}, '11133112': {'name': 'Ni', 'number': 28}, '32112': {'name': 'Co', 'number': 27}, '13122112': {'name': 'Fe', 'number': 26}, '111311222112': {'name': 'Mn', 'number': 25}, '31132': {'name': 'Cr', 'number': 24}, '13211312': {'name': 'V', 'number': 23}, '11131221131112': {'name': 'Ti', 'number': 22}, '3113112221133112': {'name': 'Sc', 'number': 21}, '12': {'name': 'Ca', 'number': 20}, '1112': {'name': 'K', 'number': 19}, '3112': {'name': 'Ar', 'number': 18}, '132112': {'name': 'Cl', 'number': 17}, '1113122112': {'name': 'S', 'number': 16}, '311311222112': {'name': 'P', 'number': 15}, '1322112': {'name': 'Si', 'number': 14}, '1113222112': {'name': 'Al', 'number': 13}, '3113322112': {'name': 'Mg', 'number': 12}, '123222112': {'name': 'Na', 'number': 11}, '111213322112': {'name': 'Ne', 'number': 10}, '31121123222112': {'name': 'F', 'number': 9}, '132112211213322112': {'name': 'O', 'number': 8}, '111312212221121123222112': {'name': 'N', 'number': 7}, '3113112211322112211213322112': {'name': 'C', 'number': 6}, '1321132122211322212221121123222112': {'name': 'B', 'number': 5}, '111312211312113221133211322112211213322112': {'name': 'Be', 'number': 4}, '312211322212221121123222112': {'name': 'Li', 'number': 3}, '13112221133211322112211213322112': {'name': 'He', 'number': 2}, '22': {'name': 'H', 'number': 1}}
+
+def _conway_name(element):
+    string = element.get_string()
+    if string in _CONWAY_ELEMENTS:
+        return _CONWAY_ELEMENTS[string]['name']
+    Pu = '31221132221222112112322211n'
+    Np = '1311222113321132211221121332211n'
+    if len(string) == len(Pu) and string[:-1] == Pu[:-1]:
+        return 'Pu' + string[-1]
+    if len(string) == len(Np) and string[:-1] == Np[:-1]:
+        return 'Np' + string[-1]
+    return element.get_name()
+
+def _conway_number(element):
+    string = element.get_string()
+    if string in _CONWAY_ELEMENTS:
+        return _CONWAY_ELEMENTS[string]['number']
+    else:
+        return 92 * len(string) + ord(string[-1])
+
+################# LOOK AND SAY #################################
+
 class LookAndSay():
     """
     A class responsible for the fundamental say-what-you-see operation
@@ -85,7 +109,7 @@ class LookAndSay():
     print('Just the last ratio:', ls.get_last_length_ratio())
     ```
     ### Output:
-    
+
     ```sh
     Sequence: ['55555', '55', '25', '1215', '11121115', '31123115', '132112132115', '11131221121113122115', '311311222112311311222115', '1321132132211213211321322115']
     Ratios of lengths: [0.4, 1.0, 2.0, 2.0, 1.0, 1.5, 1.6666666666666667, 1.2, 1.1666666666666667, 1.5714285714285714, 1.1818181818181819, 1.1538461538461537, 1.4666666666666666, 1.2727272727272727, 1.25, 1.4, 1.3265306122448979, 1.2461538461538462, 1.3333333333333333, 1.3518518518518519, 1.226027397260274, 1.312849162011173, 1.3361702127659574, 1.2611464968152866, 1.3257575757575757, 1.318095238095238, 1.2919075144508672, 1.3053691275167785, 1.3161953727506426, 1.2936197916666667, 1.2989431303472572, 1.3142192948469587, 1.2951061320754718, 1.2997951286137037, 1.312784588441331, 1.2996264674493063, 1.3030178608088687, 1.3061288797857256, 1.3046441495778045, 1.300263510702233, 1.304700277323473, 1.3052921299324176, 1.299567840664732, 1.3057126333376172, 1.304461231821649, 1.3014789104353732, 1.3050192770385831, 1.304147670163319, 1.3026438489740129, 1.3036460274187538]
@@ -110,7 +134,7 @@ class LookAndSay():
     print(roman_ls.get_sequence())
     ```
     ### Output:
-    
+
     ```sh
     ['I', 'II', 'III', 'IIII', 'IVI', 'IIIVII', 'IIIIIVIII', 'VIIVIIII', 'IVIIIIVIVI', 'IIIVIVIIVIIIVII', 'IIIIIVIIIVIIIIVIIIIIVIII']
     ['V', 'IV', 'IIIV', 'IIIIIV', 'VIIV', 'IVIIIIV', 'IIIVIVIIV', 'IIIIIVIIIVIIIIV', 'VIIVIIIIIVIVIIV', 'IVIIIIVVIIVIIIVIIIIV', 'IIIVIVIIIVIIIIVIIIIIVIVIIV']
@@ -129,7 +153,7 @@ class LookAndSay():
     print(binary_ls.get_sequence())
     ```
     ### Output:
-    
+
     ```sh
     ['0', '10', '1110', '11110', '100110', '1110010110', '111100111010110', '100110011110111010110', '1110010110010011011110111010110', '1111001110101100111001011010011011110111010110']
     ['1', '11', '101', '111011', '11110101', '100110111011', '111001011011110101', '111100111010110100110111011', '100110011110111010110111001011011110101', '1110010110010011011110111010110111100111010110100110111011']
@@ -150,7 +174,7 @@ class LookAndSay():
     print(look_and_say_again.get_sequence())
     ```
     ### Output:
-    
+
     ```sh
     ['1', '1111', '4411', '22442211', '2222224422222211', '6622224466222211', '226644222244226644222211', '2222226622444422224422222266224444222211', '662222662222444444222244662222662222444444222211', '22664422226644226644442222442266442222664422664444222211', '2222226622444422226622442222226644444422224422222266224444222266224422222266444444222211']
     ['2', '1122', '22112222', '222222114422', '6622221122442222', '226644222211222222444422', '22222266224444222211662244442222', '6622226622224444442222112266222244444422', '226644222266442266444422221122222266442266442222', '222222662244442222662244222222664444442222116622226622442222226622444422', '66222266222244444422226622222244662222666644442222112266442222662222224466222266222244442222']
@@ -178,8 +202,10 @@ class LookAndSay():
     """
     def __init__(self, say = None):
         super(LookAndSay, self).__init__()
+        self._is_Conway = False
         if say == None:
             say = (lambda n : str(n))
+            self._is_Conway = True
         self.say = say
         self.sequence = []
 
@@ -329,8 +355,13 @@ class Chemistry():
         self._name_elements()
 
     def _name_elements(self):
-        for i, e in enumerate(self.get_elements()):
-            e.set_name('E' + str(i + 1))
+        if self.las._is_Conway:
+            for e in self.get_elements():
+                e.set_name(_conway_name(e))
+            self.elements = sorted(self.get_elements(), key = _conway_number)
+        else:
+            for i, e in enumerate(self.get_elements()):
+                e.set_name('E' + str(i + 1))
 
     def get_decay_matrix(self):
         """
@@ -581,8 +612,8 @@ class SplittingFactory():
 # split = sf.get_split()
 # print(split('1234024350034X3450X34500X2345XX003425'))
 
-# ls = LookAndSay()
-# chem = Chemistry(ls)
-# chem.generate_elements(['1'])
-# print(chem.periodic_table())
+ls = LookAndSay()
+chem = Chemistry(ls)
+chem.generate_elements(['1', '4', '5', 'X'])
+print(chem.periodic_table())
       
