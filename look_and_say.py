@@ -160,7 +160,8 @@ class LookAndSay():
     ```
     ## Example Sessions: Two parameter say functions
 
-    Here is a *look-and-say-again* from the paper *Stuttering Conway Sequences Are Still Conway Sequences* by Brier et al.
+    Here is a *look-and-say-again* from the paper [*Stuttering Conway Sequences Are Still Conway Sequences* by Brier et al](https://arxiv.org/abs/2006.06837).
+    The say function for this example corresponds to the decay \\(a^b\\to bbaa\\).
     ```python
     def say_again(char_count, char):
         return 2 * str(char_count) + 2 * char
@@ -179,7 +180,7 @@ class LookAndSay():
     ['1', '1111', '4411', '22442211', '2222224422222211', '6622224466222211', '226644222244226644222211', '2222226622444422224422222266224444222211', '662222662222444444222244662222662222444444222211', '22664422226644226644442222442266442222664422664444222211', '2222226622444422226622442222226644444422224422222266224444222266224422222266444444222211']
     ['2', '1122', '22112222', '222222114422', '6622221122442222', '226644222211222222444422', '22222266224444222211662244442222', '6622226622224444442222112266222244444422', '226644222266442266444422221122222266442266442222', '222222662244442222662244222222664444442222116622226622442222226622444422', '66222266222244444422226622222244662222666644442222112266442222662222224466222266222244442222']
     ```
-    Here is Morrill's *Look Knave*.
+    Here is [Morrill's *Look Knave*](https://www.cambridge.org/core/journals/bulletin-of-the-australian-mathematical-society/article/abs/look-knave/BFC51822DED97095C96ABD2255AEDC2A):
     ```python
     def knave_say(bit_count, bit):
         flip = {'0':'1', '1':'0'}
@@ -288,7 +289,7 @@ class Chemistry():
     LookAndSay object. The default splitting function corresponds to 
     Conway's original Splitting Theorem.
 
-    ## Example Session: Conway's constant and his 92 Common Elements
+    ## Example Session: Conway's Constant and his 92 Common Elements
 
     ```python
     ls = LookAndSay()
@@ -510,6 +511,106 @@ class Chemistry():
     Np7       13112221133211322112211213322117             0.0         [Hf, Pa, H, Ca, Pu7]
     Np8       13112221133211322112211213322118             0.0         [Hf, Pa, H, Ca, Pu8]
     ```
+
+    ## Example Session: Standard Ternary
+
+    ```python
+    # Define the say function:
+    def ternary(num):
+        if num < 3:
+            return str(num)
+        return ternary(num // 3) + str(num % 3)
+
+
+    # Use the Split Function Factory to create a split function:
+    sff = SplitFuncFactory()
+    sff.declare_split_after('0')
+    sff.declare_splitting_pairs(('2', '1110'), ('2', '10'))
+    split = sff.get_split()
+
+    # Instantiate the LookAndSay and Chemistry objects:
+    ternary_ls = LookAndSay(ternary)
+    ternary_chem = Chemistry(ternary_ls, split)
+
+    # Generate elements and order them according to relative abundances:
+    ternary_chem.generate_elements('0', '1', '2')
+    ternary_chem.order_elements('abundance')
+
+    # Print chemical properties:
+    ternary_chem.print_periodic_table()
+    print(ternary_chem.get_char_poly())
+    print(ternary_chem.get_max_eigenvalue())
+    ```
+
+    ### Output:
+    ```sh
+    element   string     abundance    decay
+    E1        10         18.5037375   [E4]
+    E2        22110      13.9680582   [E5]
+    E3        2110       13.9680582   [E6]
+    E4        1110       13.9680582   [E1, E7]
+    E5        222110     10.5441752   [E1, E2]
+    E6        122110     10.5441752   [E8]
+    E7        110        10.5441752   [E3]
+    E8        11222110   7.9595623    [E3, E2]
+    E9        222112     0.0          [E1, E10]
+    E10       22112      0.0          [E9]
+    E11       212221     0.0          [E16, E4, E13]
+    E12       2112       0.0          [E14]
+    E13       211        0.0          [E15]
+    E14       122112     0.0          [E17]
+    E15       1221       0.0          [E18]
+    E16       12         0.0          [E20]
+    E17       11222112   0.0          [E3, E10]
+    E18       112211     0.0          [E11]
+    E19       112        0.0          [E12]
+    E20       1112       0.0          [E1, E19]
+    lambda**6*(lambda - 1)**2*(lambda + 1)**2*(lambda**2 + 1)*(lambda**3 - lambda - 1)*(lambda**5 - lambda**3 + 1)
+    1.3247179572447458
+    ```
+    
+    ## Example Session: Balanced Ternary
+    In this example we find the chemical properties of a [balanced ternary](https://en.wikipedia.org/wiki/Balanced_ternary)
+    look and say sequence. 
+
+    ```python
+    # Define a (partial) say function to convert integers to balanced ternary:
+    def bal_tern(num):
+        assert num < 11, "bal_tern will only convert integers from 1 to 10."
+        repn = {1:'1', 2:'1T', 3:'10', 4:'11', 5:'1TT', 6:'1T0', 7:'1T1', 8:'10T', 9:'100', 10:'101'}
+        return repn[num]
+
+    # Use the split function factory to generate an appropriate split function: 
+    sff = SplitFuncFactory()
+    sff.declare_split_after('0', 'T')
+    split = sff.get_split()
+
+    # Instantiate the look and say and chemistry objects:
+    bal_tern_ls = LookAndSay(bal_tern)
+    bal_tern_chem = Chemistry(bal_tern_ls, split)
+
+    # Generate persistent elements from the seed '0', and order them according to their relative abundance:
+    bal_tern_chem.generate_elements('0')
+    bal_tern_chem.order_elements('abundance')
+
+    # Print the chemical properties
+    bal_tern_chem.print_periodic_table()
+    print(bal_tern_chem.get_char_poly())
+    print(bal_tern_chem.get_max_eigenvalue()) # golden!
+    ```
+
+    ```sh
+    element   string   abundance    decay
+    E1        1T       23.6067977   [E3]
+    E2        11T      23.6067977   [E1, E2]
+    E3        111T     14.5898034   [E5, E2]
+    E4        110      14.5898034   [E1, E4]
+    E5        10       14.5898034   [E6]
+    E6        1110     9.0169944    [E5, E4]
+    lambda**3*(lambda - 1)*(lambda**2 - lambda - 1)
+    1.6180339887498953
+    ```
+
     """
     def __init__(self, las, split = split_Conway, elements = None):
         super(Chemistry, self).__init__()
@@ -524,7 +625,7 @@ class Chemistry():
         return self.elements
 
     def clear_elements(self):
-        """Resets the list of elements back to the empty list"""
+        """Resets the list of elements back to the empty list."""
         self.elements = []
 
     def _split_to_elements(self, string): 
@@ -547,7 +648,7 @@ class Chemistry():
                 dec += [e for e in self.elements if e == d]
             elt._set_decay(dec)
 
-    def _remove_extinct_elements(self): 
+    def _remove_intermittent_elements(self): 
         while True:
             common_elements = []
             for elt in self.elements:
@@ -572,7 +673,7 @@ class Chemistry():
             self.clear_elements()
         strings = [self.las.say_what_you_see(seed) for seed in seeds] #only look at 2-day-old strings
         self._generate_all_elements(strings)
-        self._remove_extinct_elements()
+        self._remove_intermittent_elements()
         self.order_elements('string')
         self._name_elements()
 
@@ -610,6 +711,7 @@ class Chemistry():
         is larger than (the absolute value) of every other eigenvalue.
         This assumption is usually guaranteed by the Perron-Frobenius Theorem.
         """
+        assert len(self.elements) > 0, "The get_max_eigenvalue method requires a nonempty list of elements.\n\tTo fix: Use the generate_elements method prior to calling get_max_eigenvalue."
         eigenstuff = numpy.linalg.eig(numpy.array(self.get_decay_matrix()))
         eigenvalues = eigenstuff[0]
         return max(eigenvalues).real
@@ -641,13 +743,27 @@ class Chemistry():
         # The next two lines are converting the numpy array to a list
         limiting_eigenvector = limiting_eigenvector_nparray.tolist()
         limiting_eigenvector = [elt[0][0] for elt in limiting_eigenvector]
-        abundance = [round(100 * num / sum(limiting_eigenvector), dec_places) for num in limiting_eigenvector]
+        abundance = [abs(round(100 * num / sum(limiting_eigenvector), dec_places)) for num in limiting_eigenvector]
         return abundance
 
-    def periodic_table(self, dec_places = 7):
+    def get_periodic_table(self, dec_places = 7):
         """
         Creates a periodic table including each element's name, string, relative abundance, and decay.
         Returns the periodic table as a nested dictionary.
+
+        ## Example Session:
+        ```python
+        ls = LookAndSay()
+        chem = Chemistry(ls)
+        chem.generate_elements('4')
+        print(chem.get_periodic_table())
+        ```
+
+        ### Output:
+        ```sh
+        {'H': {'string': '22', 'abundance': 9.1790383, 'decay': [H]}, 'He': {'string': '13112221133211322112211213322112', 'abundance': 0.3237297, 'decay': [Hf, Pa, H, Ca, Li]}, 'Li': {'string': '312211322212221121123222112', 'abundance': 0.4220067, 'decay': [He]}, 'Be': {'string': '111312211312113221133211322112211213322112', 'abundance': 0.2263886, 'decay': [Ge, Ca, Li]}, 'B': {'string': '1321132122211322212221121123222112', 'abundance': 0.295115, 'decay': [Be]}, 'C': {'string': '3113112211322112211213322112', 'abundance': 0.3847053, 'decay': [B]}, 'N': {'string': '111312212221121123222112', 'abundance': 0.501493, 'decay': [C]}, 'O': {'string': '132112211213322112', 'abundance': 0.6537349, 'decay': [N]}, 'F': {'string': '31121123222112', 'abundance': 0.852194, 'decay': [O]}, 'Ne': {'string': '111213322112', 'abundance': 1.1109007, 'decay': [F]}, 'Na': {'string': '123222112', 'abundance': 1.4481449, 'decay': [Ne]}, 'Mg': {'string': '3113322112', 'abundance': 1.8850441, 'decay': [Pm, Na]}, 'Al': {'string': '1113222112', 'abundance': 2.4573007, 'decay': [Mg]}, 'Si': {'string': '1322112', 'abundance': 3.2032813, 'decay': [Al]}, 'P': {'string': '311311222112', 'abundance': 1.4895887, 'decay': [Ho, Si]}, 'S': {'string': '1113122112', 'abundance': 1.9417939, 'decay': [P]}, 'Cl': {'string': '132112', 'abundance': 2.5312784, 'decay': [S]}, 'Ar': {'string': '3112', 'abundance': 3.299717, 'decay': [Cl]}, 'K': {'string': '1112', 'abundance': 4.3014361, 'decay': [Ar]}, 'Ca': {'string': '12', 'abundance': 5.6072543, 'decay': [K]}, 'Sc': {'string': '3113112221133112', 'abundance': 0.9302097, 'decay': [Ho, Pa, H, Ca, Co]}, 'Ti': {'string': '11131221131112', 'abundance': 1.2126003, 'decay': [Sc]}, 'V': {'string': '13211312', 'abundance': 1.5807182, 'decay': [Ti]}, 'Cr': {'string': '31132', 'abundance': 2.0605883, 'decay': [V]}, 'Mn': {'string': '111311222112', 'abundance': 2.686136, 'decay': [Cr, Si]}, 'Fe': {'string': '13122112', 'abundance': 3.5015859, 'decay': [Mn]}, 'Co': {'string': '32112', 'abundance': 4.5645877, 'decay': [Fe]}, 'Ni': {'string': '11133112', 'abundance': 1.3871124, 'decay': [Zn, Co]}, 'Cu': {'string': '131112', 'abundance': 1.8082082, 'decay': [Ni]}, 'Zn': {'string': '312', 'abundance': 2.3571391, 'decay': [Cu]}, 'Ga': {'string': '13221133122211332', 'abundance': 0.1447891, 'decay': [Eu, Ca, Ac, H, Ca, Zn]}, 'Ge': {'string': '31131122211311122113222', 'abundance': 0.1887437, 'decay': [Ho, Ga]}, 'As': {'string': '11131221131211322113322112', 'abundance': 0.0027246, 'decay': [Ge, Na]}, 'Se': {'string': '13211321222113222112', 'abundance': 0.0035518, 'decay': [As]}, 'Br': {'string': '3113112211322112', 'abundance': 0.00463, 'decay': [Se]}, 'Kr': {'string': '11131221222112', 'abundance': 0.0060355, 'decay': [Br]}, 'Rb': {'string': '1321122112', 'abundance': 0.0078678, 'decay': [Kr]}, 'Sr': {'string': '3112112', 'abundance': 0.0102563, 'decay': [Rb]}, 'Y': {'string': '1112133', 'abundance': 0.0133699, 'decay': [Sr, U]}, 'Zr': {'string': '12322211331222113112211', 'abundance': 0.0174286, 'decay': [Y, H, Ca, Tc]}, 'Nb': {'string': '1113122113322113111221131221', 'abundance': 0.0227196, 'decay': [Er, Zr]}, 'Mo': {'string': '13211322211312113211', 'abundance': 0.0296167, 'decay': [Nb]}, 'Tc': {'string': '311322113212221', 'abundance': 0.0386077, 'decay': [Mo]}, 'Ru': {'string': '132211331222113112211', 'abundance': 0.0328995, 'decay': [Eu, Ca, Tc]}, 'Rh': {'string': '311311222113111221131221', 'abundance': 0.042887, 'decay': [Ho, Ru]}, 'Pd': {'string': '111312211312113211', 'abundance': 0.0559065, 'decay': [Rh]}, 'Ag': {'string': '132113212221', 'abundance': 0.0728785, 'decay': [Pd]}, 'Cd': {'string': '3113112211', 'abundance': 0.0950027, 'decay': [Ag]}, 'In': {'string': '11131221', 'abundance': 0.1238434, 'decay': [Cd]}, 'Sn': {'string': '13211', 'abundance': 0.1614395, 'decay': [In]}, 'Sb': {'string': '3112221', 'abundance': 0.2104488, 'decay': [Pm, Sn]}, 'Te': {'string': '1322113312211', 'abundance': 0.2743363, 'decay': [Eu, Ca, Sb]}, 'I': {'string': '311311222113111221', 'abundance': 0.3576186, 'decay': [Ho, Te]}, 'Xe': {'string': '11131221131211', 'abundance': 0.4661834, 'decay': [I]}, 'Cs': {'string': '13211321', 'abundance': 0.6077061, 'decay': [Xe]}, 'Ba': {'string': '311311', 'abundance': 0.7921919, 'decay': [Cs]}, 'La': {'string': '11131', 'abundance': 1.0326833, 'decay': [Ba]}, 'Ce': {'string': '1321133112', 'abundance': 1.3461825, 'decay': [La, H, Ca, Co]}, 'Pr': {'string': '31131112', 'abundance': 1.7548529, 'decay': [Ce]}, 'Nd': {'string': '111312', 'abundance': 2.2875864, 'decay': [Pr]}, 'Pm': {'string': '132', 'abundance': 2.9820456, 'decay': [Nd]}, 'Sm': {'string': '311332', 'abundance': 1.5408115, 'decay': [Pm, Ca, Zn]}, 'Eu': {'string': '1113222', 'abundance': 2.0085669, 'decay': [Sm]}, 'Gd': {'string': '13221133112', 'abundance': 2.1662973, 'decay': [Eu, Ca, Co]}, 'Tb': {'string': '3113112221131112', 'abundance': 2.8239359, 'decay': [Ho, Gd]}, 'Dy': {'string': '111312211312', 'abundance': 3.6812186, 'decay': [Tb]}, 'Ho': {'string': '1321132', 'abundance': 4.7987529, 'decay': [Dy]}, 'Er': {'string': '311311222', 'abundance': 0.1098596, 'decay': [Ho, Pm]}, 'Tm': {'string': '11131221133112', 'abundance': 0.1204908, 'decay': [Er, Ca, Co]}, 'Yb': {'string': '1321131112', 'abundance': 0.1570691, 'decay': [Tm]}, 'Lu': {'string': '311312', 'abundance': 0.2047517, 'decay': [Yb]}, 'Hf': {'string': '11132', 'abundance': 0.2669097, 'decay': [Lu]}, 'Ta': {'string': '13112221133211322112211213322113', 'abundance': 0.0242077, 'decay': [Hf, Pa, H, Ca, W]}, 'W': {'string': '312211322212221121123222113', 'abundance': 0.0315567, 'decay': [Ta]}, 'Re': {'string': '111312211312113221133211322112211213322113', 'abundance': 0.0169288, 'decay': [Ge, Ca, W]}, 'Os': {'string': '1321132122211322212221121123222113', 'abundance': 0.022068, 'decay': [Re]}, 'Ir': {'string': '3113112211322112211213322113', 'abundance': 0.0287673, 'decay': [Os]}, 'Pt': {'string': '111312212221121123222113', 'abundance': 0.0375005, 'decay': [Ir]}, 'Au': {'string': '132112211213322113', 'abundance': 0.0488847, 'decay': [Pt]}, 'Hg': {'string': '31121123222113', 'abundance': 0.063725, 'decay': [Au]}, 'Tl': {'string': '111213322113', 'abundance': 0.0830705, 'decay': [Hg]}, 'Pb': {'string': '123222113', 'abundance': 0.1082888, 'decay': [Tl]}, 'Bi': {'string': '3113322113', 'abundance': 0.1411629, 'decay': [Pm, Pb]}, 'Po': {'string': '1113222113', 'abundance': 0.1840167, 'decay': [Bi]}, 'At': {'string': '1322113', 'abundance': 0.23988, 'decay': [Po]}, 'Rn': {'string': '311311222113', 'abundance': 0.3127021, 'decay': [Ho, At]}, 'Fr': {'string': '1113122113', 'abundance': 0.4076313, 'decay': [Rn]}, 'Ra': {'string': '132113', 'abundance': 0.5313789, 'decay': [Fr]}, 'Ac': {'string': '3113', 'abundance': 0.6926935, 'decay': [Ra]}, 'Th': {'string': '1113', 'abundance': 0.7581905, 'decay': [Ac]}, 'Pa': {'string': '13', 'abundance': 0.9883599, 'decay': [Th]}, 'U': {'string': '3', 'abundance': 0.0102563, 'decay': [Pa]}, 'Pu4': {'string': '312211322212221121123222114', 'abundance': 0.0, 'decay': [Np4]}, 'Np4': {'string': '13112221133211322112211213322114', 'abundance': 0.0, 'decay': [Hf, Pa, H, Ca, Pu4]}}
+        ```
+
         """
         return {e.get_name() : {'string' : e.get_string(), 
                                 'abundance' : self._get_abundances(dec_places)[i],
@@ -660,7 +776,7 @@ class Chemistry():
         so they will differ from Conway's abundances by a factor of \\(10^4\\).
         The parameter ``dec_places`` refers to the accuracy of the abundances.
         """
-        pt = self.periodic_table(dec_places)
+        pt = self.get_periodic_table(dec_places)
         elt_width = 2 + max(len('element'), max([len(e.get_name()) for e in self.get_elements()]))
         str_width = 2 + max(len('string'), max([len(e.get_string()) for e in self.get_elements()]))
         ab_width  = 2 + max(len('abundance'), max([len(str(prop['abundance'])) for elt, prop in pt.items()]))
@@ -678,14 +794,16 @@ class Chemistry():
         * ``order_on='name'``: Orders elements alphabetically according to their names.
         * ``order_on='key'``: Orders elements according to the function specified by the parameter ``key``.
 
-        Note: By default this method will automatically rename the elements according to their new order.
+        You can reverse the ordering above by passing the extra parameter ``reverse = True``.
+        
+        By default this method will automatically rename the elements according to their new order.
         This will not happen if the elements are named via Conway or if the parameter ``rename = False`` is passed.
         """
         assert order_on in ['abundance', 'name', 'string', 'string length', 'key'], "Invalid parameter passed to order_elements. Valid parameter are 'abundance', 'name', 'string', 'string length', and 'key'."
-        pt = self.periodic_table()
+        pt = self.get_periodic_table()
         sorted_key = {
             'abundance': lambda e : pt[e.get_name()]['abundance'],
-            'name': lambda e : pt[e.get_name()]['name'],
+            'name': lambda e : e.get_name(),
             'string': lambda e : e.get_string(),
             'string length': lambda e : len(e.get_string()),
             'key': key
@@ -723,7 +841,7 @@ class BinaryChemistry(Chemistry):
     print(binary_chem.get_max_eigenvalue())
     ```
     
-    Output:
+    ### Output:
     ```sh
     element   string   abundance    decay
     E1        110      21.6756572   [E2, E1]
@@ -740,6 +858,38 @@ class BinaryChemistry(Chemistry):
     1.4655712318767664
     ```
 
+    ## Example Session: Twindragon Binary
+    The following chemistry corresponds to the binary number system using 
+    the complex base \\(-1+i\\). This binary number system is known as *twindragon binary*.
+
+    ```python
+    def twindragon_say(num):
+        assert num < 8, "This twindragon can only count to 7."
+        twindragon = {1:'1', 2:'1100', 3:'1101', 4:'111010000', 5:'111010001', 6:'111011100', 7:'111011101'}
+        return twindragon[num]
+
+    twindragon_ls = LookAndSay(twindragon_say)
+    twindragon_chem = Chemistry(twindragon_ls)
+    twindragon_chem.generate_elements('1')
+    twindragon_chem.print_periodic_table()
+    ```
+
+    ### Output:
+    ```sh
+    element   string   abundance    decay
+    E1        1        0.0          [E6]
+    E2        10       6.746022     [E9]
+    E3        1000     1.5358344    [E11, E2]
+    E4        10000    2.8580442    [E12, E5]
+    E5        100000   1.3339664    [E12, E3, E2]
+    E6        11       0.0          [E8, E1]
+    E7        110      28.3551578   [E8, E7]
+    E8        1100     24.8181731   [E8, E10]
+    E9        1110     14.6891551   [E7, E9]
+    E10       111000   11.5836587   [E7, E11, E2]
+    E11       11110    6.1234052    [E9, E4, E7]
+    E12       111110   1.9565832    [E9, E3, E9]
+    ```
     """
     def __init__(self, las, elements = None):
         sff = SplitFuncFactory()
@@ -755,6 +905,7 @@ class Element():
     a name. For example, in Conway's chemistry there is an element
     named H (short for Hydrogen) consisting of the string '22'. 
     Each element decays into a list of other elements. 
+    The only methods for this class are getters and a setter.
     """
     def __init__(self, string, las, decay = []):
         super(Element, self).__init__()
@@ -783,7 +934,6 @@ class Element():
         self.decay = elements
 
     def get_decay(self):
-        """Returns the decay of the element as a list of elements."""
         return self.decay
 
     def set_name(self, name):
@@ -813,7 +963,7 @@ class SplitFuncFactory():
         self._split_conditions = []
 
     def get_split(self):
-        """Return the split function"""
+        """Returns the split function."""
         return lambda string : self._split(string)
 
     def _split(self, string):
@@ -848,23 +998,17 @@ class SplitFuncFactory():
     def declare_splitting_pairs(self, *pairs):
         """
         Specify pairs of chunks in the form (L, R) 
-        such that LR always splits as L.R
+        such that LR always splits as L.R.
         """
         for pair in pairs:
             self._splitting_pairs.append(pair)
 
     def declare_split_after(self, *chunks):
-        """Specify chunks L such that LR splits for every possible R"""
+        """Specify chunks L such that LR splits for every possible R."""
         for chunk in chunks:
             self._chunks_before_split.append(chunk)
 
     def declare_split_before(self, *chunks):
-        """Specify chunks R such that LR splits for every possible L"""
+        """Specify chunks R such that LR splits for every possible L."""
         for chunk in chunks:
             self._chunks_after_split.append(chunk)
-
-
-# ls = LookAndSay()
-# chem = Chemistry(ls)
-# chem.generate_elements('555', '78')
-# chem.print_periodic_table()
