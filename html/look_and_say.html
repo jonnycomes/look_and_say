@@ -382,7 +382,7 @@ class Chemistry():
         strings = [self.las.say_what_you_see(seed) for seed in seeds] #only look at 2-day-old strings
         self._generate_all_elements(strings)
         self._remove_extinct_elements()
-        self.order_elements()
+        self.order_elements(&#39;string&#39;)
         self._name_elements()
 
     def _name_elements(self):
@@ -433,11 +433,11 @@ class Chemistry():
         else:
             return chi.as_expr()
 
-    def _get_abundances(self, dec_places = 7):
+    def _get_abundances(self, dec_places = 8):
         &#34;&#34;&#34;
         Returns a list of relative abundances of each element.
-        Note that the abundances are given in percentages, so they will
-        differ from Conway&#39;s abundances by a factor of \\(10^6\\). 
+        Note the abundances are given as percentages, 
+        so they will differ from Conway&#39;s abundances by a factor of \\(10^4\\).
         The order of the list corresponds to the order of the list of elements.
         &#34;&#34;&#34;
         eigenstuff = numpy.linalg.eig(numpy.array(self.get_decay_matrix()))
@@ -448,10 +448,10 @@ class Chemistry():
         # The next two lines are converting the numpy array to a list
         limiting_eigenvector = limiting_eigenvector_nparray.tolist()
         limiting_eigenvector = [elt[0][0] for elt in limiting_eigenvector]
-        abundance = [round(num / sum(limiting_eigenvector), dec_places) for num in limiting_eigenvector]
+        abundance = [round(100 * num / sum(limiting_eigenvector), dec_places) for num in limiting_eigenvector]
         return abundance
 
-    def periodic_table(self, dec_places = 7):
+    def periodic_table(self, dec_places = 8):
         &#34;&#34;&#34;
         Creates a periodic table including each element&#39;s name, string, relative abundance, and decay.
         Returns the periodic table as a nested dictionary.
@@ -461,10 +461,10 @@ class Chemistry():
                                 &#39;decay&#39; : e.get_decay()}
                                 for i, e in enumerate(self.get_elements())}
 
-    def print_periodic_table(self, dec_places = 7):
+    def print_periodic_table(self, dec_places = 8):
         &#34;&#34;&#34;
         Prints the periodic table. Note the abundances are given as percentages, 
-        so they will differ from Conway&#39;s abundances by a factor of \\(10^6\\).
+        so they will differ from Conway&#39;s abundances by a factor of \\(10^4\\).
         The parameter ``dec_places`` refers to the accuracy of the abundances.
         &#34;&#34;&#34;
         pt = self.periodic_table(dec_places)
@@ -475,22 +475,35 @@ class Chemistry():
         for elt, prop in pt.items():
             print(&#34;{:&lt;{elt_width}} {:&lt;{str_width}} {:&lt;{ab_width}} {}&#34;.format(elt, prop[&#39;string&#39;], prop[&#39;abundance&#39;], str(prop[&#39;decay&#39;]), elt_width=elt_width, str_width=str_width, ab_width=ab_width))
 
-    def order_elements(self, order_on = &#39;abundance&#39;, reverse = True):
+    def order_elements(self, order_on, key = None, reverse = False, rename = True):
         &#34;&#34;&#34;
-        Reorders the list of elements depending on the parameter ``order_on``.
-        Valid parameter are &#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, and &#39;string length&#39;
+        Reorders the list of elements depending on the parameter ``order_on`` as follows:
+
+        * ``order_on=&#39;abundance&#39;``: Orders elements from highest abundance to lowest.
+        * ``order_on=&#39;string&#39;``: Orders elements according to the lexicographic order of their strings.
+        * ``order_on=&#39;string length&#39;``: Orders elements according to the lengths of their strings from shortest to longest.
+        * ``order_on=&#39;name&#39;``: Orders elements alphabetically according to their names.
+        * ``order_on=&#39;key&#39;``: Orders elements according to the function specified by the parameter ``key``.
+
+        Note: By default this method will automatically rename the elements according to their new order.
+        This will not happen if the elements are named via Conway or if the parameter ``rename = False`` is passed.
         &#34;&#34;&#34;
-        assert order_on in [&#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, &#39;string length&#39;], &#34;Invalid parameter passed to order_elements. Valid parameter are &#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, and &#39;string length&#39;.&#34;
+        assert order_on in [&#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, &#39;string length&#39;, &#39;key&#39;], &#34;Invalid parameter passed to order_elements. Valid parameter are &#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, &#39;string length&#39;, and &#39;key&#39;.&#34;
         pt = self.periodic_table()
         sorted_key = {
-            &#39;abundance&#39;: lambda e : pt[e.get_string()][&#39;abundance&#39;],
-            &#39;name&#39;: lambda e : pt[e.get_string()][&#39;name&#39;],
+            &#39;abundance&#39;: lambda e : pt[e.get_name()][&#39;abundance&#39;],
+            &#39;name&#39;: lambda e : pt[e.get_name()][&#39;name&#39;],
             &#39;string&#39;: lambda e : e.get_string(),
-            &#39;string length&#39;: lambda e : len(e.get_string())
+            &#39;string length&#39;: lambda e : len(e.get_string()),
+            &#39;key&#39;: key
         }
         self.elements = sorted(self.get_elements(), key = sorted_key[order_on])
+        if order_on == &#39;abundance&#39;:
+            self.elements.reverse()
         if reverse:
             self.elements.reverse()
+        if not self.las._is_Conway and rename:
+            self._name_elements()
 
 class BinaryChemistry(Chemistry):
     &#34;&#34;&#34;
@@ -509,6 +522,7 @@ class BinaryChemistry(Chemistry):
     binary_ls = LookAndSay(binary_say)
     binary_chem = BinaryChemistry(binary_ls)
     binary_chem.generate_elements([&#39;1&#39;])
+    binary_chem.order_elements(&#39;abundance&#39;)
     binary_chem.print_periodic_table()
     print(binary_chem.get_char_poly())
     print(binary_chem.get_max_eigenvalue())
@@ -517,17 +531,17 @@ class BinaryChemistry(Chemistry):
     ### Output:
 
     ```sh
-    element   string   abundance   decay
-    E1        110      0.2167566   [E2, E1]
-    E2        10       0.2167566   [E3]
-    E3        1110     0.147899    [E6]
-    E4        1100     0.1009156   [E2, E4]
-    E5        100      0.1009156   [E7]
-    E6        11110    0.1009156   [E5, E1]
-    E7        11100    0.0688575   [E8]
-    E8        111100   0.0469834   [E5, E4]
-    E9        1        0.0         [E10]
-    E10       11       0.0         [E2, E9]
+    element   string   abundance     decay
+    E1        110      21.6756572    [E2, E1]
+    E2        10       21.6756572    [E3]
+    E3        1110     14.78990357   [E4]
+    E4        11110    10.09156242   [E6, E1]
+    E5        1100     10.09156242   [E2, E5]
+    E6        100      10.09156242   [E7]
+    E7        11100    6.88575362    [E8]
+    E8        111100   4.69834115    [E6, E5]
+    E9        11       0.0           [E2, E10]
+    E10       1        0.0           [E9]
     lambda**4*(lambda - 1)**2*(lambda + 1)*(lambda**3 - lambda**2 - 1)
     1.4655712318767664
     ```
@@ -673,7 +687,17 @@ class SplittingFactory():
 # chem = Chemistry(ls)
 # chem.generate_elements([&#39;1&#39;, &#39;4&#39;, &#39;5&#39;, &#39;X&#39;])
 # chem.print_periodic_table()
-      </code></pre>
+
+def binary_say(num):
+        return &#34;{0:b}&#34;.format(num)
+
+binary_ls = LookAndSay(binary_say)
+binary_chem = BinaryChemistry(binary_ls)
+binary_chem.generate_elements([&#39;1&#39;])
+binary_chem.order_elements(&#39;abundance&#39;)
+binary_chem.print_periodic_table()
+print(binary_chem.get_char_poly())
+print(binary_chem.get_max_eigenvalue())     </code></pre>
 </details>
 </section>
 <section>
@@ -683,6 +707,19 @@ class SplittingFactory():
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="look_and_say.binary_say"><code class="name flex">
+<span>def <span class="ident">binary_say</span></span>(<span>num)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def binary_say(num):
+        return &#34;{0:b}&#34;.format(num)</code></pre>
+</details>
+</dd>
 <dt id="look_and_say.split_Conway"><code class="name flex">
 <span>def <span class="ident">split_Conway</span></span>(<span>string)</span>
 </code></dt>
@@ -751,22 +788,23 @@ valid for standard base two binary look and say sequences. </p>
 binary_ls = LookAndSay(binary_say)
 binary_chem = BinaryChemistry(binary_ls)
 binary_chem.generate_elements(['1'])
+binary_chem.order_elements('abundance')
 binary_chem.print_periodic_table()
 print(binary_chem.get_char_poly())
 print(binary_chem.get_max_eigenvalue())
 </code></pre>
 <h3 id="output">Output:</h3>
-<pre><code class="language-sh">element   string   abundance   decay
-E1        110      0.2167566   [E2, E1]
-E2        10       0.2167566   [E3]
-E3        1110     0.147899    [E6]
-E4        1100     0.1009156   [E2, E4]
-E5        100      0.1009156   [E7]
-E6        11110    0.1009156   [E5, E1]
-E7        11100    0.0688575   [E8]
-E8        111100   0.0469834   [E5, E4]
-E9        1        0.0         [E10]
-E10       11       0.0         [E2, E9]
+<pre><code class="language-sh">element   string   abundance     decay
+E1        110      21.6756572    [E2, E1]
+E2        10       21.6756572    [E3]
+E3        1110     14.78990357   [E4]
+E4        11110    10.09156242   [E6, E1]
+E5        1100     10.09156242   [E2, E5]
+E6        100      10.09156242   [E7]
+E7        11100    6.88575362    [E8]
+E8        111100   4.69834115    [E6, E5]
+E9        11       0.0           [E2, E10]
+E10       1        0.0           [E9]
 lambda**4*(lambda - 1)**2*(lambda + 1)*(lambda**3 - lambda**2 - 1)
 1.4655712318767664
 </code></pre></div>
@@ -791,6 +829,7 @@ lambda**4*(lambda - 1)**2*(lambda + 1)*(lambda**3 - lambda**2 - 1)
     binary_ls = LookAndSay(binary_say)
     binary_chem = BinaryChemistry(binary_ls)
     binary_chem.generate_elements([&#39;1&#39;])
+    binary_chem.order_elements(&#39;abundance&#39;)
     binary_chem.print_periodic_table()
     print(binary_chem.get_char_poly())
     print(binary_chem.get_max_eigenvalue())
@@ -799,17 +838,17 @@ lambda**4*(lambda - 1)**2*(lambda + 1)*(lambda**3 - lambda**2 - 1)
     ### Output:
 
     ```sh
-    element   string   abundance   decay
-    E1        110      0.2167566   [E2, E1]
-    E2        10       0.2167566   [E3]
-    E3        1110     0.147899    [E6]
-    E4        1100     0.1009156   [E2, E4]
-    E5        100      0.1009156   [E7]
-    E6        11110    0.1009156   [E5, E1]
-    E7        11100    0.0688575   [E8]
-    E8        111100   0.0469834   [E5, E4]
-    E9        1        0.0         [E10]
-    E10       11       0.0         [E2, E9]
+    element   string   abundance     decay
+    E1        110      21.6756572    [E2, E1]
+    E2        10       21.6756572    [E3]
+    E3        1110     14.78990357   [E4]
+    E4        11110    10.09156242   [E6, E1]
+    E5        1100     10.09156242   [E2, E5]
+    E6        100      10.09156242   [E7]
+    E7        11100    6.88575362    [E8]
+    E8        111100   4.69834115    [E6, E5]
+    E9        11       0.0           [E2, E10]
+    E10       1        0.0           [E9]
     lambda**4*(lambda - 1)**2*(lambda + 1)*(lambda**3 - lambda**2 - 1)
     1.4655712318767664
     ```
@@ -934,7 +973,7 @@ Conway's original Splitting Theorem.</p></div>
         strings = [self.las.say_what_you_see(seed) for seed in seeds] #only look at 2-day-old strings
         self._generate_all_elements(strings)
         self._remove_extinct_elements()
-        self.order_elements()
+        self.order_elements(&#39;string&#39;)
         self._name_elements()
 
     def _name_elements(self):
@@ -985,11 +1024,11 @@ Conway's original Splitting Theorem.</p></div>
         else:
             return chi.as_expr()
 
-    def _get_abundances(self, dec_places = 7):
+    def _get_abundances(self, dec_places = 8):
         &#34;&#34;&#34;
         Returns a list of relative abundances of each element.
-        Note that the abundances are given in percentages, so they will
-        differ from Conway&#39;s abundances by a factor of \\(10^6\\). 
+        Note the abundances are given as percentages, 
+        so they will differ from Conway&#39;s abundances by a factor of \\(10^4\\).
         The order of the list corresponds to the order of the list of elements.
         &#34;&#34;&#34;
         eigenstuff = numpy.linalg.eig(numpy.array(self.get_decay_matrix()))
@@ -1000,10 +1039,10 @@ Conway's original Splitting Theorem.</p></div>
         # The next two lines are converting the numpy array to a list
         limiting_eigenvector = limiting_eigenvector_nparray.tolist()
         limiting_eigenvector = [elt[0][0] for elt in limiting_eigenvector]
-        abundance = [round(num / sum(limiting_eigenvector), dec_places) for num in limiting_eigenvector]
+        abundance = [round(100 * num / sum(limiting_eigenvector), dec_places) for num in limiting_eigenvector]
         return abundance
 
-    def periodic_table(self, dec_places = 7):
+    def periodic_table(self, dec_places = 8):
         &#34;&#34;&#34;
         Creates a periodic table including each element&#39;s name, string, relative abundance, and decay.
         Returns the periodic table as a nested dictionary.
@@ -1013,10 +1052,10 @@ Conway's original Splitting Theorem.</p></div>
                                 &#39;decay&#39; : e.get_decay()}
                                 for i, e in enumerate(self.get_elements())}
 
-    def print_periodic_table(self, dec_places = 7):
+    def print_periodic_table(self, dec_places = 8):
         &#34;&#34;&#34;
         Prints the periodic table. Note the abundances are given as percentages, 
-        so they will differ from Conway&#39;s abundances by a factor of \\(10^6\\).
+        so they will differ from Conway&#39;s abundances by a factor of \\(10^4\\).
         The parameter ``dec_places`` refers to the accuracy of the abundances.
         &#34;&#34;&#34;
         pt = self.periodic_table(dec_places)
@@ -1027,22 +1066,35 @@ Conway's original Splitting Theorem.</p></div>
         for elt, prop in pt.items():
             print(&#34;{:&lt;{elt_width}} {:&lt;{str_width}} {:&lt;{ab_width}} {}&#34;.format(elt, prop[&#39;string&#39;], prop[&#39;abundance&#39;], str(prop[&#39;decay&#39;]), elt_width=elt_width, str_width=str_width, ab_width=ab_width))
 
-    def order_elements(self, order_on = &#39;abundance&#39;, reverse = True):
+    def order_elements(self, order_on, key = None, reverse = False, rename = True):
         &#34;&#34;&#34;
-        Reorders the list of elements depending on the parameter ``order_on``.
-        Valid parameter are &#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, and &#39;string length&#39;
+        Reorders the list of elements depending on the parameter ``order_on`` as follows:
+
+        * ``order_on=&#39;abundance&#39;``: Orders elements from highest abundance to lowest.
+        * ``order_on=&#39;string&#39;``: Orders elements according to the lexicographic order of their strings.
+        * ``order_on=&#39;string length&#39;``: Orders elements according to the lengths of their strings from shortest to longest.
+        * ``order_on=&#39;name&#39;``: Orders elements alphabetically according to their names.
+        * ``order_on=&#39;key&#39;``: Orders elements according to the function specified by the parameter ``key``.
+
+        Note: By default this method will automatically rename the elements according to their new order.
+        This will not happen if the elements are named via Conway or if the parameter ``rename = False`` is passed.
         &#34;&#34;&#34;
-        assert order_on in [&#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, &#39;string length&#39;], &#34;Invalid parameter passed to order_elements. Valid parameter are &#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, and &#39;string length&#39;.&#34;
+        assert order_on in [&#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, &#39;string length&#39;, &#39;key&#39;], &#34;Invalid parameter passed to order_elements. Valid parameter are &#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, &#39;string length&#39;, and &#39;key&#39;.&#34;
         pt = self.periodic_table()
         sorted_key = {
-            &#39;abundance&#39;: lambda e : pt[e.get_string()][&#39;abundance&#39;],
-            &#39;name&#39;: lambda e : pt[e.get_string()][&#39;name&#39;],
+            &#39;abundance&#39;: lambda e : pt[e.get_name()][&#39;abundance&#39;],
+            &#39;name&#39;: lambda e : pt[e.get_name()][&#39;name&#39;],
             &#39;string&#39;: lambda e : e.get_string(),
-            &#39;string length&#39;: lambda e : len(e.get_string())
+            &#39;string length&#39;: lambda e : len(e.get_string()),
+            &#39;key&#39;: key
         }
         self.elements = sorted(self.get_elements(), key = sorted_key[order_on])
+        if order_on == &#39;abundance&#39;:
+            self.elements.reverse()
         if reverse:
-            self.elements.reverse()</code></pre>
+            self.elements.reverse()
+        if not self.las._is_Conway and rename:
+            self._name_elements()</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
@@ -1093,7 +1145,7 @@ to keep the old elements.</p></div>
     strings = [self.las.say_what_you_see(seed) for seed in seeds] #only look at 2-day-old strings
     self._generate_all_elements(strings)
     self._remove_extinct_elements()
-    self.order_elements()
+    self.order_elements(&#39;string&#39;)
     self._name_elements()</code></pre>
 </details>
 </dd>
@@ -1189,35 +1241,56 @@ This assumption is usually guaranteed by the Perron-Frobenius Theorem.</p></div>
 </details>
 </dd>
 <dt id="look_and_say.Chemistry.order_elements"><code class="name flex">
-<span>def <span class="ident">order_elements</span></span>(<span>self, order_on='abundance', reverse=True)</span>
+<span>def <span class="ident">order_elements</span></span>(<span>self, order_on, key=None, reverse=False, rename=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Reorders the list of elements depending on the parameter <code>order_on</code>.
-Valid parameter are 'abundance', 'name', 'string', and 'string length'</p></div>
+<div class="desc"><p>Reorders the list of elements depending on the parameter <code>order_on</code> as follows:</p>
+<ul>
+<li><code>order_on='abundance'</code>: Orders elements from highest abundance to lowest.</li>
+<li><code>order_on='string'</code>: Orders elements according to the lexicographic order of their strings.</li>
+<li><code>order_on='string length'</code>: Orders elements according to the lengths of their strings from shortest to longest.</li>
+<li><code>order_on='name'</code>: Orders elements alphabetically according to their names.</li>
+<li><code>order_on='key'</code>: Orders elements according to the function specified by the parameter <code>key</code>.</li>
+</ul>
+<p>Note: By default this method will automatically rename the elements according to their new order.
+This will not happen if the elements are named via Conway or if the parameter <code>rename = False</code> is passed.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def order_elements(self, order_on = &#39;abundance&#39;, reverse = True):
+<pre><code class="python">def order_elements(self, order_on, key = None, reverse = False, rename = True):
     &#34;&#34;&#34;
-    Reorders the list of elements depending on the parameter ``order_on``.
-    Valid parameter are &#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, and &#39;string length&#39;
+    Reorders the list of elements depending on the parameter ``order_on`` as follows:
+
+    * ``order_on=&#39;abundance&#39;``: Orders elements from highest abundance to lowest.
+    * ``order_on=&#39;string&#39;``: Orders elements according to the lexicographic order of their strings.
+    * ``order_on=&#39;string length&#39;``: Orders elements according to the lengths of their strings from shortest to longest.
+    * ``order_on=&#39;name&#39;``: Orders elements alphabetically according to their names.
+    * ``order_on=&#39;key&#39;``: Orders elements according to the function specified by the parameter ``key``.
+
+    Note: By default this method will automatically rename the elements according to their new order.
+    This will not happen if the elements are named via Conway or if the parameter ``rename = False`` is passed.
     &#34;&#34;&#34;
-    assert order_on in [&#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, &#39;string length&#39;], &#34;Invalid parameter passed to order_elements. Valid parameter are &#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, and &#39;string length&#39;.&#34;
+    assert order_on in [&#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, &#39;string length&#39;, &#39;key&#39;], &#34;Invalid parameter passed to order_elements. Valid parameter are &#39;abundance&#39;, &#39;name&#39;, &#39;string&#39;, &#39;string length&#39;, and &#39;key&#39;.&#34;
     pt = self.periodic_table()
     sorted_key = {
-        &#39;abundance&#39;: lambda e : pt[e.get_string()][&#39;abundance&#39;],
-        &#39;name&#39;: lambda e : pt[e.get_string()][&#39;name&#39;],
+        &#39;abundance&#39;: lambda e : pt[e.get_name()][&#39;abundance&#39;],
+        &#39;name&#39;: lambda e : pt[e.get_name()][&#39;name&#39;],
         &#39;string&#39;: lambda e : e.get_string(),
-        &#39;string length&#39;: lambda e : len(e.get_string())
+        &#39;string length&#39;: lambda e : len(e.get_string()),
+        &#39;key&#39;: key
     }
     self.elements = sorted(self.get_elements(), key = sorted_key[order_on])
+    if order_on == &#39;abundance&#39;:
+        self.elements.reverse()
     if reverse:
-        self.elements.reverse()</code></pre>
+        self.elements.reverse()
+    if not self.las._is_Conway and rename:
+        self._name_elements()</code></pre>
 </details>
 </dd>
 <dt id="look_and_say.Chemistry.periodic_table"><code class="name flex">
-<span>def <span class="ident">periodic_table</span></span>(<span>self, dec_places=7)</span>
+<span>def <span class="ident">periodic_table</span></span>(<span>self, dec_places=8)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a periodic table including each element's name, string, relative abundance, and decay.
@@ -1226,7 +1299,7 @@ Returns the periodic table as a nested dictionary.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def periodic_table(self, dec_places = 7):
+<pre><code class="python">def periodic_table(self, dec_places = 8):
     &#34;&#34;&#34;
     Creates a periodic table including each element&#39;s name, string, relative abundance, and decay.
     Returns the periodic table as a nested dictionary.
@@ -1238,20 +1311,20 @@ Returns the periodic table as a nested dictionary.</p></div>
 </details>
 </dd>
 <dt id="look_and_say.Chemistry.print_periodic_table"><code class="name flex">
-<span>def <span class="ident">print_periodic_table</span></span>(<span>self, dec_places=7)</span>
+<span>def <span class="ident">print_periodic_table</span></span>(<span>self, dec_places=8)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Prints the periodic table. Note the abundances are given as percentages,
-so they will differ from Conway's abundances by a factor of <span><span class="MathJax_Preview">10^6</span><script type="math/tex">10^6</script></span>.
+so they will differ from Conway's abundances by a factor of <span><span class="MathJax_Preview">10^4</span><script type="math/tex">10^4</script></span>.
 The parameter <code>dec_places</code> refers to the accuracy of the abundances.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def print_periodic_table(self, dec_places = 7):
+<pre><code class="python">def print_periodic_table(self, dec_places = 8):
     &#34;&#34;&#34;
     Prints the periodic table. Note the abundances are given as percentages, 
-    so they will differ from Conway&#39;s abundances by a factor of \\(10^6\\).
+    so they will differ from Conway&#39;s abundances by a factor of \\(10^4\\).
     The parameter ``dec_places`` refers to the accuracy of the abundances.
     &#34;&#34;&#34;
     pt = self.periodic_table(dec_places)
@@ -1979,6 +2052,7 @@ such that LR always splits as L.R</p></div>
 <ul id="index">
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="look_and_say.binary_say" href="#look_and_say.binary_say">binary_say</a></code></li>
 <li><code><a title="look_and_say.split_Conway" href="#look_and_say.split_Conway">split_Conway</a></code></li>
 </ul>
 </li>
