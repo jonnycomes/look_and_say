@@ -288,6 +288,228 @@ class Chemistry():
     LookAndSay object. The default splitting function corresponds to 
     Conway's original Splitting Theorem.
 
+    ## Example Session: Conway's constant and his 92 Common Elements
+
+    ```python
+    ls = LookAndSay()
+    chem = Chemistry(ls)
+    chem.generate_elements('1')
+    chem.print_periodic_table() 
+
+    print(chem.get_char_poly())
+    print(chem.get_max_eigenvalue())   
+    ```
+    ### Output:
+
+    ```sh
+    element   string                                       abundance   decay
+    H         22                                           9.1790383   [H]
+    He        13112221133211322112211213322112             0.3237297   [Hf, Pa, H, Ca, Li]
+    Li        312211322212221121123222112                  0.4220067   [He]
+    Be        111312211312113221133211322112211213322112   0.2263886   [Ge, Ca, Li]
+    B         1321132122211322212221121123222112           0.295115    [Be]
+    C         3113112211322112211213322112                 0.3847053   [B]
+    N         111312212221121123222112                     0.501493    [C]
+    O         132112211213322112                           0.6537349   [N]
+    F         31121123222112                               0.852194    [O]
+    Ne        111213322112                                 1.1109007   [F]
+    Na        123222112                                    1.4481449   [Ne]
+    Mg        3113322112                                   1.8850441   [Pm, Na]
+    Al        1113222112                                   2.4573007   [Mg]
+    Si        1322112                                      3.2032813   [Al]
+    P         311311222112                                 1.4895887   [Ho, Si]
+    S         1113122112                                   1.9417939   [P]
+    Cl        132112                                       2.5312784   [S]
+    Ar        3112                                         3.299717    [Cl]
+    K         1112                                         4.3014361   [Ar]
+    Ca        12                                           5.6072543   [K]
+    Sc        3113112221133112                             0.9302097   [Ho, Pa, H, Ca, Co]
+    Ti        11131221131112                               1.2126003   [Sc]
+    V         13211312                                     1.5807182   [Ti]
+    Cr        31132                                        2.0605883   [V]
+    Mn        111311222112                                 2.686136    [Cr, Si]
+    Fe        13122112                                     3.5015859   [Mn]
+    Co        32112                                        4.5645877   [Fe]
+    Ni        11133112                                     1.3871124   [Zn, Co]
+    Cu        131112                                       1.8082082   [Ni]
+    Zn        312                                          2.3571391   [Cu]
+    Ga        13221133122211332                            0.1447891   [Eu, Ca, Ac, H, Ca, Zn]
+    Ge        31131122211311122113222                      0.1887437   [Ho, Ga]
+    As        11131221131211322113322112                   0.0027246   [Ge, Na]
+    Se        13211321222113222112                         0.0035518   [As]
+    Br        3113112211322112                             0.00463     [Se]
+    Kr        11131221222112                               0.0060355   [Br]
+    Rb        1321122112                                   0.0078678   [Kr]
+    Sr        3112112                                      0.0102563   [Rb]
+    Y         1112133                                      0.0133699   [Sr, U]
+    Zr        12322211331222113112211                      0.0174286   [Y, H, Ca, Tc]
+    Nb        1113122113322113111221131221                 0.0227196   [Er, Zr]
+    Mo        13211322211312113211                         0.0296167   [Nb]
+    Tc        311322113212221                              0.0386077   [Mo]
+    Ru        132211331222113112211                        0.0328995   [Eu, Ca, Tc]
+    Rh        311311222113111221131221                     0.042887    [Ho, Ru]
+    Pd        111312211312113211                           0.0559065   [Rh]
+    Ag        132113212221                                 0.0728785   [Pd]
+    Cd        3113112211                                   0.0950027   [Ag]
+    In        11131221                                     0.1238434   [Cd]
+    Sn        13211                                        0.1614395   [In]
+    Sb        3112221                                      0.2104488   [Pm, Sn]
+    Te        1322113312211                                0.2743363   [Eu, Ca, Sb]
+    I         311311222113111221                           0.3576186   [Ho, Te]
+    Xe        11131221131211                               0.4661834   [I]
+    Cs        13211321                                     0.6077061   [Xe]
+    Ba        311311                                       0.7921919   [Cs]
+    La        11131                                        1.0326833   [Ba]
+    Ce        1321133112                                   1.3461825   [La, H, Ca, Co]
+    Pr        31131112                                     1.7548529   [Ce]
+    Nd        111312                                       2.2875864   [Pr]
+    Pm        132                                          2.9820456   [Nd]
+    Sm        311332                                       1.5408115   [Pm, Ca, Zn]
+    Eu        1113222                                      2.0085669   [Sm]
+    Gd        13221133112                                  2.1662973   [Eu, Ca, Co]
+    Tb        3113112221131112                             2.8239359   [Ho, Gd]
+    Dy        111312211312                                 3.6812186   [Tb]
+    Ho        1321132                                      4.7987529   [Dy]
+    Er        311311222                                    0.1098596   [Ho, Pm]
+    Tm        11131221133112                               0.1204908   [Er, Ca, Co]
+    Yb        1321131112                                   0.1570691   [Tm]
+    Lu        311312                                       0.2047517   [Yb]
+    Hf        11132                                        0.2669097   [Lu]
+    Ta        13112221133211322112211213322113             0.0242077   [Hf, Pa, H, Ca, W]
+    W         312211322212221121123222113                  0.0315567   [Ta]
+    Re        111312211312113221133211322112211213322113   0.0169288   [Ge, Ca, W]
+    Os        1321132122211322212221121123222113           0.022068    [Re]
+    Ir        3113112211322112211213322113                 0.0287673   [Os]
+    Pt        111312212221121123222113                     0.0375005   [Ir]
+    Au        132112211213322113                           0.0488847   [Pt]
+    Hg        31121123222113                               0.063725    [Au]
+    Tl        111213322113                                 0.0830705   [Hg]
+    Pb        123222113                                    0.1082888   [Tl]
+    Bi        3113322113                                   0.1411629   [Pm, Pb]
+    Po        1113222113                                   0.1840167   [Bi]
+    At        1322113                                      0.23988     [Po]
+    Rn        311311222113                                 0.3127021   [Ho, At]
+    Fr        1113122113                                   0.4076313   [Rn]
+    Ra        132113                                       0.5313789   [Fr]
+    Ac        3113                                         0.6926935   [Ra]
+    Th        1113                                         0.7581905   [Ac]
+    Pa        13                                           0.9883599   [Th]
+    U         3                                            0.0102563   [Pa]
+    lambda**18*(lambda - 1)**2*(lambda + 1)*(lambda**71 - lambda**69 - 2*lambda**68 - lambda**67 + 2*lambda**66 + 2*lambda**65 + lambda**64 - lambda**63 - lambda**62 - lambda**61 - lambda**60 - lambda**59 + 2*lambda**58 + 5*lambda**57 + 3*lambda**56 - 2*lambda**55 - 10*lambda**54 - 3*lambda**53 - 2*lambda**52 + 6*lambda**51 + 6*lambda**50 + lambda**49 + 9*lambda**48 - 3*lambda**47 - 7*lambda**46 - 8*lambda**45 - 8*lambda**44 + 10*lambda**43 + 6*lambda**42 + 8*lambda**41 - 5*lambda**40 - 12*lambda**39 + 7*lambda**38 - 7*lambda**37 + 7*lambda**36 + lambda**35 - 3*lambda**34 + 10*lambda**33 + lambda**32 - 6*lambda**31 - 2*lambda**30 - 10*lambda**29 - 3*lambda**28 + 2*lambda**27 + 9*lambda**26 - 3*lambda**25 + 14*lambda**24 - 8*lambda**23 - 7*lambda**21 + 9*lambda**20 + 3*lambda**19 - 4*lambda**18 - 10*lambda**17 - 7*lambda**16 + 12*lambda**15 + 7*lambda**14 + 2*lambda**13 - 12*lambda**12 - 4*lambda**11 - 2*lambda**10 + 5*lambda**9 + lambda**7 - 7*lambda**6 + 7*lambda**5 - 4*lambda**4 + 12*lambda**3 - 6*lambda**2 + 3*lambda - 6)
+    1.3035772690342997
+    ```
+
+    ## Example Session: Conway's Chemistry with Transuranic Elements
+
+    ```python
+    ls = LookAndSay()
+    chem = Chemistry(ls)
+    chem.generate_elements('11111', '78')
+    chem.print_periodic_table() 
+    ```
+
+    ### Output:
+    ```sh
+    element   string                                       abundance   decay
+    H         22                                           9.1790383   [H]
+    He        13112221133211322112211213322112             0.3237297   [Hf, Pa, H, Ca, Li]
+    Li        312211322212221121123222112                  0.4220067   [He]
+    Be        111312211312113221133211322112211213322112   0.2263886   [Ge, Ca, Li]
+    B         1321132122211322212221121123222112           0.295115    [Be]
+    C         3113112211322112211213322112                 0.3847053   [B]
+    N         111312212221121123222112                     0.501493    [C]
+    O         132112211213322112                           0.6537349   [N]
+    F         31121123222112                               0.852194    [O]
+    Ne        111213322112                                 1.1109007   [F]
+    Na        123222112                                    1.4481449   [Ne]
+    Mg        3113322112                                   1.8850441   [Pm, Na]
+    Al        1113222112                                   2.4573007   [Mg]
+    Si        1322112                                      3.2032813   [Al]
+    P         311311222112                                 1.4895887   [Ho, Si]
+    S         1113122112                                   1.9417939   [P]
+    Cl        132112                                       2.5312784   [S]
+    Ar        3112                                         3.299717    [Cl]
+    K         1112                                         4.3014361   [Ar]
+    Ca        12                                           5.6072543   [K]
+    Sc        3113112221133112                             0.9302097   [Ho, Pa, H, Ca, Co]
+    Ti        11131221131112                               1.2126003   [Sc]
+    V         13211312                                     1.5807182   [Ti]
+    Cr        31132                                        2.0605883   [V]
+    Mn        111311222112                                 2.686136    [Cr, Si]
+    Fe        13122112                                     3.5015859   [Mn]
+    Co        32112                                        4.5645877   [Fe]
+    Ni        11133112                                     1.3871124   [Zn, Co]
+    Cu        131112                                       1.8082082   [Ni]
+    Zn        312                                          2.3571391   [Cu]
+    Ga        13221133122211332                            0.1447891   [Eu, Ca, Ac, H, Ca, Zn]
+    Ge        31131122211311122113222                      0.1887437   [Ho, Ga]
+    As        11131221131211322113322112                   0.0027246   [Ge, Na]
+    Se        13211321222113222112                         0.0035518   [As]
+    Br        3113112211322112                             0.00463     [Se]
+    Kr        11131221222112                               0.0060355   [Br]
+    Rb        1321122112                                   0.0078678   [Kr]
+    Sr        3112112                                      0.0102563   [Rb]
+    Y         1112133                                      0.0133699   [Sr, U]
+    Zr        12322211331222113112211                      0.0174286   [Y, H, Ca, Tc]
+    Nb        1113122113322113111221131221                 0.0227196   [Er, Zr]
+    Mo        13211322211312113211                         0.0296167   [Nb]
+    Tc        311322113212221                              0.0386077   [Mo]
+    Ru        132211331222113112211                        0.0328995   [Eu, Ca, Tc]
+    Rh        311311222113111221131221                     0.042887    [Ho, Ru]
+    Pd        111312211312113211                           0.0559065   [Rh]
+    Ag        132113212221                                 0.0728785   [Pd]
+    Cd        3113112211                                   0.0950027   [Ag]
+    In        11131221                                     0.1238434   [Cd]
+    Sn        13211                                        0.1614395   [In]
+    Sb        3112221                                      0.2104488   [Pm, Sn]
+    Te        1322113312211                                0.2743363   [Eu, Ca, Sb]
+    I         311311222113111221                           0.3576186   [Ho, Te]
+    Xe        11131221131211                               0.4661834   [I]
+    Cs        13211321                                     0.6077061   [Xe]
+    Ba        311311                                       0.7921919   [Cs]
+    La        11131                                        1.0326833   [Ba]
+    Ce        1321133112                                   1.3461825   [La, H, Ca, Co]
+    Pr        31131112                                     1.7548529   [Ce]
+    Nd        111312                                       2.2875864   [Pr]
+    Pm        132                                          2.9820456   [Nd]
+    Sm        311332                                       1.5408115   [Pm, Ca, Zn]
+    Eu        1113222                                      2.0085669   [Sm]
+    Gd        13221133112                                  2.1662973   [Eu, Ca, Co]
+    Tb        3113112221131112                             2.8239359   [Ho, Gd]
+    Dy        111312211312                                 3.6812186   [Tb]
+    Ho        1321132                                      4.7987529   [Dy]
+    Er        311311222                                    0.1098596   [Ho, Pm]
+    Tm        11131221133112                               0.1204908   [Er, Ca, Co]
+    Yb        1321131112                                   0.1570691   [Tm]
+    Lu        311312                                       0.2047517   [Yb]
+    Hf        11132                                        0.2669097   [Lu]
+    Ta        13112221133211322112211213322113             0.0242077   [Hf, Pa, H, Ca, W]
+    W         312211322212221121123222113                  0.0315567   [Ta]
+    Re        111312211312113221133211322112211213322113   0.0169288   [Ge, Ca, W]
+    Os        1321132122211322212221121123222113           0.022068    [Re]
+    Ir        3113112211322112211213322113                 0.0287673   [Os]
+    Pt        111312212221121123222113                     0.0375005   [Ir]
+    Au        132112211213322113                           0.0488847   [Pt]
+    Hg        31121123222113                               0.063725    [Au]
+    Tl        111213322113                                 0.0830705   [Hg]
+    Pb        123222113                                    0.1082888   [Tl]
+    Bi        3113322113                                   0.1411629   [Pm, Pb]
+    Po        1113222113                                   0.1840167   [Bi]
+    At        1322113                                      0.23988     [Po]
+    Rn        311311222113                                 0.3127021   [Ho, At]
+    Fr        1113122113                                   0.4076313   [Rn]
+    Ra        132113                                       0.5313789   [Fr]
+    Ac        3113                                         0.6926935   [Ra]
+    Th        1113                                         0.7581905   [Ac]
+    Pa        13                                           0.9883599   [Th]
+    U         3                                            0.0102563   [Pa]
+    Pu5       312211322212221121123222115                  0.0         [Np5]
+    Pu7       312211322212221121123222117                  0.0         [Np7]
+    Pu8       312211322212221121123222118                  0.0         [Np8]
+    Np5       13112221133211322112211213322115             0.0         [Hf, Pa, H, Ca, Pu5]
+    Np7       13112221133211322112211213322117             0.0         [Hf, Pa, H, Ca, Pu7]
+    Np8       13112221133211322112211213322118             0.0         [Hf, Pa, H, Ca, Pu8]
+    ```
     """
     def __init__(self, las, split = split_Conway, elements = None):
         super(Chemistry, self).__init__()
@@ -337,16 +559,15 @@ class Chemistry():
             else: 
                 break
 
-    def generate_elements(self, seeds, reset = True):
+    def generate_elements(self, *seeds, reset = True):
         """
         Collects all the persistent elements from all the look and
-        say sequences generated by the given seeds. The parameter ``seeds``
-        should be a nonempty list of strings. By default, this method will 
-        clear any elements in the chemistry that exist before this method is called
-        prior to collecting from the given seeds. Use ``reset = False`` 
-        to keep the old elements. 
+        say sequences generated by the given seeds. The string(s) entered as the 
+        parameter(s) will be used as the seed(s) for generating the elements. 
+        By default, this method will clear any elements in the chemistry that exist 
+        before this method is called (i.e. prior to collecting from the new seeds). 
+        Use ``reset = False``  to keep the old elements. 
         """
-        assert type(seeds) == type(['0']), "The parameter seeds in generate_elements should be a list of strings."
         if reset:
             self.clear_elements()
         strings = [self.las.say_what_you_see(seed) for seed in seeds] #only look at 2-day-old strings
@@ -383,6 +604,8 @@ class Chemistry():
     def get_max_eigenvalue(self):
         """
         Returns the maximal real eigenvalue of the decay matrix.
+        In the standard case, this will give Conway's constant. 
+        In general, this will give the growth rate of the look and say sequence. 
         This method assumes the existence of a real eigenvalue which
         is larger than (the absolute value) of every other eigenvalue.
         This assumption is usually guaranteed by the Perron-Frobenius Theorem.
@@ -403,7 +626,7 @@ class Chemistry():
         else:
             return chi.as_expr()
 
-    def _get_abundances(self, dec_places = 8):
+    def _get_abundances(self, dec_places = 7):
         """
         Returns a list of relative abundances of each element.
         Note the abundances are given as percentages, 
@@ -421,7 +644,7 @@ class Chemistry():
         abundance = [round(100 * num / sum(limiting_eigenvector), dec_places) for num in limiting_eigenvector]
         return abundance
 
-    def periodic_table(self, dec_places = 8):
+    def periodic_table(self, dec_places = 7):
         """
         Creates a periodic table including each element's name, string, relative abundance, and decay.
         Returns the periodic table as a nested dictionary.
@@ -431,7 +654,7 @@ class Chemistry():
                                 'decay' : e.get_decay()}
                                 for i, e in enumerate(self.get_elements())}
 
-    def print_periodic_table(self, dec_places = 8):
+    def print_periodic_table(self, dec_places = 7):
         """
         Prints the periodic table. Note the abundances are given as percentages, 
         so they will differ from Conway's abundances by a factor of \\(10^4\\).
@@ -485,6 +708,7 @@ class BinaryChemistry(Chemistry):
     valid for standard base two binary look and say sequences. 
 
     ## Example Session: Standard Binary
+
     ```python
     def binary_say(num):
         return "{0:b}".format(num)
@@ -494,32 +718,33 @@ class BinaryChemistry(Chemistry):
     binary_chem.generate_elements(['1'])
     binary_chem.order_elements('abundance')
     binary_chem.print_periodic_table()
+
     print(binary_chem.get_char_poly())
     print(binary_chem.get_max_eigenvalue())
     ```
-
-    ### Output:
-
+    
+    Output:
     ```sh
-    element   string   abundance     decay
-    E1        110      21.6756572    [E2, E1]
-    E2        10       21.6756572    [E3]
-    E3        1110     14.78990357   [E4]
-    E4        11110    10.09156242   [E6, E1]
-    E5        1100     10.09156242   [E2, E5]
-    E6        100      10.09156242   [E7]
-    E7        11100    6.88575362    [E8]
-    E8        111100   4.69834115    [E6, E5]
-    E9        11       0.0           [E2, E10]
-    E10       1        0.0           [E9]
+    element   string   abundance    decay
+    E1        110      21.6756572   [E2, E1]
+    E2        10       21.6756572   [E3]
+    E3        1110     14.7899036   [E4]
+    E4        11110    10.0915624   [E6, E1]
+    E5        1100     10.0915624   [E2, E5]
+    E6        100      10.0915624   [E7]
+    E7        11100    6.8857536    [E8]
+    E8        111100   4.6983411    [E6, E5]
+    E9        11       0.0          [E2, E10]
+    E10       1        0.0          [E9]
     lambda**4*(lambda - 1)**2*(lambda + 1)*(lambda**3 - lambda**2 - 1)
     1.4655712318767664
     ```
+
     """
     def __init__(self, las, elements = None):
-        sf = SplitFuncFactory()
-        sf.declare_split_after('0')
-        binary_split = sf.get_split()
+        sff = SplitFuncFactory()
+        sff.declare_split_before('1')
+        binary_split = sff.get_split()
         super().__init__(las, binary_split, elements)
 
 ########### ELEMENT #######################
@@ -638,14 +863,8 @@ class SplitFuncFactory():
         for chunk in chunks:
             self._chunks_after_split.append(chunk)
 
-    # def add_splitting_condition(self, *args):
-    #     """
-    #     Specify functions ``is_split`` such that 
-    #     ``is_split(L,R)`` returns True for some splittable pairs 
-    #     (L,R). 
-    #     """
-    #     for arg in args:
-    #         self._split_conditions.append(arg)
 
-
-    
+# ls = LookAndSay()
+# chem = Chemistry(ls)
+# chem.generate_elements('555', '78')
+# chem.print_periodic_table()
