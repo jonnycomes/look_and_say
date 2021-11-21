@@ -609,7 +609,7 @@ class SplitFuncFactory():
 
     * Specifying specific strings L and R such that LR splits as L.R.
     * Specifying specific characters or strings to always split before or after.
-    
+
     &#34;&#34;&#34;
     def __init__(self):
         self._splitting_pairs = []
@@ -650,23 +650,23 @@ class SplitFuncFactory():
                 return True
         return False
 
-    def declare_splitting_pairs(self, *args):
+    def declare_splitting_pairs(self, *pairs):
         &#34;&#34;&#34;
         Specify pairs of chunks in the form (L, R) 
         such that LR always splits as L.R
         &#34;&#34;&#34;
-        for arg in args:
-            self._splitting_pairs.append(arg)
+        for pair in pairs:
+            self._splitting_pairs.append(pair)
 
-    def declare_split_after(self, *args):
+    def declare_split_after(self, *chunks):
         &#34;&#34;&#34;Specify chunks L such that LR splits for every possible R&#34;&#34;&#34;
-        for arg in args:
-            self._chunks_before_split.append(arg)
+        for chunk in chunks:
+            self._chunks_before_split.append(chunk)
 
-    def declare_split_before(self, *args):
+    def declare_split_before(self, *chunks):
         &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L&#34;&#34;&#34;
-        for arg in args:
-            self._chunks_after_split.append(arg)
+        for chunk in chunks:
+            self._chunks_after_split.append(chunk)
 
     # def add_splitting_condition(self, *args):
     #     &#34;&#34;&#34;
@@ -1852,7 +1852,7 @@ can produce a split function via any combination of the following:</p>
 
     * Specifying specific strings L and R such that LR splits as L.R.
     * Specifying specific characters or strings to always split before or after.
-    
+
     &#34;&#34;&#34;
     def __init__(self):
         self._splitting_pairs = []
@@ -1893,28 +1893,28 @@ can produce a split function via any combination of the following:</p>
                 return True
         return False
 
-    def declare_splitting_pairs(self, *args):
+    def declare_splitting_pairs(self, *pairs):
         &#34;&#34;&#34;
         Specify pairs of chunks in the form (L, R) 
         such that LR always splits as L.R
         &#34;&#34;&#34;
-        for arg in args:
-            self._splitting_pairs.append(arg)
+        for pair in pairs:
+            self._splitting_pairs.append(pair)
 
-    def declare_split_after(self, *args):
+    def declare_split_after(self, *chunks):
         &#34;&#34;&#34;Specify chunks L such that LR splits for every possible R&#34;&#34;&#34;
-        for arg in args:
-            self._chunks_before_split.append(arg)
+        for chunk in chunks:
+            self._chunks_before_split.append(chunk)
 
-    def declare_split_before(self, *args):
+    def declare_split_before(self, *chunks):
         &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L&#34;&#34;&#34;
-        for arg in args:
-            self._chunks_after_split.append(arg)</code></pre>
+        for chunk in chunks:
+            self._chunks_after_split.append(chunk)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
 <dt id="look_and_say.SplitFuncFactory.declare_split_after"><code class="name flex">
-<span>def <span class="ident">declare_split_after</span></span>(<span>self, *args)</span>
+<span>def <span class="ident">declare_split_after</span></span>(<span>self, *chunks)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Specify chunks L such that LR splits for every possible R</p></div>
@@ -1922,14 +1922,14 @@ can produce a split function via any combination of the following:</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def declare_split_after(self, *args):
+<pre><code class="python">def declare_split_after(self, *chunks):
     &#34;&#34;&#34;Specify chunks L such that LR splits for every possible R&#34;&#34;&#34;
-    for arg in args:
-        self._chunks_before_split.append(arg)</code></pre>
+    for chunk in chunks:
+        self._chunks_before_split.append(chunk)</code></pre>
 </details>
 </dd>
 <dt id="look_and_say.SplitFuncFactory.declare_split_before"><code class="name flex">
-<span>def <span class="ident">declare_split_before</span></span>(<span>self, *args)</span>
+<span>def <span class="ident">declare_split_before</span></span>(<span>self, *chunks)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Specify chunks R such that LR splits for every possible L</p></div>
@@ -1937,14 +1937,14 @@ can produce a split function via any combination of the following:</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def declare_split_before(self, *args):
+<pre><code class="python">def declare_split_before(self, *chunks):
     &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L&#34;&#34;&#34;
-    for arg in args:
-        self._chunks_after_split.append(arg)</code></pre>
+    for chunk in chunks:
+        self._chunks_after_split.append(chunk)</code></pre>
 </details>
 </dd>
 <dt id="look_and_say.SplitFuncFactory.declare_splitting_pairs"><code class="name flex">
-<span>def <span class="ident">declare_splitting_pairs</span></span>(<span>self, *args)</span>
+<span>def <span class="ident">declare_splitting_pairs</span></span>(<span>self, *pairs)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Specify pairs of chunks in the form (L, R)
@@ -1953,13 +1953,13 @@ such that LR always splits as L.R</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def declare_splitting_pairs(self, *args):
+<pre><code class="python">def declare_splitting_pairs(self, *pairs):
     &#34;&#34;&#34;
     Specify pairs of chunks in the form (L, R) 
     such that LR always splits as L.R
     &#34;&#34;&#34;
-    for arg in args:
-        self._splitting_pairs.append(arg)</code></pre>
+    for pair in pairs:
+        self._splitting_pairs.append(pair)</code></pre>
 </details>
 </dd>
 <dt id="look_and_say.SplitFuncFactory.get_split"><code class="name flex">

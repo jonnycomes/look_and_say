@@ -579,7 +579,7 @@ class SplitFuncFactory():
 
     * Specifying specific strings L and R such that LR splits as L.R.
     * Specifying specific characters or strings to always split before or after.
-    
+
     """
     def __init__(self):
         self._splitting_pairs = []
@@ -620,23 +620,23 @@ class SplitFuncFactory():
                 return True
         return False
 
-    def declare_splitting_pairs(self, *args):
+    def declare_splitting_pairs(self, *pairs):
         """
         Specify pairs of chunks in the form (L, R) 
         such that LR always splits as L.R
         """
-        for arg in args:
-            self._splitting_pairs.append(arg)
+        for pair in pairs:
+            self._splitting_pairs.append(pair)
 
-    def declare_split_after(self, *args):
+    def declare_split_after(self, *chunks):
         """Specify chunks L such that LR splits for every possible R"""
-        for arg in args:
-            self._chunks_before_split.append(arg)
+        for chunk in chunks:
+            self._chunks_before_split.append(chunk)
 
-    def declare_split_before(self, *args):
+    def declare_split_before(self, *chunks):
         """Specify chunks R such that LR splits for every possible L"""
-        for arg in args:
-            self._chunks_after_split.append(arg)
+        for chunk in chunks:
+            self._chunks_after_split.append(chunk)
 
     # def add_splitting_condition(self, *args):
     #     """
