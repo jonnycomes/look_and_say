@@ -547,8 +547,8 @@ class BinaryChemistry(Chemistry):
     ```
     &#34;&#34;&#34;
     def __init__(self, las, elements = None):
-        sf = SplittingFactory()
-        sf.split_after(&#39;0&#39;)
+        sf = SplitFuncFactory()
+        sf.declare_split_after(&#39;0&#39;)
         binary_split = sf.get_split()
         super().__init__(las, binary_split, elements)
 
@@ -600,16 +600,16 @@ class Element():
     def get_string(self):
         return self.string
 
-########### SPLITTING FACTORY #####################
+########### SPLIT FUNCTION FACTORY #####################
 
-class SplittingFactory():
+class SplitFuncFactory():
     &#34;&#34;&#34;
-    A class to help create a split function. The splitting factory
+    A class to help create a split function. The split function factory
     can produce a split function via any combination of the following:
 
     * Specifying specific strings L and R such that LR splits as L.R.
     * Specifying specific characters or strings to always split before or after.
-    * Specifying some conditions on L and R that imply LR splits as L.R.
+    
     &#34;&#34;&#34;
     def __init__(self):
         self._splitting_pairs = []
@@ -658,46 +658,27 @@ class SplittingFactory():
         for arg in args:
             self._splitting_pairs.append(arg)
 
-    def split_after(self, *args):
+    def declare_split_after(self, *args):
         &#34;&#34;&#34;Specify chunks L such that LR splits for every possible R&#34;&#34;&#34;
         for arg in args:
             self._chunks_before_split.append(arg)
 
-    def split_before(self, *args):
+    def declare_split_before(self, *args):
         &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L&#34;&#34;&#34;
         for arg in args:
             self._chunks_after_split.append(arg)
 
-    def add_splitting_condition(self, *args):
-        &#34;&#34;&#34;
-        Specify functions ``is_split`` such that 
-        ``is_split(L,R)`` returns True for some splittable pairs 
-        (L,R). 
-        &#34;&#34;&#34;
-        for arg in args:
-            self._split_conditions.append(arg)
+    # def add_splitting_condition(self, *args):
+    #     &#34;&#34;&#34;
+    #     Specify functions ``is_split`` such that 
+    #     ``is_split(L,R)`` returns True for some splittable pairs 
+    #     (L,R). 
+    #     &#34;&#34;&#34;
+    #     for arg in args:
+    #         self._split_conditions.append(arg)
 
-# sf = SplittingFactory()
-# sf.split_after(&#39;0&#39;, &#39;X&#39;)
-# print(sf._chunks_before_split)
-# split = sf.get_split()
-# print(split(&#39;1234024350034X3450X34500X2345XX003425&#39;))
 
-# ls = LookAndSay()
-# chem = Chemistry(ls)
-# chem.generate_elements([&#39;1&#39;, &#39;4&#39;, &#39;5&#39;, &#39;X&#39;])
-# chem.print_periodic_table()
-
-def binary_say(num):
-        return &#34;{0:b}&#34;.format(num)
-
-binary_ls = LookAndSay(binary_say)
-binary_chem = BinaryChemistry(binary_ls)
-binary_chem.generate_elements([&#39;1&#39;])
-binary_chem.order_elements(&#39;abundance&#39;)
-binary_chem.print_periodic_table()
-print(binary_chem.get_char_poly())
-print(binary_chem.get_max_eigenvalue())     </code></pre>
+    </code></pre>
 </details>
 </section>
 <section>
@@ -707,19 +688,6 @@ print(binary_chem.get_max_eigenvalue())     </code></pre>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="look_and_say.binary_say"><code class="name flex">
-<span>def <span class="ident">binary_say</span></span>(<span>num)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def binary_say(num):
-        return &#34;{0:b}&#34;.format(num)</code></pre>
-</details>
-</dd>
 <dt id="look_and_say.split_Conway"><code class="name flex">
 <span>def <span class="ident">split_Conway</span></span>(<span>string)</span>
 </code></dt>
@@ -854,8 +822,8 @@ lambda**4*(lambda - 1)**2*(lambda + 1)*(lambda**3 - lambda**2 - 1)
     ```
     &#34;&#34;&#34;
     def __init__(self, las, elements = None):
-        sf = SplittingFactory()
-        sf.split_after(&#39;0&#39;)
+        sf = SplitFuncFactory()
+        sf.declare_split_after(&#39;0&#39;)
         binary_split = sf.get_split()
         super().__init__(las, binary_split, elements)</code></pre>
 </details>
@@ -1863,29 +1831,28 @@ using the standard (default) LookAndSay object,
 </dd>
 </dl>
 </dd>
-<dt id="look_and_say.SplittingFactory"><code class="flex name class">
-<span>class <span class="ident">SplittingFactory</span></span>
+<dt id="look_and_say.SplitFuncFactory"><code class="flex name class">
+<span>class <span class="ident">SplitFuncFactory</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>A class to help create a split function. The splitting factory
+<div class="desc"><p>A class to help create a split function. The split function factory
 can produce a split function via any combination of the following:</p>
 <ul>
 <li>Specifying specific strings L and R such that LR splits as L.R.</li>
 <li>Specifying specific characters or strings to always split before or after.</li>
-<li>Specifying some conditions on L and R that imply LR splits as L.R.</li>
 </ul></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class SplittingFactory():
+<pre><code class="python">class SplitFuncFactory():
     &#34;&#34;&#34;
-    A class to help create a split function. The splitting factory
+    A class to help create a split function. The split function factory
     can produce a split function via any combination of the following:
 
     * Specifying specific strings L and R such that LR splits as L.R.
     * Specifying specific characters or strings to always split before or after.
-    * Specifying some conditions on L and R that imply LR splits as L.R.
+    
     &#34;&#34;&#34;
     def __init__(self):
         self._splitting_pairs = []
@@ -1934,49 +1901,49 @@ can produce a split function via any combination of the following:</p>
         for arg in args:
             self._splitting_pairs.append(arg)
 
-    def split_after(self, *args):
+    def declare_split_after(self, *args):
         &#34;&#34;&#34;Specify chunks L such that LR splits for every possible R&#34;&#34;&#34;
         for arg in args:
             self._chunks_before_split.append(arg)
 
-    def split_before(self, *args):
+    def declare_split_before(self, *args):
         &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L&#34;&#34;&#34;
         for arg in args:
-            self._chunks_after_split.append(arg)
-
-    def add_splitting_condition(self, *args):
-        &#34;&#34;&#34;
-        Specify functions ``is_split`` such that 
-        ``is_split(L,R)`` returns True for some splittable pairs 
-        (L,R). 
-        &#34;&#34;&#34;
-        for arg in args:
-            self._split_conditions.append(arg)</code></pre>
+            self._chunks_after_split.append(arg)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="look_and_say.SplittingFactory.add_splitting_condition"><code class="name flex">
-<span>def <span class="ident">add_splitting_condition</span></span>(<span>self, *args)</span>
+<dt id="look_and_say.SplitFuncFactory.declare_split_after"><code class="name flex">
+<span>def <span class="ident">declare_split_after</span></span>(<span>self, *args)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Specify functions <code>is_split</code> such that
-<code>is_split(L,R)</code> returns True for some splittable pairs
-(L,R).</p></div>
+<div class="desc"><p>Specify chunks L such that LR splits for every possible R</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def add_splitting_condition(self, *args):
-    &#34;&#34;&#34;
-    Specify functions ``is_split`` such that 
-    ``is_split(L,R)`` returns True for some splittable pairs 
-    (L,R). 
-    &#34;&#34;&#34;
+<pre><code class="python">def declare_split_after(self, *args):
+    &#34;&#34;&#34;Specify chunks L such that LR splits for every possible R&#34;&#34;&#34;
     for arg in args:
-        self._split_conditions.append(arg)</code></pre>
+        self._chunks_before_split.append(arg)</code></pre>
 </details>
 </dd>
-<dt id="look_and_say.SplittingFactory.declare_splitting_pairs"><code class="name flex">
+<dt id="look_and_say.SplitFuncFactory.declare_split_before"><code class="name flex">
+<span>def <span class="ident">declare_split_before</span></span>(<span>self, *args)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Specify chunks R such that LR splits for every possible L</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def declare_split_before(self, *args):
+    &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L&#34;&#34;&#34;
+    for arg in args:
+        self._chunks_after_split.append(arg)</code></pre>
+</details>
+</dd>
+<dt id="look_and_say.SplitFuncFactory.declare_splitting_pairs"><code class="name flex">
 <span>def <span class="ident">declare_splitting_pairs</span></span>(<span>self, *args)</span>
 </code></dt>
 <dd>
@@ -1995,7 +1962,7 @@ such that LR always splits as L.R</p></div>
         self._splitting_pairs.append(arg)</code></pre>
 </details>
 </dd>
-<dt id="look_and_say.SplittingFactory.get_split"><code class="name flex">
+<dt id="look_and_say.SplitFuncFactory.get_split"><code class="name flex">
 <span>def <span class="ident">get_split</span></span>(<span>self)</span>
 </code></dt>
 <dd>
@@ -2007,36 +1974,6 @@ such that LR always splits as L.R</p></div>
 <pre><code class="python">def get_split(self):
     &#34;&#34;&#34;Return the split function&#34;&#34;&#34;
     return lambda string : self._split(string)</code></pre>
-</details>
-</dd>
-<dt id="look_and_say.SplittingFactory.split_after"><code class="name flex">
-<span>def <span class="ident">split_after</span></span>(<span>self, *args)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Specify chunks L such that LR splits for every possible R</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def split_after(self, *args):
-    &#34;&#34;&#34;Specify chunks L such that LR splits for every possible R&#34;&#34;&#34;
-    for arg in args:
-        self._chunks_before_split.append(arg)</code></pre>
-</details>
-</dd>
-<dt id="look_and_say.SplittingFactory.split_before"><code class="name flex">
-<span>def <span class="ident">split_before</span></span>(<span>self, *args)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Specify chunks R such that LR splits for every possible L</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def split_before(self, *args):
-    &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L&#34;&#34;&#34;
-    for arg in args:
-        self._chunks_after_split.append(arg)</code></pre>
 </details>
 </dd>
 </dl>
@@ -2052,7 +1989,6 @@ such that LR always splits as L.R</p></div>
 <ul id="index">
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="look_and_say.binary_say" href="#look_and_say.binary_say">binary_say</a></code></li>
 <li><code><a title="look_and_say.split_Conway" href="#look_and_say.split_Conway">split_Conway</a></code></li>
 </ul>
 </li>
@@ -2095,13 +2031,12 @@ such that LR always splits as L.R</p></div>
 </ul>
 </li>
 <li>
-<h4><code><a title="look_and_say.SplittingFactory" href="#look_and_say.SplittingFactory">SplittingFactory</a></code></h4>
+<h4><code><a title="look_and_say.SplitFuncFactory" href="#look_and_say.SplitFuncFactory">SplitFuncFactory</a></code></h4>
 <ul class="">
-<li><code><a title="look_and_say.SplittingFactory.add_splitting_condition" href="#look_and_say.SplittingFactory.add_splitting_condition">add_splitting_condition</a></code></li>
-<li><code><a title="look_and_say.SplittingFactory.declare_splitting_pairs" href="#look_and_say.SplittingFactory.declare_splitting_pairs">declare_splitting_pairs</a></code></li>
-<li><code><a title="look_and_say.SplittingFactory.get_split" href="#look_and_say.SplittingFactory.get_split">get_split</a></code></li>
-<li><code><a title="look_and_say.SplittingFactory.split_after" href="#look_and_say.SplittingFactory.split_after">split_after</a></code></li>
-<li><code><a title="look_and_say.SplittingFactory.split_before" href="#look_and_say.SplittingFactory.split_before">split_before</a></code></li>
+<li><code><a title="look_and_say.SplitFuncFactory.declare_split_after" href="#look_and_say.SplitFuncFactory.declare_split_after">declare_split_after</a></code></li>
+<li><code><a title="look_and_say.SplitFuncFactory.declare_split_before" href="#look_and_say.SplitFuncFactory.declare_split_before">declare_split_before</a></code></li>
+<li><code><a title="look_and_say.SplitFuncFactory.declare_splitting_pairs" href="#look_and_say.SplitFuncFactory.declare_splitting_pairs">declare_splitting_pairs</a></code></li>
+<li><code><a title="look_and_say.SplitFuncFactory.get_split" href="#look_and_say.SplitFuncFactory.get_split">get_split</a></code></li>
 </ul>
 </li>
 </ul>

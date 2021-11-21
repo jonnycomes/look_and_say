@@ -517,8 +517,8 @@ class BinaryChemistry(Chemistry):
     ```
     """
     def __init__(self, las, elements = None):
-        sf = SplittingFactory()
-        sf.split_after('0')
+        sf = SplitFuncFactory()
+        sf.declare_split_after('0')
         binary_split = sf.get_split()
         super().__init__(las, binary_split, elements)
 
@@ -570,16 +570,16 @@ class Element():
     def get_string(self):
         return self.string
 
-########### SPLITTING FACTORY #####################
+########### SPLIT FUNCTION FACTORY #####################
 
-class SplittingFactory():
+class SplitFuncFactory():
     """
-    A class to help create a split function. The splitting factory
+    A class to help create a split function. The split function factory
     can produce a split function via any combination of the following:
 
     * Specifying specific strings L and R such that LR splits as L.R.
     * Specifying specific characters or strings to always split before or after.
-    * Specifying some conditions on L and R that imply LR splits as L.R.
+    
     """
     def __init__(self):
         self._splitting_pairs = []
@@ -628,43 +628,24 @@ class SplittingFactory():
         for arg in args:
             self._splitting_pairs.append(arg)
 
-    def split_after(self, *args):
+    def declare_split_after(self, *args):
         """Specify chunks L such that LR splits for every possible R"""
         for arg in args:
             self._chunks_before_split.append(arg)
 
-    def split_before(self, *args):
+    def declare_split_before(self, *args):
         """Specify chunks R such that LR splits for every possible L"""
         for arg in args:
             self._chunks_after_split.append(arg)
 
-    def add_splitting_condition(self, *args):
-        """
-        Specify functions ``is_split`` such that 
-        ``is_split(L,R)`` returns True for some splittable pairs 
-        (L,R). 
-        """
-        for arg in args:
-            self._split_conditions.append(arg)
+    # def add_splitting_condition(self, *args):
+    #     """
+    #     Specify functions ``is_split`` such that 
+    #     ``is_split(L,R)`` returns True for some splittable pairs 
+    #     (L,R). 
+    #     """
+    #     for arg in args:
+    #         self._split_conditions.append(arg)
 
-# sf = SplittingFactory()
-# sf.split_after('0', 'X')
-# print(sf._chunks_before_split)
-# split = sf.get_split()
-# print(split('1234024350034X3450X34500X2345XX003425'))
 
-# ls = LookAndSay()
-# chem = Chemistry(ls)
-# chem.generate_elements(['1', '4', '5', 'X'])
-# chem.print_periodic_table()
-
-def binary_say(num):
-        return "{0:b}".format(num)
-
-binary_ls = LookAndSay(binary_say)
-binary_chem = BinaryChemistry(binary_ls)
-binary_chem.generate_elements(['1'])
-binary_chem.order_elements('abundance')
-binary_chem.print_periodic_table()
-print(binary_chem.get_char_poly())
-print(binary_chem.get_max_eigenvalue())     
+    
