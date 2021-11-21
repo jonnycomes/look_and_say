@@ -577,8 +577,8 @@ class SplitFuncFactory():
     A class to help create a split function. The split function factory
     can produce a split function via any combination of the following:
 
-    * Specifying specific strings L and R such that LR splits as L.R.
-    * Specifying specific characters or strings to always split before or after.
+    * Specifying specific chunks L and R such that LR splits as L.R.
+    * Specifying specific characters or chunks to always split before or after.
 
     """
     def __init__(self):
