@@ -599,6 +599,7 @@ class Chemistry():
     print(bal_tern_chem.get_max_eigenvalue()) # golden!
     ```
 
+    ### Output:
     ```sh
     element   string   abundance    decay
     E1        1T       23.6067977   [E3]
