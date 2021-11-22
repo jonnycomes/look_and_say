@@ -956,6 +956,39 @@ class SplitFuncFactory():
     * Specifying specific chunks L and R such that LR splits as L.R.
     * Specifying specific characters or chunks to always split before or after.
 
+    ## Example Session: Split after 0
+    Many look and say sequences split after any run of 0's. 
+    The following illustrates how the split function factory can 
+    be used to create such a split function:
+    ```python
+    sff = SplitFuncFactory()
+    sff.declare_split_after('0')
+    split = sff.get_split()
+    string = '1101230022200012301325023'
+    print(split(string))
+    ```
+
+    ### Output:
+    ```sh
+    ['110', '12300', '222000', '1230', '13250', '23']
+    ```
+
+
+    ## Example Session: A combination of multiple methods.
+    ```python
+    sff = SplitFuncFactory()
+    sff.declare_split_before('111')
+    sff.declare_split_after('2', '30')
+    sff.declare_splitting_pairs(('11', '333'))
+    split = sff.get_split()
+    string = '1234411154211333234530411113333344'
+    print(split(string))
+    ```
+
+    ### Output:
+    ```sh
+    ['12', '344', '111542', '11', '3332', '34530', '4', '1111', '3333344']
+    ```
     """
     def __init__(self):
         self._splitting_pairs = []
@@ -1000,16 +1033,62 @@ class SplitFuncFactory():
         """
         Specify pairs of chunks in the form (L, R) 
         such that LR always splits as L.R.
+
+        ## Example Session:
+        ```python
+        sff = SplitFuncFactory()
+        sff.declare_splitting_pairs(('311', '223'), ('0', '1'))
+        split = sff.get_split()
+        string = '12311223323112011200011110234234'
+        print(split(string))
+        ```
+
+        ### Output:
+        ```sh
+        ['12311', '2233231120', '112000', '11110234234']
+        ```
         """
         for pair in pairs:
             self._splitting_pairs.append(pair)
 
     def declare_split_after(self, *chunks):
-        """Specify chunks L such that LR splits for every possible R."""
+        """
+        Specify chunks L such that LR splits for every possible R (assuming the last character of L and the first character of R are distinct).
+        
+        ## Example Session:
+        ```python
+        sff = SplitFuncFactory()
+        sff.declare_split_after('1', '20')
+        split = sff.get_split()
+        string = '12311223323112011200011110234234'
+        print(split(string))
+        ```
+
+        ### Output:
+        ```sh
+        ['1', '2311', '22332311', '20', '11', '20001111', '0234234']
+        ```
+        """
         for chunk in chunks:
             self._chunks_before_split.append(chunk)
 
     def declare_split_before(self, *chunks):
-        """Specify chunks R such that LR splits for every possible L."""
+        """Specify chunks R such that LR splits for every possible L (assuming the last character of L and the first character of R are distinct).
+
+        ## Example Session:
+        ```python
+        sff = SplitFuncFactory()
+        sff.declare_split_before('0', '31')
+        split = sff.get_split()
+        string = '12311223323112011200011110234234'
+        print(split(string))
+        ```
+
+        ### Output:
+        ```sh
+        ['12', '31122332', '3112', '0112', '0001111', '0234234']
+        ```
+        """
         for chunk in chunks:
             self._chunks_after_split.append(chunk)
+

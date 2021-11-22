@@ -629,6 +629,7 @@ class Chemistry():
     print(bal_tern_chem.get_max_eigenvalue()) # golden!
     ```
 
+    ### Output:
     ```sh
     element   string   abundance    decay
     E1        1T       23.6067977   [E3]
@@ -985,6 +986,39 @@ class SplitFuncFactory():
     * Specifying specific chunks L and R such that LR splits as L.R.
     * Specifying specific characters or chunks to always split before or after.
 
+    ## Example Session: Split after 0
+    Many look and say sequences split after any run of 0&#39;s. 
+    The following illustrates how the split function factory can 
+    be used to create such a split function:
+    ```python
+    sff = SplitFuncFactory()
+    sff.declare_split_after(&#39;0&#39;)
+    split = sff.get_split()
+    string = &#39;1101230022200012301325023&#39;
+    print(split(string))
+    ```
+
+    ### Output:
+    ```sh
+    [&#39;110&#39;, &#39;12300&#39;, &#39;222000&#39;, &#39;1230&#39;, &#39;13250&#39;, &#39;23&#39;]
+    ```
+
+
+    ## Example Session: A combination of multiple methods.
+    ```python
+    sff = SplitFuncFactory()
+    sff.declare_split_before(&#39;111&#39;)
+    sff.declare_split_after(&#39;2&#39;, &#39;30&#39;)
+    sff.declare_splitting_pairs((&#39;11&#39;, &#39;333&#39;))
+    split = sff.get_split()
+    string = &#39;1234411154211333234530411113333344&#39;
+    print(split(string))
+    ```
+
+    ### Output:
+    ```sh
+    [&#39;12&#39;, &#39;344&#39;, &#39;111542&#39;, &#39;11&#39;, &#39;3332&#39;, &#39;34530&#39;, &#39;4&#39;, &#39;1111&#39;, &#39;3333344&#39;]
+    ```
     &#34;&#34;&#34;
     def __init__(self):
         self._splitting_pairs = []
@@ -1029,17 +1063,62 @@ class SplitFuncFactory():
         &#34;&#34;&#34;
         Specify pairs of chunks in the form (L, R) 
         such that LR always splits as L.R.
+
+        ## Example Session:
+        ```python
+        sff = SplitFuncFactory()
+        sff.declare_splitting_pairs((&#39;311&#39;, &#39;223&#39;), (&#39;0&#39;, &#39;1&#39;))
+        split = sff.get_split()
+        string = &#39;12311223323112011200011110234234&#39;
+        print(split(string))
+        ```
+
+        ### Output:
+        ```sh
+        [&#39;12311&#39;, &#39;2233231120&#39;, &#39;112000&#39;, &#39;11110234234&#39;]
+        ```
         &#34;&#34;&#34;
         for pair in pairs:
             self._splitting_pairs.append(pair)
 
     def declare_split_after(self, *chunks):
-        &#34;&#34;&#34;Specify chunks L such that LR splits for every possible R.&#34;&#34;&#34;
+        &#34;&#34;&#34;
+        Specify chunks L such that LR splits for every possible R (assuming the last character of L and the first character of R are distinct).
+        
+        ## Example Session:
+        ```python
+        sff = SplitFuncFactory()
+        sff.declare_split_after(&#39;1&#39;, &#39;20&#39;)
+        split = sff.get_split()
+        string = &#39;12311223323112011200011110234234&#39;
+        print(split(string))
+        ```
+
+        ### Output:
+        ```sh
+        [&#39;1&#39;, &#39;2311&#39;, &#39;22332311&#39;, &#39;20&#39;, &#39;11&#39;, &#39;20001111&#39;, &#39;0234234&#39;]
+        ```
+        &#34;&#34;&#34;
         for chunk in chunks:
             self._chunks_before_split.append(chunk)
 
     def declare_split_before(self, *chunks):
-        &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L.&#34;&#34;&#34;
+        &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L (assuming the last character of L and the first character of R are distinct).
+
+        ## Example Session:
+        ```python
+        sff = SplitFuncFactory()
+        sff.declare_split_before(&#39;0&#39;, &#39;31&#39;)
+        split = sff.get_split()
+        string = &#39;12311223323112011200011110234234&#39;
+        print(split(string))
+        ```
+
+        ### Output:
+        ```sh
+        [&#39;12&#39;, &#39;31122332&#39;, &#39;3112&#39;, &#39;0112&#39;, &#39;0001111&#39;, &#39;0234234&#39;]
+        ```
+        &#34;&#34;&#34;
         for chunk in chunks:
             self._chunks_after_split.append(chunk)</code></pre>
 </details>
@@ -1579,6 +1658,7 @@ bal_tern_chem.print_periodic_table()
 print(bal_tern_chem.get_char_poly())
 print(bal_tern_chem.get_max_eigenvalue()) # golden!
 </code></pre>
+<h3 id="output_3">Output:</h3>
 <pre><code class="language-sh">element   string   abundance    decay
 E1        1T       23.6067977   [E3]
 E2        11T      23.6067977   [E1, E2]
@@ -1915,6 +1995,7 @@ lambda**3*(lambda - 1)*(lambda**2 - lambda - 1)
     print(bal_tern_chem.get_max_eigenvalue()) # golden!
     ```
 
+    ### Output:
     ```sh
     element   string   abundance    decay
     E1        1T       23.6067977   [E3]
@@ -2941,7 +3022,32 @@ can produce a split function via any combination of the following:</p>
 <ul>
 <li>Specifying specific chunks L and R such that LR splits as L.R.</li>
 <li>Specifying specific characters or chunks to always split before or after.</li>
-</ul></div>
+</ul>
+<h2 id="example-session-split-after-0">Example Session: Split after 0</h2>
+<p>Many look and say sequences split after any run of 0's.
+The following illustrates how the split function factory can
+be used to create such a split function:</p>
+<pre><code class="language-python">sff = SplitFuncFactory()
+sff.declare_split_after('0')
+split = sff.get_split()
+string = '1101230022200012301325023'
+print(split(string))
+</code></pre>
+<h3 id="output">Output:</h3>
+<pre><code class="language-sh">['110', '12300', '222000', '1230', '13250', '23']
+</code></pre>
+<h2 id="example-session-a-combination-of-multiple-methods">Example Session: A combination of multiple methods.</h2>
+<pre><code class="language-python">sff = SplitFuncFactory()
+sff.declare_split_before('111')
+sff.declare_split_after('2', '30')
+sff.declare_splitting_pairs(('11', '333'))
+split = sff.get_split()
+string = '1234411154211333234530411113333344'
+print(split(string))
+</code></pre>
+<h3 id="output_1">Output:</h3>
+<pre><code class="language-sh">['12', '344', '111542', '11', '3332', '34530', '4', '1111', '3333344']
+</code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -2954,6 +3060,39 @@ can produce a split function via any combination of the following:</p>
     * Specifying specific chunks L and R such that LR splits as L.R.
     * Specifying specific characters or chunks to always split before or after.
 
+    ## Example Session: Split after 0
+    Many look and say sequences split after any run of 0&#39;s. 
+    The following illustrates how the split function factory can 
+    be used to create such a split function:
+    ```python
+    sff = SplitFuncFactory()
+    sff.declare_split_after(&#39;0&#39;)
+    split = sff.get_split()
+    string = &#39;1101230022200012301325023&#39;
+    print(split(string))
+    ```
+
+    ### Output:
+    ```sh
+    [&#39;110&#39;, &#39;12300&#39;, &#39;222000&#39;, &#39;1230&#39;, &#39;13250&#39;, &#39;23&#39;]
+    ```
+
+
+    ## Example Session: A combination of multiple methods.
+    ```python
+    sff = SplitFuncFactory()
+    sff.declare_split_before(&#39;111&#39;)
+    sff.declare_split_after(&#39;2&#39;, &#39;30&#39;)
+    sff.declare_splitting_pairs((&#39;11&#39;, &#39;333&#39;))
+    split = sff.get_split()
+    string = &#39;1234411154211333234530411113333344&#39;
+    print(split(string))
+    ```
+
+    ### Output:
+    ```sh
+    [&#39;12&#39;, &#39;344&#39;, &#39;111542&#39;, &#39;11&#39;, &#39;3332&#39;, &#39;34530&#39;, &#39;4&#39;, &#39;1111&#39;, &#39;3333344&#39;]
+    ```
     &#34;&#34;&#34;
     def __init__(self):
         self._splitting_pairs = []
@@ -2998,17 +3137,62 @@ can produce a split function via any combination of the following:</p>
         &#34;&#34;&#34;
         Specify pairs of chunks in the form (L, R) 
         such that LR always splits as L.R.
+
+        ## Example Session:
+        ```python
+        sff = SplitFuncFactory()
+        sff.declare_splitting_pairs((&#39;311&#39;, &#39;223&#39;), (&#39;0&#39;, &#39;1&#39;))
+        split = sff.get_split()
+        string = &#39;12311223323112011200011110234234&#39;
+        print(split(string))
+        ```
+
+        ### Output:
+        ```sh
+        [&#39;12311&#39;, &#39;2233231120&#39;, &#39;112000&#39;, &#39;11110234234&#39;]
+        ```
         &#34;&#34;&#34;
         for pair in pairs:
             self._splitting_pairs.append(pair)
 
     def declare_split_after(self, *chunks):
-        &#34;&#34;&#34;Specify chunks L such that LR splits for every possible R.&#34;&#34;&#34;
+        &#34;&#34;&#34;
+        Specify chunks L such that LR splits for every possible R (assuming the last character of L and the first character of R are distinct).
+        
+        ## Example Session:
+        ```python
+        sff = SplitFuncFactory()
+        sff.declare_split_after(&#39;1&#39;, &#39;20&#39;)
+        split = sff.get_split()
+        string = &#39;12311223323112011200011110234234&#39;
+        print(split(string))
+        ```
+
+        ### Output:
+        ```sh
+        [&#39;1&#39;, &#39;2311&#39;, &#39;22332311&#39;, &#39;20&#39;, &#39;11&#39;, &#39;20001111&#39;, &#39;0234234&#39;]
+        ```
+        &#34;&#34;&#34;
         for chunk in chunks:
             self._chunks_before_split.append(chunk)
 
     def declare_split_before(self, *chunks):
-        &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L.&#34;&#34;&#34;
+        &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L (assuming the last character of L and the first character of R are distinct).
+
+        ## Example Session:
+        ```python
+        sff = SplitFuncFactory()
+        sff.declare_split_before(&#39;0&#39;, &#39;31&#39;)
+        split = sff.get_split()
+        string = &#39;12311223323112011200011110234234&#39;
+        print(split(string))
+        ```
+
+        ### Output:
+        ```sh
+        [&#39;12&#39;, &#39;31122332&#39;, &#39;3112&#39;, &#39;0112&#39;, &#39;0001111&#39;, &#39;0234234&#39;]
+        ```
+        &#34;&#34;&#34;
         for chunk in chunks:
             self._chunks_after_split.append(chunk)</code></pre>
 </details>
@@ -3018,13 +3202,39 @@ can produce a split function via any combination of the following:</p>
 <span>def <span class="ident">declare_split_after</span></span>(<span>self, *chunks)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Specify chunks L such that LR splits for every possible R.</p></div>
+<div class="desc"><p>Specify chunks L such that LR splits for every possible R (assuming the last character of L and the first character of R are distinct).</p>
+<h2 id="example-session">Example Session:</h2>
+<pre><code class="language-python">sff = SplitFuncFactory()
+sff.declare_split_after('1', '20')
+split = sff.get_split()
+string = '12311223323112011200011110234234'
+print(split(string))
+</code></pre>
+<h3 id="output">Output:</h3>
+<pre><code class="language-sh">['1', '2311', '22332311', '20', '11', '20001111', '0234234']
+</code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def declare_split_after(self, *chunks):
-    &#34;&#34;&#34;Specify chunks L such that LR splits for every possible R.&#34;&#34;&#34;
+    &#34;&#34;&#34;
+    Specify chunks L such that LR splits for every possible R (assuming the last character of L and the first character of R are distinct).
+    
+    ## Example Session:
+    ```python
+    sff = SplitFuncFactory()
+    sff.declare_split_after(&#39;1&#39;, &#39;20&#39;)
+    split = sff.get_split()
+    string = &#39;12311223323112011200011110234234&#39;
+    print(split(string))
+    ```
+
+    ### Output:
+    ```sh
+    [&#39;1&#39;, &#39;2311&#39;, &#39;22332311&#39;, &#39;20&#39;, &#39;11&#39;, &#39;20001111&#39;, &#39;0234234&#39;]
+    ```
+    &#34;&#34;&#34;
     for chunk in chunks:
         self._chunks_before_split.append(chunk)</code></pre>
 </details>
@@ -3033,13 +3243,38 @@ can produce a split function via any combination of the following:</p>
 <span>def <span class="ident">declare_split_before</span></span>(<span>self, *chunks)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Specify chunks R such that LR splits for every possible L.</p></div>
+<div class="desc"><p>Specify chunks R such that LR splits for every possible L (assuming the last character of L and the first character of R are distinct).</p>
+<h2 id="example-session">Example Session:</h2>
+<pre><code class="language-python">sff = SplitFuncFactory()
+sff.declare_split_before('0', '31')
+split = sff.get_split()
+string = '12311223323112011200011110234234'
+print(split(string))
+</code></pre>
+<h3 id="output">Output:</h3>
+<pre><code class="language-sh">['12', '31122332', '3112', '0112', '0001111', '0234234']
+</code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def declare_split_before(self, *chunks):
-    &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L.&#34;&#34;&#34;
+    &#34;&#34;&#34;Specify chunks R such that LR splits for every possible L (assuming the last character of L and the first character of R are distinct).
+
+    ## Example Session:
+    ```python
+    sff = SplitFuncFactory()
+    sff.declare_split_before(&#39;0&#39;, &#39;31&#39;)
+    split = sff.get_split()
+    string = &#39;12311223323112011200011110234234&#39;
+    print(split(string))
+    ```
+
+    ### Output:
+    ```sh
+    [&#39;12&#39;, &#39;31122332&#39;, &#39;3112&#39;, &#39;0112&#39;, &#39;0001111&#39;, &#39;0234234&#39;]
+    ```
+    &#34;&#34;&#34;
     for chunk in chunks:
         self._chunks_after_split.append(chunk)</code></pre>
 </details>
@@ -3049,7 +3284,17 @@ can produce a split function via any combination of the following:</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Specify pairs of chunks in the form (L, R)
-such that LR always splits as L.R.</p></div>
+such that LR always splits as L.R.</p>
+<h2 id="example-session">Example Session:</h2>
+<pre><code class="language-python">sff = SplitFuncFactory()
+sff.declare_splitting_pairs(('311', '223'), ('0', '1'))
+split = sff.get_split()
+string = '12311223323112011200011110234234'
+print(split(string))
+</code></pre>
+<h3 id="output">Output:</h3>
+<pre><code class="language-sh">['12311', '2233231120', '112000', '11110234234']
+</code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3058,6 +3303,20 @@ such that LR always splits as L.R.</p></div>
     &#34;&#34;&#34;
     Specify pairs of chunks in the form (L, R) 
     such that LR always splits as L.R.
+
+    ## Example Session:
+    ```python
+    sff = SplitFuncFactory()
+    sff.declare_splitting_pairs((&#39;311&#39;, &#39;223&#39;), (&#39;0&#39;, &#39;1&#39;))
+    split = sff.get_split()
+    string = &#39;12311223323112011200011110234234&#39;
+    print(split(string))
+    ```
+
+    ### Output:
+    ```sh
+    [&#39;12311&#39;, &#39;2233231120&#39;, &#39;112000&#39;, &#39;11110234234&#39;]
+    ```
     &#34;&#34;&#34;
     for pair in pairs:
         self._splitting_pairs.append(pair)</code></pre>
