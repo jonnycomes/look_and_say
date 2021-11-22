@@ -870,7 +870,7 @@ class BinaryChemistry(Chemistry):
         return twindragon[num]
 
     twindragon_ls = LookAndSay(twindragon_say)
-    twindragon_chem = Chemistry(twindragon_ls)
+    twindragon_chem = BinaryChemistry(twindragon_ls)
     twindragon_chem.generate_elements('1')
     twindragon_chem.print_periodic_table()
     ```

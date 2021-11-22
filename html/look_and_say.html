@@ -900,7 +900,7 @@ class BinaryChemistry(Chemistry):
         return twindragon[num]
 
     twindragon_ls = LookAndSay(twindragon_say)
-    twindragon_chem = Chemistry(twindragon_ls)
+    twindragon_chem = BinaryChemistry(twindragon_ls)
     twindragon_chem.generate_elements(&#39;1&#39;)
     twindragon_chem.print_periodic_table()
     ```
@@ -1228,7 +1228,7 @@ the complex base <span><span class="MathJax_Preview">-1+i</span><script type="ma
     return twindragon[num]
 
 twindragon_ls = LookAndSay(twindragon_say)
-twindragon_chem = Chemistry(twindragon_ls)
+twindragon_chem = BinaryChemistry(twindragon_ls)
 twindragon_chem.generate_elements('1')
 twindragon_chem.print_periodic_table()
 </code></pre>
@@ -1304,7 +1304,7 @@ E12       111110   1.9565832    [E9, E3, E9]
         return twindragon[num]
 
     twindragon_ls = LookAndSay(twindragon_say)
-    twindragon_chem = Chemistry(twindragon_ls)
+    twindragon_chem = BinaryChemistry(twindragon_ls)
     twindragon_chem.generate_elements(&#39;1&#39;)
     twindragon_chem.print_periodic_table()
     ```
