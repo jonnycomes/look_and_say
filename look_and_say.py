@@ -78,7 +78,7 @@ def _conway_number(element):
     if string in _CONWAY_ELEMENTS:
         return _CONWAY_ELEMENTS[string]['number']
     else: # Handling transuranic elements
-        return 92 * len(string) + ord(string[-1])
+        return 92 * int(string[:9]) + ord(string[-1])
 
 ################# LOOK AND SAY #################################
 
@@ -273,6 +273,65 @@ class LookAndSay():
         two terms of the look and say sequence
         """
         return self.get_length_ratios()[-1]
+
+
+# class CircularLookAndSay(LookAndSay):
+#     """
+#     In every term of a circular look and say sequence, 
+#     the end of the string is considered adjacent to the beginning. 
+#     More precisely, a circular look and say sequence is a sequence of
+#     equivalence classes of strings where two strings are considered equivalent
+#     if one can be obtained from the other by cycling some of the characters from 
+#     end of its string to the beginning. For example, applying the say-what-you-see
+#     operation to the string 11311 would normally yield 211321. However, in the circular
+#     case when we look at 11311 we should see 11113 and so we should say 4113.
+#     ## Example Session:
+#     ```python
+#     cls = CircularLookAndSay()
+#     cls.generate_sequence('11311', 5)
+#     print(cls.get_sequence())
+#     ```
+
+#     ### Output:
+#     ```sh
+#     ['11311', '4113', '142113', '1114122113', '331141122211', '232114213221']
+#     ```
+
+#     ## Example Session: A Roman Circular Look and Say
+#     ```python
+#     def roman_say(num):
+#         assert num < 10, "This Roman can only count to 9."
+#         roman = {1:'I', 2:'II', 3:'III', 4:'IV', 5:'V', 6:'VI', 7:'VII', 8:'VIII', 9:'IX'}
+#         return roman[num]
+
+#     roman_cls = CircularLookAndSay(roman_say)
+#     roman_cls.generate_sequence('V', 10)
+#     print(roman_cls.get_sequence())
+#     ```
+
+#     ### Output:
+#     ```sh
+#     ['V', 'IV', 'IIIV', 'IIIIIV', 'VVII', 'IIIIIV', 'VVII', 'IIIIIV', 'VVII', 'IIIIIV', 'VVII']
+#     ```
+#     """
+#     def __init__(self, say = None):
+#         super().__init__(say)
+
+#     def say_what_you_see(self, string):
+#         """
+#         Overrides the LookAndSay method.
+#         Cycles the end of the string to the front until they are distinct, 
+#         then applies the say-what-you-see operation, then cycles the result.
+#         """
+#         return self._cycle(super().say_what_you_see(self._cycle(string)))
+
+#     def _cycle(self, string):
+#         cycle = string
+#         for _ in range(len(string)):
+#             if cycle[0] != cycle[-1]:
+#                 break
+#             cycle = cycle[-1] + cycle[:-1]
+#         return cycle
 
 
 ########### CHEMISTRY #####################
@@ -504,12 +563,12 @@ class Chemistry():
     Th        1113                                         0.7581905   [Ac]
     Pa        13                                           0.9883599   [Th]
     U         3                                            0.0102563   [Pa]
-    Pu5       312211322212221121123222115                  0.0         [Np5]
-    Pu7       312211322212221121123222117                  0.0         [Np7]
-    Pu8       312211322212221121123222118                  0.0         [Np8]
     Np5       13112221133211322112211213322115             0.0         [Hf, Pa, H, Ca, Pu5]
     Np7       13112221133211322112211213322117             0.0         [Hf, Pa, H, Ca, Pu7]
     Np8       13112221133211322112211213322118             0.0         [Hf, Pa, H, Ca, Pu8]
+    Pu5       312211322212221121123222115                  0.0         [Np5]
+    Pu7       312211322212221121123222117                  0.0         [Np7]
+    Pu8       312211322212221121123222118                  0.0         [Np8]
     ```
 
     ## Example Session: Standard Ternary
@@ -568,6 +627,7 @@ class Chemistry():
     lambda**6*(lambda - 1)**2*(lambda + 1)**2*(lambda**2 + 1)*(lambda**3 - lambda - 1)*(lambda**5 - lambda**3 + 1)
     1.3247179572447458
     ```
+
     
     ## Example Session: Balanced Ternary
     In this example we find the chemical properties of a [balanced ternary](https://en.wikipedia.org/wiki/Balanced_ternary)
@@ -834,7 +894,7 @@ class BinaryChemistry(Chemistry):
 
     binary_ls = LookAndSay(binary_say)
     binary_chem = BinaryChemistry(binary_ls)
-    binary_chem.generate_elements(['1'])
+    binary_chem.generate_elements('1')
     binary_chem.order_elements('abundance')
     binary_chem.print_periodic_table()
 
