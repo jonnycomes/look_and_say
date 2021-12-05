@@ -1,1 +1,11 @@
 sandbox/
+
+*.bst
+*.blg      
+*.bib
+*.aux      
+*.log      
+*.synctex.gz
+*.bbl      
+*.out      
+*.tex
