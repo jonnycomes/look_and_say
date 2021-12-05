@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  20 NOV 2021 01:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  4 DEC 2021 21:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1211,26 +1211,30 @@ Overfull \hbox (5.16025pt too wide) detected at line 220
 []
  []
 
-[3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13] [14] (./look_and_say_intro.bbl
+[3] [4] [5] [6] [7] [8] [9]
+Underfull \vbox (badness 1286) has occurred while \output is active []
+
+ [10]
+[11] [12] [13] [14] (./look_and_say_intro.bbl
 Underfull \hbox (badness 2903) in paragraph at lines 41--45
 []\OT1/cmr/m/n/8 T. Mor-rill. Look, knave. \OT1/cmr/m/it/8 Bul-letin of the Aus
 -tralian Math-e-mat-i-cal So-ci-ety\OT1/cmr/m/n/8 ,
  []
 
-) [15]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 903.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 903.
+[15]) [16]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 884.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 884.
  (./look_and_say_intro.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 903.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 903.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 884.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 884.
 Package rerunfilecheck Info: File `look_and_say_intro.out' has not changed.
 (rerunfilecheck)             Checksum: FA72FFA4D14E686DF1AF7378A243585C;940.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 903.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 884.
  ) 
 Here is how much of TeX's memory you used:
- 21837 strings out of 493014
- 395920 string characters out of 6133351
- 510718 words of memory out of 5000000
+ 21838 strings out of 493014
+ 395927 string characters out of 6133351
+ 511029 words of memory out of 5000000
  24640 multiletter control sequences out of 15000+600000
  15920 words of font info for 69 fonts, out of 8000000 for 9000
  1317 hyphenation exceptions out of 8191
@@ -1276,10 +1280,10 @@ st/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2016/texmf-dist
 onts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2016/texmf-di
 st/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2016/texm
 f-dist/fonts/type1/public/wasy2-ps/wasy10.pfb>
-Output written on look_and_say_intro.pdf (15 pages, 313511 bytes).
+Output written on look_and_say_intro.pdf (16 pages, 314021 bytes).
 PDF statistics:
- 473 PDF objects out of 1000 (max. 8388607)
- 428 compressed objects within 5 object streams
- 106 named destinations out of 1000 (max. 500000)
+ 477 PDF objects out of 1000 (max. 8388607)
+ 431 compressed objects within 5 object streams
+ 107 named destinations out of 1000 (max. 500000)
  117 words of extra memory for PDF output out of 10000 (max. 10000000)
 

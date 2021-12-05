@@ -579,21 +579,21 @@ In addition to the elements $e_1$ and $e_2$, the elements $1, 11, 100$, and $111
 \begin{equation}\label{negafibnary las with seed 110}
 110 \to 100110 \to 111000100110 \to 10111010111000100110 \to\cdots
 \end{equation}
-In fact, there exist negafibnary look and say sequences with nine different frequent elements\footnote{For example, use the seed $1^50^51101$.}. This motivates the following:
+In fact, there exist negafibnary look and say sequences with nine different frequent elements\footnote{For example, use the seed $1^50^51101$.}. We call an element \emph{persistent} if it has the property that whenever it appears in a look and say sequence, it appears frequently in that sequence. This motivates the following:
 
 \begin{problem}\label{problem:: cosmological theorem}
-    For a given number system, describe all the elements that appear frequently in at least one look and say sequence.
+    For a given number system, describe all the persistent elements.
 \end{problem} 
 
 \begin{exercise}\label{exercise: negabinary elements from seed 1}
-    Find the frequent elements in the negabinary look and say sequence with seed 1. 
+    Find the persistent elements in the negabinary look and say sequence with seed 1. 
 \end{exercise}
 
 \begin{exercise}
-    Find a negabinary look and say sequence which has a frequently occurring element that is not among your answers for Exercises \ref{Exercise: negabinary elements from seed 0} and \ref{exercise: negabinary elements from seed 1}.
+    Find a negabinary look and say sequence which has a persistent  element that is not among your answers for Exercises \ref{Exercise: negabinary elements from seed 0} and \ref{exercise: negabinary elements from seed 1}.
 \end{exercise}
 
-A complete solution to Problem \ref{problem:: cosmological theorem} comes in two parts: (1) a list of elements along with their decay and abundances; and (2) a proof that \emph{every} seed eventually decays into compounds of those elements. The solution in the standard case is provided by Conway in \cite{Conway} where he provides (1) a \emph{periodic table} of his 92 common elements and (2) a \emph{Cosmological Theorem} stating that every standard look and say sequence eventually consists of compounds of his 92 elements (along with a couple families of so-called \emph{transuranic elements}). 
+A complete solution to Problem \ref{problem:: cosmological theorem} comes in two parts: (1) a list of persistent elements along with their decay and abundances; and (2) a proof that \emph{every} seed eventually decays into compounds of those elements. The solution in the standard case is provided by Conway in \cite{Conway} where he provides (1) a \emph{periodic table} of his 92 common elements and (2) a \emph{Cosmological Theorem} stating that every standard look and say sequence eventually consists of compounds of his 92 elements (along with a couple families of so-called \emph{transuranic elements}). 
 
 For the negafibnary case we will show that nine elements suffice. These elements are denoted $e_1, e_2,\ldots, e_9$ according to the following:
 
@@ -866,32 +866,13 @@ The goal of this exercise is to prove the following:
 \end{exercise}
 
 
-% \section{Other number systems}
+% \appendix
 
-% \subsection{Standard binary, ternary, etc.}
+% \section{Python sessions for negafibnary look and say sequences}
 
-% \subsection{Binary with base a root of 2}
+% The purpose of this appendix is to illustrate how the Python module \texttt{look\_and\_say} can be used to perform various computations on look and say sequences. To do so, we will recreate various results on negafibnary look and say sequences. As in Section \ref{section::negafibnary look and say}, we provide exercises on the negabinary case along the way.
 
-% \subsection{Complex based number systems}
-
-% \subsection{Nonstandard ternary look and says}
-
-% \subsection{Gray code}
-
-% \subsection{Other families of binary look and says}
-% % % 2 = 10...010...0
-
-% \subsection{Other Zeckendorf look and says}
-
-% \subsection{Roman numerals}
-
-% \section{Other variations of look and say sequences}
-
-% \subsection{Circular look and say sequences}
-
-% \subsection{Stuttering Look and Say Sequences}
-
-% \subsection{Look Knave!}
+% \subsection{Implementing the negafibnary number system} Before introducing 
 
 
 % \vfill
