@@ -1205,8 +1205,7 @@ class Cosmology():
 
     def days_exotic(self, string):
         &#39;&#39;&#39;
-        Returns the number of days until the string splits into a compound of some of 
-        the common elements. 
+        Returns the number of days until the string splits into a compound of common elements. 
         &#39;&#39;&#39;
         atoms = [atom for atom in self.split(string) if atom not in self.common_strings]
         days = 0
@@ -1221,7 +1220,21 @@ class Cosmology():
 
     def proof(self, day = 9):
         &#39;&#39;&#39;
-        
+        Uses a backtracking algorithm to prove the Cosmological Theorem. If we pass the parameter
+        ``day = N`` the algorithm searches for all strings that might appear as chunks of an N-day
+        old element. The search starts with strings of length 1 (i.e. the digits) and then 
+        searches for strings of length 2, then length 3, etc. For each string found in the search, 
+        the algorithm repeatedly applies the say-what-you-see operation until the result is a 
+        compound of common elements. The algorithm terminates when for some positive integer L, 
+        there are no strings of length L that can appear as chunks of an N-day old element, and 
+        all strings of length less than L which might appear as a chunk of an N-day old element 
+        are shown to eventually decay into a compound of common elements.
+
+        Running the program prints a few details about the search. In particular, an upper bound
+        for the age of an exotic (i.e. not common) element is displayed.  
+
+        The default parameter is ``day=9``, which results in a proof of the Cosmological Theorem
+        that gives an upper bound of 27 for the age of an exotic element. 
         &#39;&#39;&#39;
         chunks = self.digits # start with length 1 chunks
         max_days_exotic = 0
@@ -2754,8 +2767,7 @@ consist of only the digits 1, 2, and 3.</p></div>
 
     def days_exotic(self, string):
         &#39;&#39;&#39;
-        Returns the number of days until the string splits into a compound of some of 
-        the common elements. 
+        Returns the number of days until the string splits into a compound of common elements. 
         &#39;&#39;&#39;
         atoms = [atom for atom in self.split(string) if atom not in self.common_strings]
         days = 0
@@ -2770,7 +2782,21 @@ consist of only the digits 1, 2, and 3.</p></div>
 
     def proof(self, day = 9):
         &#39;&#39;&#39;
-        
+        Uses a backtracking algorithm to prove the Cosmological Theorem. If we pass the parameter
+        ``day = N`` the algorithm searches for all strings that might appear as chunks of an N-day
+        old element. The search starts with strings of length 1 (i.e. the digits) and then 
+        searches for strings of length 2, then length 3, etc. For each string found in the search, 
+        the algorithm repeatedly applies the say-what-you-see operation until the result is a 
+        compound of common elements. The algorithm terminates when for some positive integer L, 
+        there are no strings of length L that can appear as chunks of an N-day old element, and 
+        all strings of length less than L which might appear as a chunk of an N-day old element 
+        are shown to eventually decay into a compound of common elements.
+
+        Running the program prints a few details about the search. In particular, an upper bound
+        for the age of an exotic (i.e. not common) element is displayed.  
+
+        The default parameter is ``day=9``, which results in a proof of the Cosmological Theorem
+        that gives an upper bound of 27 for the age of an exotic element. 
         &#39;&#39;&#39;
         chunks = self.digits # start with length 1 chunks
         max_days_exotic = 0
@@ -2898,16 +2924,14 @@ consist of only the digits 1, 2, and 3.</p></div>
 <span>def <span class="ident">days_exotic</span></span>(<span>self, string)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns the number of days until the string splits into a compound of some of
-the common elements.</p></div>
+<div class="desc"><p>Returns the number of days until the string splits into a compound of common elements.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def days_exotic(self, string):
     &#39;&#39;&#39;
-    Returns the number of days until the string splits into a compound of some of 
-    the common elements. 
+    Returns the number of days until the string splits into a compound of common elements. 
     &#39;&#39;&#39;
     atoms = [atom for atom in self.split(string) if atom not in self.common_strings]
     days = 0
@@ -2925,14 +2949,41 @@ the common elements.</p></div>
 <span>def <span class="ident">proof</span></span>(<span>self, day=9)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Uses a backtracking algorithm to prove the Cosmological Theorem. If we pass the parameter
+<code>day = N</code> the algorithm searches for all strings that might appear as chunks of an N-day
+old element. The search starts with strings of length 1 (i.e. the digits) and then
+searches for strings of length 2, then length 3, etc. For each string found in the search,
+the algorithm repeatedly applies the say-what-you-see operation until the result is a
+compound of common elements. The algorithm terminates when for some positive integer L,
+there are no strings of length L that can appear as chunks of an N-day old element, and
+all strings of length less than L which might appear as a chunk of an N-day old element
+are shown to eventually decay into a compound of common elements.</p>
+<p>Running the program prints a few details about the search. In particular, an upper bound
+for the age of an exotic (i.e. not common) element is displayed.
+</p>
+<p>The default parameter is <code>day=9</code>, which results in a proof of the Cosmological Theorem
+that gives an upper bound of 27 for the age of an exotic element.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def proof(self, day = 9):
     &#39;&#39;&#39;
-    
+    Uses a backtracking algorithm to prove the Cosmological Theorem. If we pass the parameter
+    ``day = N`` the algorithm searches for all strings that might appear as chunks of an N-day
+    old element. The search starts with strings of length 1 (i.e. the digits) and then 
+    searches for strings of length 2, then length 3, etc. For each string found in the search, 
+    the algorithm repeatedly applies the say-what-you-see operation until the result is a 
+    compound of common elements. The algorithm terminates when for some positive integer L, 
+    there are no strings of length L that can appear as chunks of an N-day old element, and 
+    all strings of length less than L which might appear as a chunk of an N-day old element 
+    are shown to eventually decay into a compound of common elements.
+
+    Running the program prints a few details about the search. In particular, an upper bound
+    for the age of an exotic (i.e. not common) element is displayed.  
+
+    The default parameter is ``day=9``, which results in a proof of the Cosmological Theorem
+    that gives an upper bound of 27 for the age of an exotic element. 
     &#39;&#39;&#39;
     chunks = self.digits # start with length 1 chunks
     max_days_exotic = 0
