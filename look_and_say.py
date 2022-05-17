@@ -86,7 +86,7 @@ class LookAndSay():
     """
     A class responsible for the fundamental say-what-you-see operation
     that generates a look and say sequence. The parameter ``say`` in the
-    constructor is a function that determines the decay of chunk of the form
+    constructor is a function that determines the decay of a chunk of the form
     \\(a^b\\). The say function can have one or two parameters:
 
     * If the say function accepts one parameter, the LookAndSay object will correspond to the decay \\(a^b\\to say(b)a\\).
@@ -721,7 +721,7 @@ class Chemistry():
                     if d not in common_elements:
                         common_elements.append(d)
             if len(common_elements) < len(self.elements):
-                self.elements = common_elements[:]
+                self.elements = list(common_elements)
             else: 
                 break
 
@@ -1156,4 +1156,169 @@ class SplitFuncFactory():
         """
         for chunk in chunks:
             self._chunks_after_split.append(chunk)
+
+########### COSMOLOGY #####################
+
+class Cosmology():
+    '''
+    A class for proving Conway's Cosmological Theorem.
+    Currently this will only prove The Cosmological Theorem 
+    for the standard base 10 look and say sequences whose terms
+    consist of only the digits 1, 2, and 3.
+    '''
+    def __init__(self):
+        self.digits = ['1', '2', '3']
+        self._compendium_sets = []
+        self.common_strings = {elt for elt in _CONWAY_ELEMENTS}
+        self.look_and_say = LookAndSay()
+        self.split = split_Conway
+
+    def days_exotic(self, string):
+        '''
+        Returns the number of days until the string splits into a compound of some of 
+        the common elements. 
+        '''
+        atoms = [atom for atom in self.split(string) if atom not in self.common_strings]
+        days = 0
+        while atoms != []:
+            next_atoms = []
+            for atom in atoms:
+                new_atoms = self.split(self.look_and_say.say_what_you_see(atom))
+                next_atoms += [a for a in new_atoms if a not in self.common_strings]
+            atoms = next_atoms
+            days += 1
+        return days
+
+    def proof(self, day = 9):
+        '''
+        
+        '''
+        chunks = self.digits # start with length 1 chunks
+        max_days_exotic = 0
+
+        print(f'To prove the Cosmological Theorem we search for all strings\nwhich could appear as chunks of {day} day old elements.\nSearching...')
+        length = 0
+        while True:
+            length += 1
+            compendium = []
+            #Gather all chunks that have a grandparent to the compendium
+            for chunk in chunks:
+                if self._has_grandparent(chunk, day):
+                    compendium.append(chunk)
+
+            if compendium == []:
+                print(f'There are no strings of length {length} that can appear as chunks\nof {day} day old elements. All strings of length less than {length}\nthat could appear after {day} days decay into compounds of common\nelements after an additional {max_days_exotic-day} days. This gives an upper\nbound of {max_days_exotic} days for the age of an exotic element.\nQ.E.D.')
+                return max_days_exotic
+
+            self._compendium_sets.append(set(compendium))
+
+            #Compute an upper bound on the maximum longevity of an exotic element:
+            for chunk in compendium:
+                lifespan = day + self.days_exotic(chunk)
+                if lifespan > max_days_exotic:
+                    max_days_exotic = lifespan
+
+            chunks = []
+            #For each found above, add all possible digits to the left and check if splits
+            for digit in self.digits:
+                chunks += [digit+chunk for chunk in compendium if len(self.split(digit+chunk)) == 1]
+
+    def _parents(self, kid):
+        '''
+        We call a string a *parent* of the kid if applying the say-what-you-see operation
+        results in a string which contains the kid as a substring. This function returns
+        a list of all the minimal parents of kid (here minimal means that every parent of
+        the kid will contain one of the elements of the list as a substring).
+        '''
+        parents = []
+        if self._is_day_one_even(kid):
+            parents += self._even_parents(kid)
+        if self._is_day_one_odd(kid):
+            parents += self._odd_parents(kid)
+        return parents
+
+    def _is_day_one_odd(self, string):
+        if len(string) == 1:
+            return False
+        if len(string) % 2 == 0:
+            i = 0
+        else:
+            i = 1
+        while i < len(string) - 2:
+            if string[i] == string[i+2]:
+                return False
+            i += 2
+        return True
+
+    def _is_day_one_even(self, string):
+        if len(string) == 1:
+            return True
+        if len(string) % 2 == 0:
+            i = 1
+        else:
+            i = 0
+        while i < len(string) - 2:
+            if string[i] == string[i+2]:
+                return False
+            i += 2
+        return True
+
+    def _even_parents(self, string):
+        new_string = ''
+        if len(string) % 2 == 0:
+            start = 0
+        else:
+            start = 1
+            new_string += string[0]
+        while start < len(string) - 1:
+            new_string += int(string[start]) * string[start+1]
+            start += 2
+        return [new_string]
+
+    def _odd_parents(self, string):
+        new_string = ''
+        if len(string) % 2 == 0:
+            start = 1
+            new_string += string[0]
+        else:
+            start = 0
+        while start < len(string) - 2:
+            new_string += int(string[start]) * string[start+1]
+            start += 2
+        return [new_string + int(string[-1]) * digit for digit in self.digits if digit != string[-2]]
+
+
+    def _has_grandparent(self, kid, day):
+        '''
+        Returns True if the string kid *might* be contained in the result of applying
+        the say-what-you-see operation day-times to some string. Note that this method
+        will only return False when kid cannot be part of a day-old descendant of 
+        any string,
+        but may return True even if kid is not contained in any day-old descendant.
+        '''
+        # To speed things up, we first check the compendium sets:
+        # if the kid has a parent who is already in a compendium, we know it's parent
+        # has (possibly) a day-old ancestor, so certainly the kid also (possibly) has one.
+        for parent in self._parents(kid):
+            if len(parent) < len(self._compendium_sets) and parent in self._compendium_sets[len(parent)]:
+                return True
+
+        # Now apply the parents function day-times and see what we get:
+        ancestors = [kid]
+        for _ in range(day):
+            next_ancestors = []
+            for a in ancestors:
+                next_ancestors += self._parents(a)
+            ancestors = next_ancestors
+
+        return len(ancestors) != 0
+
+if __name__ == '__main__':
+    import timeit
+    ls = LookAndSay()
+    chem = Chemistry(ls)
+    t1 = timeit.timeit()
+    chem.generate_elements('1')
+    elements = chem.get_elements()
+    print(len(elements)) 
 
