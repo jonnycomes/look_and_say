@@ -1205,6 +1205,9 @@ class Cosmology():
 
         The default parameter is ``day=9``, which results in a proof of the Cosmological Theorem
         that gives an upper bound of 27 for the age of an exotic element. 
+
+        The proof is essentially the same as that of Zeilberger. 
+        The implementation is similar to that of Litherland.
         '''
         chunks = self.digits # start with length 1 chunks
         max_days_exotic = 0
