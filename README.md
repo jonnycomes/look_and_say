@@ -14,3 +14,8 @@ Projects that used the look_and_say module:
 - A D3 force graph showing [the decay of Conway's elements](https://observablehq.com/@jonnycomes/the-decay-of-conways-look-and-say-elements).
 
 - A D3 collapsable tree showing the [descendants of Methuselum](https://observablehq.com/@jonnycomes/descendants-of-methuselum).
+
+Acknowledgments:
+----------------
+
+- The initial implementation of the proof() method in the Cosmology class was written by Ethan Bassingthwaite and Monika de los Rios in the Spring of 2022 following the basic strategy of Zeilberger and then Litherland. 
