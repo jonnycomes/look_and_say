@@ -751,7 +751,7 @@ class Chemistry():
                     if d not in common_elements:
                         common_elements.append(d)
             if len(common_elements) &lt; len(self.elements):
-                self.elements = common_elements[:]
+                self.elements = list(common_elements)
             else: 
                 break
 
@@ -1221,16 +1221,15 @@ class Cosmology():
 
     def proof(self, day = 9):
         &#39;&#39;&#39;
-        TODO: Add docstring
+        
         &#39;&#39;&#39;
         chunks = self.digits # start with length 1 chunks
         max_days_exotic = 0
 
-        print(f&#39;To prove the Cosmological Theorem we search for all chunks which could appear after {day} days.&#39;)
-        length = 1
+        print(f&#39;To prove the Cosmological Theorem we search for all strings\nwhich could appear as chunks of {day} day old elements.\nSearching...&#39;)
+        length = 0
         while True:
             length += 1
-            print(f&#39;Searching for chunks of length {length}...&#39;)
             compendium = []
             #Gather all chunks that have a grandparent to the compendium
             for chunk in chunks:
@@ -1238,16 +1237,17 @@ class Cosmology():
                     compendium.append(chunk)
 
             if compendium == []:
-                print(f&#39;there are zero chunks of length {length} that can appear after {day} days.&#39;)
-                print(&#39;QED&#39;)
+                print(f&#39;There are no strings of length {length} that can appear as chunks\nof {day} day old elements. All strings of length less than {length}\nthat could appear after {day} days decay into compounds of common\nelements after an additional {max_days_exotic-day} days. This gives an upper\nbound of {max_days_exotic} days for the age of an exotic element.\nQ.E.D.&#39;)
                 return max_days_exotic
+
+            self._compendium_sets.append(set(compendium))
 
             #Compute an upper bound on the maximum longevity of an exotic element:
             for chunk in compendium:
                 lifespan = day + self.days_exotic(chunk)
                 if lifespan &gt; max_days_exotic:
                     max_days_exotic = lifespan
-            self._compendium_sets.append(set(compendium))
+
             chunks = []
             #For each found above, add all possible digits to the left and check if splits
             for digit in self.digits:
@@ -1344,8 +1344,13 @@ class Cosmology():
         return len(ancestors) != 0
 
 if __name__ == &#39;__main__&#39;:
-    cosmo = Cosmology()
-    print(cosmo.proof())</code></pre>
+    import timeit
+    ls = LookAndSay()
+    chem = Chemistry(ls)
+    t1 = timeit.timeit()
+    chem.generate_elements(&#39;1&#39;)
+    elements = chem.get_elements()
+    print(len(elements)) </code></pre>
 </details>
 </section>
 <section>
@@ -2287,7 +2292,7 @@ lambda**3*(lambda - 1)*(lambda**2 - lambda - 1)
                     if d not in common_elements:
                         common_elements.append(d)
             if len(common_elements) &lt; len(self.elements):
-                self.elements = common_elements[:]
+                self.elements = list(common_elements)
             else: 
                 break
 
@@ -2765,16 +2770,15 @@ consist of only the digits 1, 2, and 3.</p></div>
 
     def proof(self, day = 9):
         &#39;&#39;&#39;
-        TODO: Add docstring
+        
         &#39;&#39;&#39;
         chunks = self.digits # start with length 1 chunks
         max_days_exotic = 0
 
-        print(f&#39;To prove the Cosmological Theorem we search for all chunks which could appear after {day} days.&#39;)
-        length = 1
+        print(f&#39;To prove the Cosmological Theorem we search for all strings\nwhich could appear as chunks of {day} day old elements.\nSearching...&#39;)
+        length = 0
         while True:
             length += 1
-            print(f&#39;Searching for chunks of length {length}...&#39;)
             compendium = []
             #Gather all chunks that have a grandparent to the compendium
             for chunk in chunks:
@@ -2782,16 +2786,17 @@ consist of only the digits 1, 2, and 3.</p></div>
                     compendium.append(chunk)
 
             if compendium == []:
-                print(f&#39;there are zero chunks of length {length} that can appear after {day} days.&#39;)
-                print(&#39;QED&#39;)
+                print(f&#39;There are no strings of length {length} that can appear as chunks\nof {day} day old elements. All strings of length less than {length}\nthat could appear after {day} days decay into compounds of common\nelements after an additional {max_days_exotic-day} days. This gives an upper\nbound of {max_days_exotic} days for the age of an exotic element.\nQ.E.D.&#39;)
                 return max_days_exotic
+
+            self._compendium_sets.append(set(compendium))
 
             #Compute an upper bound on the maximum longevity of an exotic element:
             for chunk in compendium:
                 lifespan = day + self.days_exotic(chunk)
                 if lifespan &gt; max_days_exotic:
                     max_days_exotic = lifespan
-            self._compendium_sets.append(set(compendium))
+
             chunks = []
             #For each found above, add all possible digits to the left and check if splits
             for digit in self.digits:
@@ -2920,23 +2925,22 @@ the common elements.</p></div>
 <span>def <span class="ident">proof</span></span>(<span>self, day=9)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>TODO: Add docstring</p></div>
+<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def proof(self, day = 9):
     &#39;&#39;&#39;
-    TODO: Add docstring
+    
     &#39;&#39;&#39;
     chunks = self.digits # start with length 1 chunks
     max_days_exotic = 0
 
-    print(f&#39;To prove the Cosmological Theorem we search for all chunks which could appear after {day} days.&#39;)
-    length = 1
+    print(f&#39;To prove the Cosmological Theorem we search for all strings\nwhich could appear as chunks of {day} day old elements.\nSearching...&#39;)
+    length = 0
     while True:
         length += 1
-        print(f&#39;Searching for chunks of length {length}...&#39;)
         compendium = []
         #Gather all chunks that have a grandparent to the compendium
         for chunk in chunks:
@@ -2944,16 +2948,17 @@ the common elements.</p></div>
                 compendium.append(chunk)
 
         if compendium == []:
-            print(f&#39;there are zero chunks of length {length} that can appear after {day} days.&#39;)
-            print(&#39;QED&#39;)
+            print(f&#39;There are no strings of length {length} that can appear as chunks\nof {day} day old elements. All strings of length less than {length}\nthat could appear after {day} days decay into compounds of common\nelements after an additional {max_days_exotic-day} days. This gives an upper\nbound of {max_days_exotic} days for the age of an exotic element.\nQ.E.D.&#39;)
             return max_days_exotic
+
+        self._compendium_sets.append(set(compendium))
 
         #Compute an upper bound on the maximum longevity of an exotic element:
         for chunk in compendium:
             lifespan = day + self.days_exotic(chunk)
             if lifespan &gt; max_days_exotic:
                 max_days_exotic = lifespan
-        self._compendium_sets.append(set(compendium))
+
         chunks = []
         #For each found above, add all possible digits to the left and check if splits
         for digit in self.digits:
