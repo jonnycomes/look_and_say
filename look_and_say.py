@@ -1190,7 +1190,7 @@ class Cosmology():
 
     def proof(self, day = 9):
         '''
-        Uses a backtracking algorithm to prove the Cosmological Theorem. If we pass the parameter
+        Uses a backtracking algorithm to prove Conway's Cosmological Theorem. If we pass the parameter
         ``day = N`` the algorithm searches for all strings that might appear as chunks of an N-day
         old element. The search starts with strings of length 1 (i.e. the digits) and then 
         searches for strings of length 2, then length 3, etc. For each string found in the search, 
@@ -1203,7 +1203,7 @@ class Cosmology():
         Running the program prints a few details about the search. In particular, an upper bound
         for the age of an exotic (i.e. not common) element is displayed.  
 
-        The default parameter is ``day=9``, which results in a proof of the Cosmological Theorem
+        The default parameter is ``day = 9``, which results in a proof of the Cosmological Theorem
         that gives an upper bound of 27 for the age of an exotic element. 
 
         The proof is essentially the same as that of Zeilberger. 
@@ -1330,11 +1330,6 @@ class Cosmology():
         return len(ancestors) != 0
 
 if __name__ == '__main__':
-    import timeit
-    ls = LookAndSay()
-    chem = Chemistry(ls)
-    t1 = timeit.timeit()
-    chem.generate_elements('1')
-    elements = chem.get_elements()
-    print(len(elements)) 
+    theorem = Cosmology()
+    theorem.proof()
 
