@@ -1193,7 +1193,7 @@ class Cosmology():
     &#39;&#39;&#39;
     A class for proving Conway&#39;s Cosmological Theorem.
     Currently this will only prove The Cosmological Theorem 
-    for the standard base 10 look and say sequences whose terms
+    for the standard base ten look and say sequences whose terms
     consist of only the digits 1, 2, and 3.
     &#39;&#39;&#39;
     def __init__(self):
@@ -1220,7 +1220,7 @@ class Cosmology():
 
     def proof(self, day = 9):
         &#39;&#39;&#39;
-        Uses a backtracking algorithm to prove the Cosmological Theorem. If we pass the parameter
+        Uses a backtracking algorithm to prove Conway&#39;s Cosmological Theorem. If we pass the parameter
         ``day = N`` the algorithm searches for all strings that might appear as chunks of an N-day
         old element. The search starts with strings of length 1 (i.e. the digits) and then 
         searches for strings of length 2, then length 3, etc. For each string found in the search, 
@@ -1233,7 +1233,7 @@ class Cosmology():
         Running the program prints a few details about the search. In particular, an upper bound
         for the age of an exotic (i.e. not common) element is displayed.  
 
-        The default parameter is ``day=9``, which results in a proof of the Cosmological Theorem
+        The default parameter is ``day = 9``, which results in a proof of the Cosmological Theorem
         that gives an upper bound of 27 for the age of an exotic element. 
 
         The proof is essentially the same as that of Zeilberger. 
@@ -1360,13 +1360,8 @@ class Cosmology():
         return len(ancestors) != 0
 
 if __name__ == &#39;__main__&#39;:
-    import timeit
-    ls = LookAndSay()
-    chem = Chemistry(ls)
-    t1 = timeit.timeit()
-    chem.generate_elements(&#39;1&#39;)
-    elements = chem.get_elements()
-    print(len(elements)) </code></pre>
+    theorem = Cosmology()
+    theorem.proof()</code></pre>
 </details>
 </section>
 <section>
@@ -2748,7 +2743,7 @@ The parameter <code>dec_places</code> refers to the accuracy of the abundances.<
 <dd>
 <div class="desc"><p>A class for proving Conway's Cosmological Theorem.
 Currently this will only prove The Cosmological Theorem
-for the standard base 10 look and say sequences whose terms
+for the standard base ten look and say sequences whose terms
 consist of only the digits 1, 2, and 3.</p></div>
 <details class="source">
 <summary>
@@ -2758,7 +2753,7 @@ consist of only the digits 1, 2, and 3.</p></div>
     &#39;&#39;&#39;
     A class for proving Conway&#39;s Cosmological Theorem.
     Currently this will only prove The Cosmological Theorem 
-    for the standard base 10 look and say sequences whose terms
+    for the standard base ten look and say sequences whose terms
     consist of only the digits 1, 2, and 3.
     &#39;&#39;&#39;
     def __init__(self):
@@ -2785,7 +2780,7 @@ consist of only the digits 1, 2, and 3.</p></div>
 
     def proof(self, day = 9):
         &#39;&#39;&#39;
-        Uses a backtracking algorithm to prove the Cosmological Theorem. If we pass the parameter
+        Uses a backtracking algorithm to prove Conway&#39;s Cosmological Theorem. If we pass the parameter
         ``day = N`` the algorithm searches for all strings that might appear as chunks of an N-day
         old element. The search starts with strings of length 1 (i.e. the digits) and then 
         searches for strings of length 2, then length 3, etc. For each string found in the search, 
@@ -2798,7 +2793,7 @@ consist of only the digits 1, 2, and 3.</p></div>
         Running the program prints a few details about the search. In particular, an upper bound
         for the age of an exotic (i.e. not common) element is displayed.  
 
-        The default parameter is ``day=9``, which results in a proof of the Cosmological Theorem
+        The default parameter is ``day = 9``, which results in a proof of the Cosmological Theorem
         that gives an upper bound of 27 for the age of an exotic element. 
 
         The proof is essentially the same as that of Zeilberger. 
@@ -2955,7 +2950,7 @@ consist of only the digits 1, 2, and 3.</p></div>
 <span>def <span class="ident">proof</span></span>(<span>self, day=9)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Uses a backtracking algorithm to prove the Cosmological Theorem. If we pass the parameter
+<div class="desc"><p>Uses a backtracking algorithm to prove Conway's Cosmological Theorem. If we pass the parameter
 <code>day = N</code> the algorithm searches for all strings that might appear as chunks of an N-day
 old element. The search starts with strings of length 1 (i.e. the digits) and then
 searches for strings of length 2, then length 3, etc. For each string found in the search,
@@ -2967,7 +2962,7 @@ are shown to eventually decay into a compound of common elements.</p>
 <p>Running the program prints a few details about the search. In particular, an upper bound
 for the age of an exotic (i.e. not common) element is displayed.
 </p>
-<p>The default parameter is <code>day=9</code>, which results in a proof of the Cosmological Theorem
+<p>The default parameter is <code>day = 9</code>, which results in a proof of the Cosmological Theorem
 that gives an upper bound of 27 for the age of an exotic element. </p>
 <p>The proof is essentially the same as that of Zeilberger.
 The implementation is similar to that of Litherland.</p></div>
@@ -2977,7 +2972,7 @@ The implementation is similar to that of Litherland.</p></div>
 </summary>
 <pre><code class="python">def proof(self, day = 9):
     &#39;&#39;&#39;
-    Uses a backtracking algorithm to prove the Cosmological Theorem. If we pass the parameter
+    Uses a backtracking algorithm to prove Conway&#39;s Cosmological Theorem. If we pass the parameter
     ``day = N`` the algorithm searches for all strings that might appear as chunks of an N-day
     old element. The search starts with strings of length 1 (i.e. the digits) and then 
     searches for strings of length 2, then length 3, etc. For each string found in the search, 
@@ -2990,7 +2985,7 @@ The implementation is similar to that of Litherland.</p></div>
     Running the program prints a few details about the search. In particular, an upper bound
     for the age of an exotic (i.e. not common) element is displayed.  
 
-    The default parameter is ``day=9``, which results in a proof of the Cosmological Theorem
+    The default parameter is ``day = 9``, which results in a proof of the Cosmological Theorem
     that gives an upper bound of 27 for the age of an exotic element. 
 
     The proof is essentially the same as that of Zeilberger. 

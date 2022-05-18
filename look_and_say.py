@@ -1163,7 +1163,7 @@ class Cosmology():
     '''
     A class for proving Conway's Cosmological Theorem.
     Currently this will only prove The Cosmological Theorem 
-    for the standard base 10 look and say sequences whose terms
+    for the standard base ten look and say sequences whose terms
     consist of only the digits 1, 2, and 3.
     '''
     def __init__(self):
