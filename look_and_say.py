@@ -1,5 +1,5 @@
 """
-    A module for playing with look and say sequences in the spirit of John Conway.
+    A module for exploring look and say sequences in the spirit of John Conway.
 """
 
 import numpy
