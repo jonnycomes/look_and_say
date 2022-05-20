@@ -22,6 +22,7 @@ setup(
     description="A python module for exploring look and say sequences in the spirit of John H Conway.",
     install_requires=requirements,
     long_description=readme,
+    long_description_content_type='markdown',
     keywords='look_and_say',
     test_suite='tests',
     tests_require=test_requirements,
