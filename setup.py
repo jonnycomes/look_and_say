@@ -43,7 +43,7 @@ setup(
     packages=find_packages(include=['look_and_say', 'look_and_say.*']),
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/jonnycomes/look_and_say',
+    url='https://github.com/jonnycomes/look-and-say',
     version='0.1.0',
     zip_safe=False,
 )
