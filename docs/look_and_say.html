@@ -811,17 +811,22 @@ class Chemistry():
         eigenvalues = eigenstuff[0]
         return max(eigenvalues).real
 
-    def get_char_poly(self, factor = True):
+    def get_char_poly(self, factor = True, latex = False):
         &#34;&#34;&#34;
         Returns the characteristic polynomial of the decay matrix using sympy.
         By default the returned polynomial will be factored. 
         Use ``factor = False`` to get the expanded (i.e. unfactored) polynomial. 
+        Use ``latex = True`` to return the polynomial formatted in latex.
         &#34;&#34;&#34;
         chi = sympy.Matrix(self.get_decay_matrix()).charpoly()
         if factor:
-            return sympy.factor(chi.as_expr())
+            chi = sympy.factor(chi.as_expr())
         else:
-            return chi.as_expr()
+            chi = chi.as_expr()
+        if latex:
+            return sympy.latex(chi)
+        else:
+            return chi
 
     def _get_abundances(self, dec_places = 7, abundance_sum = 100):
         &#34;&#34;&#34;
@@ -1193,15 +1198,21 @@ class Cosmology():
     &#39;&#39;&#39;
     A class for proving Conway&#39;s Cosmological Theorem.
     Currently this will only prove The Cosmological Theorem 
-    for the standard base ten look and say sequences whose terms
-    consist of only the digits 1, 2, and 3.
+    for the standard base ten look and say sequences where every term
+    consists of strings of some of the digits 1 through 9. The default
+    digits considered are the crucial ones: 1, 2, and 3.  
     &#39;&#39;&#39;
-    def __init__(self):
-        self.digits = [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;]
-        self._compendium_sets = []
-        self.common_strings = {elt for elt in _CONWAY_ELEMENTS}
+    def __init__(self, digits = &#39;123&#39;):
         self.look_and_say = LookAndSay()
         self.split = split_Conway
+        self.digits = digits
+        self._compendium_sets = []
+        self.common_strings = {elt for elt in _CONWAY_ELEMENTS}
+        # add transuranic elements to the list of common strings:
+        for digit in self.digits:
+            if digit not in &#39;123&#39;:
+                self.common_strings.add(&#39;31221132221222112112322211&#39; + digit)
+                self.common_strings.add(&#39;1311222113321132211221121332211&#39; + digit)
 
     def days_exotic(self, string):
         &#39;&#39;&#39;
@@ -1360,7 +1371,7 @@ class Cosmology():
         return len(ancestors) != 0
 
 if __name__ == &#39;__main__&#39;:
-    theorem = Cosmology()
+    theorem = Cosmology(digits = &#39;123456789&#39;)
     theorem.proof()</code></pre>
 </details>
 </section>
@@ -2363,17 +2374,22 @@ lambda**3*(lambda - 1)*(lambda**2 - lambda - 1)
         eigenvalues = eigenstuff[0]
         return max(eigenvalues).real
 
-    def get_char_poly(self, factor = True):
+    def get_char_poly(self, factor = True, latex = False):
         &#34;&#34;&#34;
         Returns the characteristic polynomial of the decay matrix using sympy.
         By default the returned polynomial will be factored. 
         Use ``factor = False`` to get the expanded (i.e. unfactored) polynomial. 
+        Use ``latex = True`` to return the polynomial formatted in latex.
         &#34;&#34;&#34;
         chi = sympy.Matrix(self.get_decay_matrix()).charpoly()
         if factor:
-            return sympy.factor(chi.as_expr())
+            chi = sympy.factor(chi.as_expr())
         else:
-            return chi.as_expr()
+            chi = chi.as_expr()
+        if latex:
+            return sympy.latex(chi)
+        else:
+            return chi
 
     def _get_abundances(self, dec_places = 7, abundance_sum = 100):
         &#34;&#34;&#34;
@@ -2518,27 +2534,33 @@ to keep the old elements.</p></div>
 </details>
 </dd>
 <dt id="look_and_say.Chemistry.get_char_poly"><code class="name flex">
-<span>def <span class="ident">get_char_poly</span></span>(<span>self, factor=True)</span>
+<span>def <span class="ident">get_char_poly</span></span>(<span>self, factor=True, latex=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns the characteristic polynomial of the decay matrix using sympy.
 By default the returned polynomial will be factored.
-Use <code>factor = False</code> to get the expanded (i.e. unfactored) polynomial.</p></div>
+Use <code>factor = False</code> to get the expanded (i.e. unfactored) polynomial.
+Use <code>latex = True</code> to return the polynomial formatted in latex.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_char_poly(self, factor = True):
+<pre><code class="python">def get_char_poly(self, factor = True, latex = False):
     &#34;&#34;&#34;
     Returns the characteristic polynomial of the decay matrix using sympy.
     By default the returned polynomial will be factored. 
     Use ``factor = False`` to get the expanded (i.e. unfactored) polynomial. 
+    Use ``latex = True`` to return the polynomial formatted in latex.
     &#34;&#34;&#34;
     chi = sympy.Matrix(self.get_decay_matrix()).charpoly()
     if factor:
-        return sympy.factor(chi.as_expr())
+        chi = sympy.factor(chi.as_expr())
     else:
-        return chi.as_expr()</code></pre>
+        chi = chi.as_expr()
+    if latex:
+        return sympy.latex(chi)
+    else:
+        return chi</code></pre>
 </details>
 </dd>
 <dt id="look_and_say.Chemistry.get_decay_matrix"><code class="name flex">
@@ -2739,12 +2761,14 @@ The parameter <code>dec_places</code> refers to the accuracy of the abundances.<
 </dd>
 <dt id="look_and_say.Cosmology"><code class="flex name class">
 <span>class <span class="ident">Cosmology</span></span>
+<span>(</span><span>digits='123')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A class for proving Conway's Cosmological Theorem.
 Currently this will only prove The Cosmological Theorem
-for the standard base ten look and say sequences whose terms
-consist of only the digits 1, 2, and 3.</p></div>
+for the standard base ten look and say sequences where every term
+consists of strings of some of the digits 1 through 9. The default
+digits considered are the crucial ones: 1, 2, and 3.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -2753,15 +2777,21 @@ consist of only the digits 1, 2, and 3.</p></div>
     &#39;&#39;&#39;
     A class for proving Conway&#39;s Cosmological Theorem.
     Currently this will only prove The Cosmological Theorem 
-    for the standard base ten look and say sequences whose terms
-    consist of only the digits 1, 2, and 3.
+    for the standard base ten look and say sequences where every term
+    consists of strings of some of the digits 1 through 9. The default
+    digits considered are the crucial ones: 1, 2, and 3.  
     &#39;&#39;&#39;
-    def __init__(self):
-        self.digits = [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;]
-        self._compendium_sets = []
-        self.common_strings = {elt for elt in _CONWAY_ELEMENTS}
+    def __init__(self, digits = &#39;123&#39;):
         self.look_and_say = LookAndSay()
         self.split = split_Conway
+        self.digits = digits
+        self._compendium_sets = []
+        self.common_strings = {elt for elt in _CONWAY_ELEMENTS}
+        # add transuranic elements to the list of common strings:
+        for digit in self.digits:
+            if digit not in &#39;123&#39;:
+                self.common_strings.add(&#39;31221132221222112112322211&#39; + digit)
+                self.common_strings.add(&#39;1311222113321132211221121332211&#39; + digit)
 
     def days_exotic(self, string):
         &#39;&#39;&#39;

@@ -781,17 +781,22 @@ class Chemistry():
         eigenvalues = eigenstuff[0]
         return max(eigenvalues).real
 
-    def get_char_poly(self, factor = True):
+    def get_char_poly(self, factor = True, latex = False):
         """
         Returns the characteristic polynomial of the decay matrix using sympy.
         By default the returned polynomial will be factored. 
         Use ``factor = False`` to get the expanded (i.e. unfactored) polynomial. 
+        Use ``latex = True`` to return the polynomial formatted in latex.
         """
         chi = sympy.Matrix(self.get_decay_matrix()).charpoly()
         if factor:
-            return sympy.factor(chi.as_expr())
+            chi = sympy.factor(chi.as_expr())
         else:
-            return chi.as_expr()
+            chi = chi.as_expr()
+        if latex:
+            return sympy.latex(chi)
+        else:
+            return chi
 
     def _get_abundances(self, dec_places = 7, abundance_sum = 100):
         """
@@ -1163,15 +1168,21 @@ class Cosmology():
     '''
     A class for proving Conway's Cosmological Theorem.
     Currently this will only prove The Cosmological Theorem 
-    for the standard base ten look and say sequences whose terms
-    consist of only the digits 1, 2, and 3.
+    for the standard base ten look and say sequences where every term
+    consists of strings of some of the digits 1 through 9. The default
+    digits considered are the crucial ones: 1, 2, and 3.  
     '''
-    def __init__(self):
-        self.digits = ['1', '2', '3']
-        self._compendium_sets = []
-        self.common_strings = {elt for elt in _CONWAY_ELEMENTS}
+    def __init__(self, digits = '123'):
         self.look_and_say = LookAndSay()
         self.split = split_Conway
+        self.digits = digits
+        self._compendium_sets = []
+        self.common_strings = {elt for elt in _CONWAY_ELEMENTS}
+        # add transuranic elements to the list of common strings:
+        for digit in self.digits:
+            if digit not in '123':
+                self.common_strings.add('31221132221222112112322211' + digit)
+                self.common_strings.add('1311222113321132211221121332211' + digit)
 
     def days_exotic(self, string):
         '''
@@ -1330,6 +1341,6 @@ class Cosmology():
         return len(ancestors) != 0
 
 if __name__ == '__main__':
-    theorem = Cosmology()
+    theorem = Cosmology(digits = '123456789')
     theorem.proof()
 

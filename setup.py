@@ -15,18 +15,21 @@ setup(
     author="Jonny Comes",
     author_email='jonnycomes@gmail.com',
     name='look_and_say',
-    version='0.1.0',
+    version='0.1.3',
     python_requires='>=3.6',
     py_modules=['look_and_say'],
     license="MIT license",
     description="A python module for exploring look and say sequences in the spirit of John H Conway.",
     install_requires=requirements,
     long_description=readme,
-    long_description_content_type='markdown',
+    long_description_content_type='text/markdown',
     keywords='look_and_say',
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/jonnycomes/look_and_say',
+    project_urls={
+        "Documentation": "https://jonnycomes.github.io/look_and_say/docs/look_and_say.html",
+        },
     zip_safe=False,
     )
 
