@@ -1,13 +1,13 @@
 """
-.. include:: ./SUMMARY.md
+.. include:: ./docs/SUMMARY.md
 
-.. include:: ./RESOURCES.md
+.. include:: ./docs/RESOURCES.md
 
-.. include:: ./EXAMPLESESSIONS.md
+.. include:: ./docs/EXAMPLESESSIONS.md
 
-.. include:: ./PROJECTS.md
+.. include:: ./docs/PROJECTS.md
 
-.. include:: ./ACKNOWLEDGMENTS.md
+.. include:: ./docs/ACKNOWLEDGMENTS.md
 """
 
 import numpy

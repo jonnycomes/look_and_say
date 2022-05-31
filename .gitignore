@@ -1,5 +1,9 @@
 sandbox/
 
+# Python Script for creating README.md
+create_readme.py
+
+# Latex stuff
 *.bst
 *.blg      
 *.bib
