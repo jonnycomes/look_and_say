@@ -1,5 +1,13 @@
 """
-    A module for exploring look and say sequences in the spirit of John Conway.
+.. include:: ./SUMMARY.md
+
+.. include:: ./RESOURCES.md
+
+.. include:: ./EXAMPLESESSIONS.md
+
+.. include:: ./PROJECTS.md
+
+.. include:: ./ACKNOWLEDGMENTS.md
 """
 
 import numpy
@@ -14,14 +22,12 @@ def split_Conway(string):
 
     ## Example Session:
     ```python
-    string = '1211132213'
-    chunks = split_Conway(string)
-    print(chunks)
-    ```
-    ### Output:
-
-    ```sh
+    >>> from look_and_say import split_Conway
+    >>> string = '1211132213'
+    >>> chunks = split_Conway(string)
+    >>> print(chunks)
     ['12', '1113', '22', '13']
+
     ```
     """
     chunks = []
@@ -1341,6 +1347,7 @@ class Cosmology():
         return len(ancestors) != 0
 
 if __name__ == '__main__':
-    pass
+    import doctest
+    doctest.testmod()
 
 
