@@ -55,7 +55,7 @@ lambda**18*(lambda - 1)**2*(lambda + 1)*(lambda**71 - lambda**69 - 2*lambda**68 
 
 The following session illustrates how to use the module to explore look and say sequences using the standard ternary number system (i.e. using base 3 with digits 0, 1, and 2). 
 
-Note that the construction of the corresponding LookAndSay object requires a **say function** which, in this case, is a function that converts an integer to it's standard ternary representation. Also, the construction of the Chemistry object requires both the LookAndSay object as well as a **splitting function** which determines when the terms of the look and say sequences split. In this case, one can show that the terms will always split after a run of 0's as well as between a 2 (on the left) and either a 10 or a 1110 (on the right). We use a SplitFuncFactory object to create the splitting function. 
+To construct the corresponding LookAndSay object requires a *say function* which, in this case, is a function that converts an integer to it's standard ternary representation. The construction of the Chemistry object requires both the LookAndSay object as well as a *splitting function* which determines when the terms of the look and say sequences split. In this case, one can show that the terms will always split after a run of 0's as well as between a 2 (on the left) and either a 10 or a 1110 (on the right). We use a SplitFuncFactory object to create the splitting function. 
 
 ```python
 >>> from look_and_say import *
