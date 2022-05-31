@@ -1341,16 +1341,6 @@ class Cosmology():
         return len(ancestors) != 0
 
 if __name__ == '__main__':
-    decimal = LookAndSay()
-    print(decimal.say_what_you_see('1222111'))
-
-    decimal.generate_sequence(seed='1', num_iterations=5)
-    print(decimal.get_sequence())
-
-    chem = Chemistry(decimal)
-    chem.generate_elements('1')
-    pt = chem.get_periodic_table()
-    print('Hydrogen:', pt['H'])
-    print('Thulium:', pt['Tm'])
+    pass
 
 
