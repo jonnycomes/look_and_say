@@ -1,7 +1,9 @@
 
 # Example Sessions
 
-## Standard decimal look and say sequences
+## Standard decimal
+
+The following session illustrates how the ``look_and_say`` module can be used to recover some of Conway's results.  
 
 ```python
 >>> from look_and_say import *
@@ -42,7 +44,48 @@ lambda**18*(lambda - 1)**2*(lambda + 1)*(lambda**71 - lambda**69 - 2*lambda**68 
 
 ```
 
-## Standard ternary look and say sequences
+
+
+## Gray code
+
+The following session shows how to use the module to explore a nonstandard look and say sequence. We use the binary number system known as [Gray code](https://en.wikipedia.org/wiki/Gray_code#n-ary_Gray_code) to generate the sequence. The corresponding LookAndSay object depends on the *say function* which converts a positive integer into its Gray code.
+
+```python
+>>> # Define the "say function"
+>>> def gray(num):
+...     assert num < 8, "This say function can only count to 7."
+...     gray_code = {1:'1', 2:'11', 3:'10', 4:'110', 5:'111', 6:'101', 7:'100'}
+...     return gray_code[num]
+... 
+>>> # Create the LookAndSay object and generate a look and say sequence
+>>> gray_ls = LookAndSay(gray)
+>>> gray_ls.generate_sequence(seed='0', num_iterations=6)
+>>> gray_ls.get_sequence()
+['0', '10', '1110', '10110', '111011110', '10110110110', '1110111101111011110']
+>>> 
+>>> # Use a BinaryChemistry object to determine the chemical properties
+>>> gray_chem = BinaryChemistry(gray_ls)
+>>> gray_chem.generate_elements('0')
+>>> gray_chem.print_periodic_table()
+element   string   abundance    decay
+E1        10       0.0          [E3]
+E2        110      58.5786438   [E4]
+E3        1110     0.0          [E1, E2]
+E4        11110    41.4213562   [E2, E2]
+>>> 
+>>> # The maximal real eigenvalue of the decay matrix gives the long term
+>>> # growth rate of the look and say sequence.
+>>> gray_chem.get_max_eigenvalue()
+1.4142135623730947
+>>> 
+>>> # The growth rate is the maximal real root of the characteristic polynomial
+>>> gray_chem.get_char_poly()
+(lambda - 1)*(lambda + 1)*(lambda**2 - 2)
+
+```
+
+
+## Standard ternary
 
 The following session illustrates how to use the module to explore look and say sequences using the standard ternary number system (i.e. using base 3 with digits 0, 1, and 2). The results are similar to those discussed [here](http://www.njohnston.ca/2011/01/further-variants-of-the-look-and-say-sequence/). 
 
@@ -57,8 +100,7 @@ To construct the corresponding LookAndSay object requires a *say function* which
 ...     if num < 3:
 ...         return str(num)
 ...     return ternary(num // 3) + str(num % 3)
-... 
->>> 
+...  
 >>> # Use the Split Function Factory to create a split function:
 ... sff = SplitFuncFactory()
 >>> sff.declare_split_after('0')
@@ -96,6 +138,9 @@ E17       11222112   0.0          [E3, E10]
 E18       112211     0.0          [E11]
 E19       112        0.0          [E12]
 E20       1112       0.0          [E1, E19]
+>>>
+>>> # Show the characteristic polynomial and its maximal real root, 
+>>> # which gives the generic growth rate of the look and say sequences.
 >>> print(ternary_chem.get_char_poly(latex=True))
 \lambda^{6} \left(\lambda - 1\right)^{2} \left(\lambda + 1\right)^{2} \left(\lambda^{2} + 1\right) \left(\lambda^{3} - \lambda - 1\right) \left(\lambda^{5} - \lambda^{3} + 1\right)
 >>> print(ternary_chem.get_max_eigenvalue())

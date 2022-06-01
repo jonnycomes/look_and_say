@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>look_and_say API documentation</title>
-<meta name="description" content="A python module for exploring look and say sequences in the spirit of John H Conway.
-Resources …" />
+<meta name="description" content="A python module for exploring look and say sequences in the spirit of John H Conway …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -25,17 +24,12 @@ Resources …" />
 </header>
 <section id="section-intro">
 <p>A python module for exploring look and say sequences in the spirit of John H Conway.</p>
-<h1 id="resources">Resources</h1>
-<ul>
-<li>
-<p>The theory of standard look and say sequences is explained in Conway's delightful article <a href="https://link.springer.com/chapter/10.1007/978-1-4612-4808-8_53">The Weird and Wonderful Chemistry of Audioactive Decay</a>. </p>
-</li>
-<li>
-<p>For an introduction to nonstandard look and say sequences, see the <a href="https://jonnycomes.github.io/look_and_say/papers/intro_nonstandard_look_and_say/look_and_say_intro.pdf">notes here</a>.</p>
-</li>
-</ul>
+<p>The following assumes familiarity with the terminology and notation for look and sequences introduced by Conway in his delightful article <a href="https://link.springer.com/chapter/10.1007/978-1-4612-4808-8_53">The Weird and Wonderful Chemistry of Audioactive Decay</a>. </p>
+<p>This module can be used to recover several of Conway's results on standard look and say sequences. Additionally, it can be used to discover new results on various nonstandard look and say sequences. For an introduction to nonstandard look and say sequences, see the <a href="https://jonnycomes.github.io/look_and_say/papers/intro_nonstandard_look_and_say/look_and_say_intro.pdf">notes here</a>.</p>
 <h1 id="example-sessions">Example Sessions</h1>
-<h2 id="standard-decimal-look-and-say-sequences">Standard decimal look and say sequences</h2>
+<h2 id="standard-decimal">Standard decimal</h2>
+<p>The following session illustrates how the <code><a title="look_and_say" href="#look_and_say">look_and_say</a></code> module can be used to recover some of Conway's results.
+</p>
 <pre><code class="language-python">&gt;&gt;&gt; from look_and_say import *
 &gt;&gt;&gt; 
 &gt;&gt;&gt; # The default LookAndSay object uses the standard decimal number system:
@@ -73,7 +67,41 @@ Thulium: {'string': '11131221133112', 'abundance': 1204.9083841, 'decay': [Er, C
 lambda**18*(lambda - 1)**2*(lambda + 1)*(lambda**71 - lambda**69 - 2*lambda**68 - lambda**67 + 2*lambda**66 + 2*lambda**65 + lambda**64 - lambda**63 - lambda**62 - lambda**61 - lambda**60 - lambda**59 + 2*lambda**58 + 5*lambda**57 + 3*lambda**56 - 2*lambda**55 - 10*lambda**54 - 3*lambda**53 - 2*lambda**52 + 6*lambda**51 + 6*lambda**50 + lambda**49 + 9*lambda**48 - 3*lambda**47 - 7*lambda**46 - 8*lambda**45 - 8*lambda**44 + 10*lambda**43 + 6*lambda**42 + 8*lambda**41 - 5*lambda**40 - 12*lambda**39 + 7*lambda**38 - 7*lambda**37 + 7*lambda**36 + lambda**35 - 3*lambda**34 + 10*lambda**33 + lambda**32 - 6*lambda**31 - 2*lambda**30 - 10*lambda**29 - 3*lambda**28 + 2*lambda**27 + 9*lambda**26 - 3*lambda**25 + 14*lambda**24 - 8*lambda**23 - 7*lambda**21 + 9*lambda**20 + 3*lambda**19 - 4*lambda**18 - 10*lambda**17 - 7*lambda**16 + 12*lambda**15 + 7*lambda**14 + 2*lambda**13 - 12*lambda**12 - 4*lambda**11 - 2*lambda**10 + 5*lambda**9 + lambda**7 - 7*lambda**6 + 7*lambda**5 - 4*lambda**4 + 12*lambda**3 - 6*lambda**2 + 3*lambda - 6)
 
 </code></pre>
-<h2 id="standard-ternary-look-and-say-sequences">Standard ternary look and say sequences</h2>
+<h2 id="gray-code">Gray code</h2>
+<p>The following session shows how to use the module to explore a nonstandard look and say sequence. We use the binary number system known as <a href="https://en.wikipedia.org/wiki/Gray_code#n-ary_Gray_code">Gray code</a> to generate the sequence. The corresponding LookAndSay object depends on the <em>say function</em> which converts a positive integer into its Gray code.</p>
+<pre><code class="language-python">&gt;&gt;&gt; # Define the &quot;say function&quot;
+&gt;&gt;&gt; def gray(num):
+...     assert num &lt; 8, &quot;This say function can only count to 7.&quot;
+...     gray_code = {1:'1', 2:'11', 3:'10', 4:'110', 5:'111', 6:'101', 7:'100'}
+...     return gray_code[num]
+... 
+&gt;&gt;&gt; # Create the LookAndSay object and generate a look and say sequence
+&gt;&gt;&gt; gray_ls = LookAndSay(gray)
+&gt;&gt;&gt; gray_ls.generate_sequence(seed='0', num_iterations=6)
+&gt;&gt;&gt; gray_ls.get_sequence()
+['0', '10', '1110', '10110', '111011110', '10110110110', '1110111101111011110']
+&gt;&gt;&gt; 
+&gt;&gt;&gt; # Use a BinaryChemistry object to determine the chemical properties
+&gt;&gt;&gt; gray_chem = BinaryChemistry(gray_ls)
+&gt;&gt;&gt; gray_chem.generate_elements('0')
+&gt;&gt;&gt; gray_chem.print_periodic_table()
+element   string   abundance    decay
+E1        10       0.0          [E3]
+E2        110      58.5786438   [E4]
+E3        1110     0.0          [E1, E2]
+E4        11110    41.4213562   [E2, E2]
+&gt;&gt;&gt; 
+&gt;&gt;&gt; # The maximal real eigenvalue of the decay matrix gives the long term
+&gt;&gt;&gt; # growth rate of the look and say sequence.
+&gt;&gt;&gt; gray_chem.get_max_eigenvalue()
+1.4142135623730947
+&gt;&gt;&gt; 
+&gt;&gt;&gt; # The growth rate is the maximal real root of the characteristic polynomial
+&gt;&gt;&gt; gray_chem.get_char_poly()
+(lambda - 1)*(lambda + 1)*(lambda**2 - 2)
+
+</code></pre>
+<h2 id="standard-ternary">Standard ternary</h2>
 <p>The following session illustrates how to use the module to explore look and say sequences using the standard ternary number system (i.e. using base 3 with digits 0, 1, and 2). The results are similar to those discussed <a href="http://www.njohnston.ca/2011/01/further-variants-of-the-look-and-say-sequence/">here</a>. </p>
 <p>To construct the corresponding LookAndSay object requires a <em>say function</em> which, in this case, is a function that converts an integer to it's standard ternary representation. The construction of the Chemistry object requires both the LookAndSay object as well as a <em>splitting function</em> which determines when the terms of the look and say sequences split. In this case, one can show that the terms will always split after a run of 0's as well as between a 2 (on the left) and either a 10 or a 1110 (on the right). We use a SplitFuncFactory object to create the splitting function. </p>
 <pre><code class="language-python">&gt;&gt;&gt; from look_and_say import *
@@ -84,8 +112,7 @@ lambda**18*(lambda - 1)**2*(lambda + 1)*(lambda**71 - lambda**69 - 2*lambda**68 
 ...     if num &lt; 3:
 ...         return str(num)
 ...     return ternary(num // 3) + str(num % 3)
-... 
-&gt;&gt;&gt; 
+...  
 &gt;&gt;&gt; # Use the Split Function Factory to create a split function:
 ... sff = SplitFuncFactory()
 &gt;&gt;&gt; sff.declare_split_after('0')
@@ -123,6 +150,9 @@ E17       11222112   0.0          [E3, E10]
 E18       112211     0.0          [E11]
 E19       112        0.0          [E12]
 E20       1112       0.0          [E1, E19]
+&gt;&gt;&gt;
+&gt;&gt;&gt; # Show the characteristic polynomial and its maximal real root, 
+&gt;&gt;&gt; # which gives the generic growth rate of the look and say sequences.
 &gt;&gt;&gt; print(ternary_chem.get_char_poly(latex=True))
 \lambda^{6} \left(\lambda - 1\right)^{2} \left(\lambda + 1\right)^{2} \left(\lambda^{2} + 1\right) \left(\lambda^{3} - \lambda - 1\right) \left(\lambda^{5} - \lambda^{3} + 1\right)
 &gt;&gt;&gt; print(ternary_chem.get_max_eigenvalue())
@@ -148,8 +178,6 @@ E20       1112       0.0          [E1, E19]
 </summary>
 <pre><code class="python">&#34;&#34;&#34;
 .. include:: ./docs/SUMMARY.md
-
-.. include:: ./docs/RESOURCES.md
 
 .. include:: ./docs/EXAMPLESESSIONS.md
 
@@ -428,64 +456,6 @@ class LookAndSay():
         &#34;&#34;&#34;
         return self.get_length_ratios()[-1]
 
-
-# class CircularLookAndSay(LookAndSay):
-#     &#34;&#34;&#34;
-#     In every term of a circular look and say sequence, 
-#     the end of the string is considered adjacent to the beginning. 
-#     More precisely, a circular look and say sequence is a sequence of
-#     equivalence classes of strings where two strings are considered equivalent
-#     if one can be obtained from the other by cycling some of the characters from 
-#     end of its string to the beginning. For example, applying the say-what-you-see
-#     operation to the string 11311 would normally yield 211321. However, in the circular
-#     case when we look at 11311 we should see 11113 and so we should say 4113.
-#     ## Example Session:
-#     ```python
-#     cls = CircularLookAndSay()
-#     cls.generate_sequence(&#39;11311&#39;, 5)
-#     print(cls.get_sequence())
-#     ```
-
-#     ### Output:
-#     ```sh
-#     [&#39;11311&#39;, &#39;4113&#39;, &#39;142113&#39;, &#39;1114122113&#39;, &#39;331141122211&#39;, &#39;232114213221&#39;]
-#     ```
-
-#     ## Example Session: A Roman Circular Look and Say
-#     ```python
-#     def roman_say(num):
-#         assert num &lt; 10, &#34;This Roman can only count to 9.&#34;
-#         roman = {1:&#39;I&#39;, 2:&#39;II&#39;, 3:&#39;III&#39;, 4:&#39;IV&#39;, 5:&#39;V&#39;, 6:&#39;VI&#39;, 7:&#39;VII&#39;, 8:&#39;VIII&#39;, 9:&#39;IX&#39;}
-#         return roman[num]
-
-#     roman_cls = CircularLookAndSay(roman_say)
-#     roman_cls.generate_sequence(&#39;V&#39;, 10)
-#     print(roman_cls.get_sequence())
-#     ```
-
-#     ### Output:
-#     ```sh
-#     [&#39;V&#39;, &#39;IV&#39;, &#39;IIIV&#39;, &#39;IIIIIV&#39;, &#39;VVII&#39;, &#39;IIIIIV&#39;, &#39;VVII&#39;, &#39;IIIIIV&#39;, &#39;VVII&#39;, &#39;IIIIIV&#39;, &#39;VVII&#39;]
-#     ```
-#     &#34;&#34;&#34;
-#     def __init__(self, say = None):
-#         super().__init__(say)
-
-#     def say_what_you_see(self, string):
-#         &#34;&#34;&#34;
-#         Overrides the LookAndSay method.
-#         Cycles the end of the string to the front until they are distinct, 
-#         then applies the say-what-you-see operation, then cycles the result.
-#         &#34;&#34;&#34;
-#         return self._cycle(super().say_what_you_see(self._cycle(string)))
-
-#     def _cycle(self, string):
-#         cycle = string
-#         for _ in range(len(string)):
-#             if cycle[0] != cycle[-1]:
-#                 break
-#             cycle = cycle[-1] + cycle[:-1]
-#         return cycle
 
 
 ########### CHEMISTRY #####################
@@ -1053,21 +1023,14 @@ class BinaryChemistry(Chemistry):
     ## Example Session: Standard Binary
 
     ```python
-    def binary_say(num):
-        return &#34;{0:b}&#34;.format(num)
-
-    binary_ls = LookAndSay(binary_say)
-    binary_chem = BinaryChemistry(binary_ls)
-    binary_chem.generate_elements(&#39;1&#39;)
-    binary_chem.order_elements(&#39;abundance&#39;)
-    binary_chem.print_periodic_table()
-
-    print(binary_chem.get_char_poly())
-    print(binary_chem.get_max_eigenvalue())
-    ```
-    
-    ### Output:
-    ```sh
+    &gt;&gt;&gt; def binary_say(num):
+    ...     return &#34;{0:b}&#34;.format(num)
+    ... 
+    &gt;&gt;&gt; binary_ls = LookAndSay(binary_say)
+    &gt;&gt;&gt; binary_chem = BinaryChemistry(binary_ls)
+    &gt;&gt;&gt; binary_chem.generate_elements(&#39;1&#39;)
+    &gt;&gt;&gt; binary_chem.order_elements(&#39;abundance&#39;)
+    &gt;&gt;&gt; binary_chem.print_periodic_table()
     element   string   abundance    decay
     E1        110      21.6756572   [E2, E1]
     E2        10       21.6756572   [E3]
@@ -1079,28 +1042,26 @@ class BinaryChemistry(Chemistry):
     E8        111100   4.6983411    [E6, E5]
     E9        11       0.0          [E2, E10]
     E10       1        0.0          [E9]
-    lambda**4*(lambda - 1)**2*(lambda + 1)*(lambda**3 - lambda**2 - 1)
+    &gt;&gt;&gt;
+    &gt;&gt;&gt; print(binary_chem.get_max_eigenvalue())
     1.4655712318767664
+
     ```
 
     ## Example Session: Twindragon Binary
     The following chemistry corresponds to the binary number system using 
-    the complex base \\(-1+i\\). This binary number system is known as *twindragon binary*.
+    the complex base \\(-1+i.\\) This binary number system is known as *twindragon binary*.
 
     ```python
-    def twindragon_say(num):
-        assert num &lt; 8, &#34;This twindragon can only count to 7.&#34;
-        twindragon = {1:&#39;1&#39;, 2:&#39;1100&#39;, 3:&#39;1101&#39;, 4:&#39;111010000&#39;, 5:&#39;111010001&#39;, 6:&#39;111011100&#39;, 7:&#39;111011101&#39;}
-        return twindragon[num]
-
-    twindragon_ls = LookAndSay(twindragon_say)
-    twindragon_chem = BinaryChemistry(twindragon_ls)
-    twindragon_chem.generate_elements(&#39;1&#39;)
-    twindragon_chem.print_periodic_table()
-    ```
-
-    ### Output:
-    ```sh
+    &gt;&gt;&gt; def twindragon_say(num):
+    ...     assert num &lt; 8, &#34;This twindragon can only count to 7.&#34;
+    ...     twindragon = {1:&#39;1&#39;, 2:&#39;1100&#39;, 3:&#39;1101&#39;, 4:&#39;111010000&#39;, 5:&#39;111010001&#39;, 6:&#39;111011100&#39;, 7:&#39;111011101&#39;}
+    ...     return twindragon[num]
+    ... 
+    &gt;&gt;&gt; twindragon_ls = LookAndSay(twindragon_say)
+    &gt;&gt;&gt; twindragon_chem = BinaryChemistry(twindragon_ls)
+    &gt;&gt;&gt; twindragon_chem.generate_elements(&#39;1&#39;)
+    &gt;&gt;&gt; twindragon_chem.print_periodic_table()
     element   string   abundance    decay
     E1        1        0.0          [E6]
     E2        10       6.746022     [E9]
@@ -1114,6 +1075,7 @@ class BinaryChemistry(Chemistry):
     E10       111000   11.5836587   [E7, E11, E2]
     E11       11110    6.1234052    [E9, E4, E7]
     E12       111110   1.9565832    [E9, E3, E9]
+
     ```
     &#34;&#34;&#34;
     def __init__(self, las, elements = None):
@@ -1566,20 +1528,15 @@ the say-what-you-see operation maps
 string that always starts with a 1. For example, this chemistry is
 valid for standard base two binary look and say sequences. </p>
 <h2 id="example-session-standard-binary">Example Session: Standard Binary</h2>
-<pre><code class="language-python">def binary_say(num):
-    return &quot;{0:b}&quot;.format(num)
-
-binary_ls = LookAndSay(binary_say)
-binary_chem = BinaryChemistry(binary_ls)
-binary_chem.generate_elements('1')
-binary_chem.order_elements('abundance')
-binary_chem.print_periodic_table()
-
-print(binary_chem.get_char_poly())
-print(binary_chem.get_max_eigenvalue())
-</code></pre>
-<h3 id="output">Output:</h3>
-<pre><code class="language-sh">element   string   abundance    decay
+<pre><code class="language-python">&gt;&gt;&gt; def binary_say(num):
+...     return &quot;{0:b}&quot;.format(num)
+... 
+&gt;&gt;&gt; binary_ls = LookAndSay(binary_say)
+&gt;&gt;&gt; binary_chem = BinaryChemistry(binary_ls)
+&gt;&gt;&gt; binary_chem.generate_elements('1')
+&gt;&gt;&gt; binary_chem.order_elements('abundance')
+&gt;&gt;&gt; binary_chem.print_periodic_table()
+element   string   abundance    decay
 E1        110      21.6756572   [E2, E1]
 E2        10       21.6756572   [E3]
 E3        1110     14.7899036   [E4]
@@ -1590,24 +1547,24 @@ E7        11100    6.8857536    [E8]
 E8        111100   4.6983411    [E6, E5]
 E9        11       0.0          [E2, E10]
 E10       1        0.0          [E9]
-lambda**4*(lambda - 1)**2*(lambda + 1)*(lambda**3 - lambda**2 - 1)
+&gt;&gt;&gt;
+&gt;&gt;&gt; print(binary_chem.get_max_eigenvalue())
 1.4655712318767664
+
 </code></pre>
 <h2 id="example-session-twindragon-binary">Example Session: Twindragon Binary</h2>
 <p>The following chemistry corresponds to the binary number system using
-the complex base <span><span class="MathJax_Preview">-1+i</span><script type="math/tex">-1+i</script></span>. This binary number system is known as <em>twindragon binary</em>.</p>
-<pre><code class="language-python">def twindragon_say(num):
-    assert num &lt; 8, &quot;This twindragon can only count to 7.&quot;
-    twindragon = {1:'1', 2:'1100', 3:'1101', 4:'111010000', 5:'111010001', 6:'111011100', 7:'111011101'}
-    return twindragon[num]
-
-twindragon_ls = LookAndSay(twindragon_say)
-twindragon_chem = BinaryChemistry(twindragon_ls)
-twindragon_chem.generate_elements('1')
-twindragon_chem.print_periodic_table()
-</code></pre>
-<h3 id="output_1">Output:</h3>
-<pre><code class="language-sh">element   string   abundance    decay
+the complex base <span><span class="MathJax_Preview">-1+i.</span><script type="math/tex">-1+i.</script></span> This binary number system is known as <em>twindragon binary</em>.</p>
+<pre><code class="language-python">&gt;&gt;&gt; def twindragon_say(num):
+...     assert num &lt; 8, &quot;This twindragon can only count to 7.&quot;
+...     twindragon = {1:'1', 2:'1100', 3:'1101', 4:'111010000', 5:'111010001', 6:'111011100', 7:'111011101'}
+...     return twindragon[num]
+... 
+&gt;&gt;&gt; twindragon_ls = LookAndSay(twindragon_say)
+&gt;&gt;&gt; twindragon_chem = BinaryChemistry(twindragon_ls)
+&gt;&gt;&gt; twindragon_chem.generate_elements('1')
+&gt;&gt;&gt; twindragon_chem.print_periodic_table()
+element   string   abundance    decay
 E1        1        0.0          [E6]
 E2        10       6.746022     [E9]
 E3        1000     1.5358344    [E11, E2]
@@ -1620,6 +1577,7 @@ E9        1110     14.6891551   [E7, E9]
 E10       111000   11.5836587   [E7, E11, E2]
 E11       11110    6.1234052    [E9, E4, E7]
 E12       111110   1.9565832    [E9, E3, E9]
+
 </code></pre></div>
 <details class="source">
 <summary>
@@ -1637,21 +1595,14 @@ E12       111110   1.9565832    [E9, E3, E9]
     ## Example Session: Standard Binary
 
     ```python
-    def binary_say(num):
-        return &#34;{0:b}&#34;.format(num)
-
-    binary_ls = LookAndSay(binary_say)
-    binary_chem = BinaryChemistry(binary_ls)
-    binary_chem.generate_elements(&#39;1&#39;)
-    binary_chem.order_elements(&#39;abundance&#39;)
-    binary_chem.print_periodic_table()
-
-    print(binary_chem.get_char_poly())
-    print(binary_chem.get_max_eigenvalue())
-    ```
-    
-    ### Output:
-    ```sh
+    &gt;&gt;&gt; def binary_say(num):
+    ...     return &#34;{0:b}&#34;.format(num)
+    ... 
+    &gt;&gt;&gt; binary_ls = LookAndSay(binary_say)
+    &gt;&gt;&gt; binary_chem = BinaryChemistry(binary_ls)
+    &gt;&gt;&gt; binary_chem.generate_elements(&#39;1&#39;)
+    &gt;&gt;&gt; binary_chem.order_elements(&#39;abundance&#39;)
+    &gt;&gt;&gt; binary_chem.print_periodic_table()
     element   string   abundance    decay
     E1        110      21.6756572   [E2, E1]
     E2        10       21.6756572   [E3]
@@ -1663,28 +1614,26 @@ E12       111110   1.9565832    [E9, E3, E9]
     E8        111100   4.6983411    [E6, E5]
     E9        11       0.0          [E2, E10]
     E10       1        0.0          [E9]
-    lambda**4*(lambda - 1)**2*(lambda + 1)*(lambda**3 - lambda**2 - 1)
+    &gt;&gt;&gt;
+    &gt;&gt;&gt; print(binary_chem.get_max_eigenvalue())
     1.4655712318767664
+
     ```
 
     ## Example Session: Twindragon Binary
     The following chemistry corresponds to the binary number system using 
-    the complex base \\(-1+i\\). This binary number system is known as *twindragon binary*.
+    the complex base \\(-1+i.\\) This binary number system is known as *twindragon binary*.
 
     ```python
-    def twindragon_say(num):
-        assert num &lt; 8, &#34;This twindragon can only count to 7.&#34;
-        twindragon = {1:&#39;1&#39;, 2:&#39;1100&#39;, 3:&#39;1101&#39;, 4:&#39;111010000&#39;, 5:&#39;111010001&#39;, 6:&#39;111011100&#39;, 7:&#39;111011101&#39;}
-        return twindragon[num]
-
-    twindragon_ls = LookAndSay(twindragon_say)
-    twindragon_chem = BinaryChemistry(twindragon_ls)
-    twindragon_chem.generate_elements(&#39;1&#39;)
-    twindragon_chem.print_periodic_table()
-    ```
-
-    ### Output:
-    ```sh
+    &gt;&gt;&gt; def twindragon_say(num):
+    ...     assert num &lt; 8, &#34;This twindragon can only count to 7.&#34;
+    ...     twindragon = {1:&#39;1&#39;, 2:&#39;1100&#39;, 3:&#39;1101&#39;, 4:&#39;111010000&#39;, 5:&#39;111010001&#39;, 6:&#39;111011100&#39;, 7:&#39;111011101&#39;}
+    ...     return twindragon[num]
+    ... 
+    &gt;&gt;&gt; twindragon_ls = LookAndSay(twindragon_say)
+    &gt;&gt;&gt; twindragon_chem = BinaryChemistry(twindragon_ls)
+    &gt;&gt;&gt; twindragon_chem.generate_elements(&#39;1&#39;)
+    &gt;&gt;&gt; twindragon_chem.print_periodic_table()
     element   string   abundance    decay
     E1        1        0.0          [E6]
     E2        10       6.746022     [E9]
@@ -1698,6 +1647,7 @@ E12       111110   1.9565832    [E9, E3, E9]
     E10       111000   11.5836587   [E7, E11, E2]
     E11       11110    6.1234052    [E9, E4, E7]
     E12       111110   1.9565832    [E9, E3, E9]
+
     ```
     &#34;&#34;&#34;
     def __init__(self, las, elements = None):
@@ -4035,10 +3985,10 @@ print(split(string))
 <h1>Index</h1>
 <div class="toc">
 <ul>
-<li><a href="#resources">Resources</a></li>
 <li><a href="#example-sessions">Example Sessions</a><ul>
-<li><a href="#standard-decimal-look-and-say-sequences">Standard decimal look and say sequences</a></li>
-<li><a href="#standard-ternary-look-and-say-sequences">Standard ternary look and say sequences</a></li>
+<li><a href="#standard-decimal">Standard decimal</a></li>
+<li><a href="#gray-code">Gray code</a></li>
+<li><a href="#standard-ternary">Standard ternary</a></li>
 </ul>
 </li>
 <li><a href="#projects-that-used-the-look_and_say-module">Projects that used the look_and_say module</a></li>
