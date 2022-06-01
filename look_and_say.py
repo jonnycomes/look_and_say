@@ -102,107 +102,98 @@ class LookAndSay():
     
     ## Example Session: Default Constructor. 
     The following example uses the default (standard) look and say sequences.
-    Note that the ratio of lengths are approaching Conway's constant.
+    Note that the ratios of lengths are approaching Conway's constant.
     ```python 
-    ls = LookAndSay()  
-    ls.generate_sequence('55555', 50)
-    sequence = ls.get_sequence()
-    first_terms = sequence[:10]
-    print('Sequence:', first_terms)
-    print('Ratios of lengths:', ls.get_length_ratios())
-    print('Just the last ratio:', ls.get_last_length_ratio())
-    ```
-    ### Output:
-
-    ```sh
+    >>> ls = LookAndSay()  
+    >>> ls.generate_sequence('55555', 35)
+    >>> sequence = ls.get_sequence()
+    >>> first_terms = sequence[:10]
+    >>> 
+    >>> print('Sequence:', first_terms)
     Sequence: ['55555', '55', '25', '1215', '11121115', '31123115', '132112132115', '11131221121113122115', '311311222112311311222115', '1321132132211213211321322115']
-    Ratios of lengths: [0.4, 1.0, 2.0, 2.0, 1.0, 1.5, 1.6666666666666667, 1.2, 1.1666666666666667, 1.5714285714285714, 1.1818181818181819, 1.1538461538461537, 1.4666666666666666, 1.2727272727272727, 1.25, 1.4, 1.3265306122448979, 1.2461538461538462, 1.3333333333333333, 1.3518518518518519, 1.226027397260274, 1.312849162011173, 1.3361702127659574, 1.2611464968152866, 1.3257575757575757, 1.318095238095238, 1.2919075144508672, 1.3053691275167785, 1.3161953727506426, 1.2936197916666667, 1.2989431303472572, 1.3142192948469587, 1.2951061320754718, 1.2997951286137037, 1.312784588441331, 1.2996264674493063, 1.3030178608088687, 1.3061288797857256, 1.3046441495778045, 1.300263510702233, 1.304700277323473, 1.3052921299324176, 1.299567840664732, 1.3057126333376172, 1.304461231821649, 1.3014789104353732, 1.3050192770385831, 1.304147670163319, 1.3026438489740129, 1.3036460274187538]
-    Just the last ratio: 1.3036460274187538
+    >>> 
+    >>> print('Ratios of lengths:', ls.get_length_ratios())
+    Ratios of lengths: [0.4, 1.0, 2.0, 2.0, 1.0, 1.5, 1.6666666666666667, 1.2, 1.1666666666666667, 1.5714285714285714, 1.1818181818181819, 1.1538461538461537, 1.4666666666666666, 1.2727272727272727, 1.25, 1.4, 1.3265306122448979, 1.2461538461538462, 1.3333333333333333, 1.3518518518518519, 1.226027397260274, 1.312849162011173, 1.3361702127659574, 1.2611464968152866, 1.3257575757575757, 1.318095238095238, 1.2919075144508672, 1.3053691275167785, 1.3161953727506426, 1.2936197916666667, 1.2989431303472572, 1.3142192948469587, 1.2951061320754718, 1.2997951286137037, 1.312784588441331]
+    >>> 
+    >>> print('Just the last ratio:', ls.get_last_length_ratio())
+    Just the last ratio: 1.312784588441331
+
     ```
 
     ## Example Sessions: One parameter say functions
 
     Here is an implementation of a Roman look and say:
     ```python
-    def roman_say(num):
-        assert num < 10, "This Roman can only count to 9."
-        roman = {1:'I', 2:'II', 3:'III', 4:'IV', 5:'V', 6:'VI', 7:'VII', 8:'VIII', 9:'IX'}
-        return roman[num]
-
-    roman_ls = LookAndSay(roman_say)
-
-    roman_ls.generate_sequence('I', 10)
-    print(roman_ls.get_sequence())
-
-    roman_ls.generate_sequence('V', 10)
-    print(roman_ls.get_sequence())
-    ```
-    ### Output:
-
-    ```sh
+    >>> def roman_say(num):
+    ...     assert num < 10, "This Roman can only count to 9."
+    ...     roman = {1:'I', 2:'II', 3:'III', 4:'IV', 5:'V', 6:'VI', 7:'VII', 8:'VIII', 9:'IX'}
+    ...     return roman[num]
+    ... 
+    >>> roman_ls = LookAndSay(roman_say)
+    >>> 
+    >>> roman_ls.generate_sequence('I', 10)
+    >>> print(roman_ls.get_sequence())
     ['I', 'II', 'III', 'IIII', 'IVI', 'IIIVII', 'IIIIIVIII', 'VIIVIIII', 'IVIIIIVIVI', 'IIIVIVIIVIIIVII', 'IIIIIVIIIVIIIIVIIIIIVIII']
+    >>> 
+    >>> roman_ls.generate_sequence('V', 10)
+    >>> print(roman_ls.get_sequence())
     ['V', 'IV', 'IIIV', 'IIIIIV', 'VIIV', 'IVIIIIV', 'IIIVIVIIV', 'IIIIIVIIIVIIIIV', 'VIIVIIIIIVIVIIV', 'IVIIIIVVIIVIIIVIIIIV', 'IIIVIVIIIVIIIIVIIIIIVIVIIV']
+
     ```
+
     Here is a standard binary look and say:
     ```python
-    def binary_say(num):
-        return "{0:b}".format(num)
-
-    binary_ls = LookAndSay(binary_say)
-
-    binary_ls.generate_sequence('0', 9)
-    print(binary_ls.get_sequence())
-
-    binary_ls.generate_sequence('1', 9)
-    print(binary_ls.get_sequence())
-    ```
-    ### Output:
-
-    ```sh
+    >>> def binary_say(num):
+    ...     return "{0:b}".format(num)
+    ... 
+    >>> binary_ls = LookAndSay(binary_say)
+    >>> 
+    >>> binary_ls.generate_sequence('0', 9)
+    >>> print(binary_ls.get_sequence())
     ['0', '10', '1110', '11110', '100110', '1110010110', '111100111010110', '100110011110111010110', '1110010110010011011110111010110', '1111001110101100111001011010011011110111010110']
+    >>> 
+    >>> binary_ls.generate_sequence('1', 9)
+    >>> print(binary_ls.get_sequence())
     ['1', '11', '101', '111011', '11110101', '100110111011', '111001011011110101', '111100111010110100110111011', '100110011110111010110111001011011110101', '1110010110010011011110111010110111100111010110100110111011']
+
     ```
+    
     ## Example Sessions: Two parameter say functions
 
     Here is a *look-and-say-again* from the paper [*Stuttering Conway Sequences Are Still Conway Sequences* by Brier et al](https://arxiv.org/abs/2006.06837).
     The say function for this example corresponds to the decay \\(a^b\\to bbaa\\).
     ```python
-    def say_again(char_count, char):
-        return 2 * str(char_count) + 2 * char
-
-    look_and_say_again = LookAndSay(say_again)
-
-    look_and_say_again.generate_sequence('1', 10)
-    print(look_and_say_again.get_sequence())
-
-    look_and_say_again.generate_sequence('2', 10)
-    print(look_and_say_again.get_sequence())
-    ```
-    ### Output:
-
-    ```sh
+    >>> def say_again(char_count, char):
+    ...     return 2 * str(char_count) + 2 * char
+    ... 
+    >>> look_and_say_again = LookAndSay(say_again)
+    >>> 
+    >>> look_and_say_again.generate_sequence('1', 10)
+    >>> print(look_and_say_again.get_sequence())
     ['1', '1111', '4411', '22442211', '2222224422222211', '6622224466222211', '226644222244226644222211', '2222226622444422224422222266224444222211', '662222662222444444222244662222662222444444222211', '22664422226644226644442222442266442222664422664444222211', '2222226622444422226622442222226644444422224422222266224444222266224422222266444444222211']
+    >>> 
+    >>> look_and_say_again.generate_sequence('2', 10)
+    >>> print(look_and_say_again.get_sequence())
     ['2', '1122', '22112222', '222222114422', '6622221122442222', '226644222211222222444422', '22222266224444222211662244442222', '6622226622224444442222112266222244444422', '226644222266442266444422221122222266442266442222', '222222662244442222662244222222664444442222116622226622442222226622444422', '66222266222244444422226622222244662222666644442222112266442222662222224466222266222244442222']
+
     ```
+
     Here is [Morrill's *Look Knave*](https://www.cambridge.org/core/journals/bulletin-of-the-australian-mathematical-society/article/abs/look-knave/BFC51822DED97095C96ABD2255AEDC2A):
     ```python
-    def knave_say(bit_count, bit):
-        flip = {'0':'1', '1':'0'}
-        return "{0:b}".format(bit_count) + flip[bit]
-
-    look_knave = LookAndSay(knave_say)
-
-    look_knave.generate_sequence('0', 12)
-    print(look_knave.get_sequence())
-
-    look_knave.generate_sequence('1', 12)
-    print(look_knave.get_sequence())
-    ```
-    ### Output:
-
-    ```sh
+    >>> def knave_say(bit_count, bit):
+    ...     flip = {'0':'1', '1':'0'}
+    ...     return "{0:b}".format(bit_count) + flip[bit]
+    ... 
+    >>> look_knave = LookAndSay(knave_say)
+    >>> 
+    >>> look_knave.generate_sequence('0', 12)
+    >>> print(look_knave.get_sequence())
     ['0', '11', '100', '10101', '1011101110', '10111101111011', '1011100011100011100', '1011110111110111110101', '1011100011101011101011101110', '10111101111101110111101110111101111011', '10111000111010111101110001111011100011100011100', '1011110111110111011100011110111100011110111110111110101', '1011100011101011110111101111000111000111100011101011101011101110']
+    >>> 
+    >>> look_knave.generate_sequence('1', 12)
+    >>> print(look_knave.get_sequence())
     ['1', '10', '1011', '1011100', '1011110101', '1011100011101110', '10111101111101111011', '1011100011101011100011100', '1011110111110111011110111110101', '101110001110101111011100011101011101110', '10111101111101110111000111101111101110111101111011', '10111000111010111101111011110001110101111011100011100011100', '10111101111101110111000111000111000111110111011100011110111110111110101']
+
     ```
     """
     def __init__(self, say = None):
@@ -297,17 +288,10 @@ class Chemistry():
     ## Example Session: Conway's Constant and his 92 Common Elements
 
     ```python
-    ls = LookAndSay()
-    chem = Chemistry(ls)
-    chem.generate_elements('1')
-    chem.print_periodic_table() 
-
-    print(chem.get_char_poly())
-    print(chem.get_max_eigenvalue())   
-    ```
-    ### Output:
-
-    ```sh
+    >>> ls = LookAndSay()
+    >>> chem = Chemistry(ls)
+    >>> chem.generate_elements('1')
+    >>> chem.print_periodic_table() 
     element   string                                       abundance   decay
     H         22                                           9.1790383   [H]
     He        13112221133211322112211213322112             0.3237297   [Hf, Pa, H, Ca, Li]
@@ -401,8 +385,13 @@ class Chemistry():
     Th        1113                                         0.7581905   [Ac]
     Pa        13                                           0.9883599   [Th]
     U         3                                            0.0102563   [Pa]
+    >>> 
+    >>> print(chem.get_char_poly())
     lambda**18*(lambda - 1)**2*(lambda + 1)*(lambda**71 - lambda**69 - 2*lambda**68 - lambda**67 + 2*lambda**66 + 2*lambda**65 + lambda**64 - lambda**63 - lambda**62 - lambda**61 - lambda**60 - lambda**59 + 2*lambda**58 + 5*lambda**57 + 3*lambda**56 - 2*lambda**55 - 10*lambda**54 - 3*lambda**53 - 2*lambda**52 + 6*lambda**51 + 6*lambda**50 + lambda**49 + 9*lambda**48 - 3*lambda**47 - 7*lambda**46 - 8*lambda**45 - 8*lambda**44 + 10*lambda**43 + 6*lambda**42 + 8*lambda**41 - 5*lambda**40 - 12*lambda**39 + 7*lambda**38 - 7*lambda**37 + 7*lambda**36 + lambda**35 - 3*lambda**34 + 10*lambda**33 + lambda**32 - 6*lambda**31 - 2*lambda**30 - 10*lambda**29 - 3*lambda**28 + 2*lambda**27 + 9*lambda**26 - 3*lambda**25 + 14*lambda**24 - 8*lambda**23 - 7*lambda**21 + 9*lambda**20 + 3*lambda**19 - 4*lambda**18 - 10*lambda**17 - 7*lambda**16 + 12*lambda**15 + 7*lambda**14 + 2*lambda**13 - 12*lambda**12 - 4*lambda**11 - 2*lambda**10 + 5*lambda**9 + lambda**7 - 7*lambda**6 + 7*lambda**5 - 4*lambda**4 + 12*lambda**3 - 6*lambda**2 + 3*lambda - 6)
-    1.3035772690342997
+    >>> 
+    >>> print(chem.get_max_eigenvalue())
+    1.3035772690342984
+   
     ```
 
     ## Example Session: Conway's Chemistry with Transuranic Elements
@@ -412,14 +401,10 @@ class Chemistry():
     atoms per million.
 
     ```python
-    ls = LookAndSay()
-    chem = Chemistry(ls)
-    chem.generate_elements('11111', '78')
-    chem.print_periodic_table(abundance_sum = 10**6) 
-    ```
-
-    ### Output:
-    ```sh
+    >>> ls = LookAndSay()
+    >>> chem = Chemistry(ls)
+    >>> chem.generate_elements('11111', '78')
+    >>> chem.print_periodic_table(abundance_sum = 10**6)
     element   string                                       abundance       decay
     H         22                                           91790.383216    [H]
     He        13112221133211322112211213322112             3237.2968587    [Hf, Pa, H, Ca, Li]
@@ -519,40 +504,35 @@ class Chemistry():
     Pu5       312211322212221121123222115                  0.0             [Np5]
     Pu7       312211322212221121123222117                  0.0             [Np7]
     Pu8       312211322212221121123222118                  0.0             [Np8]
+ 
     ```
 
     ## Example Session: Standard Ternary
 
     ```python
-    # Define the say function:
-    def ternary(num):
-        if num < 3:
-            return str(num)
-        return ternary(num // 3) + str(num % 3)
-
-
-    # Use the Split Function Factory to create a split function:
-    sff = SplitFuncFactory()
-    sff.declare_split_after('0')
-    sff.declare_splitting_pairs(('2', '1110'), ('2', '10'))
-    split = sff.get_split()
-
-    # Instantiate the LookAndSay and Chemistry objects:
-    ternary_ls = LookAndSay(ternary)
-    ternary_chem = Chemistry(ternary_ls, split)
-
-    # Generate elements and order them according to relative abundances:
-    ternary_chem.generate_elements('0', '1', '2')
-    ternary_chem.order_elements('abundance')
-
-    # Print chemical properties:
-    ternary_chem.print_periodic_table()
-    print(ternary_chem.get_char_poly())
-    print(ternary_chem.get_max_eigenvalue())
-    ```
-
-    ### Output:
-    ```sh
+    >>> # Define the say function:
+    ... def ternary(num):
+    ...     if num < 3:
+    ...         return str(num)
+    ...     return ternary(num // 3) + str(num % 3)
+    ... 
+    >>> 
+    >>> # Use the Split Function Factory to create a split function:
+    ... sff = SplitFuncFactory()
+    >>> sff.declare_split_after('0')
+    >>> sff.declare_splitting_pairs(('2', '1110'), ('2', '10'))
+    >>> split = sff.get_split()
+    >>> 
+    >>> # Instantiate the LookAndSay and Chemistry objects:
+    ... ternary_ls = LookAndSay(ternary)
+    >>> ternary_chem = Chemistry(ternary_ls, split)
+    >>> 
+    >>> # Generate elements and order them according to relative abundances:
+    ... ternary_chem.generate_elements('0', '1', '2')
+    >>> ternary_chem.order_elements('abundance')
+    >>> 
+    >>> # Print chemical properties:
+    ... ternary_chem.print_periodic_table()
     element   string     abundance    decay
     E1        10         18.5037375   [E4]
     E2        22110      13.9680582   [E5]
@@ -574,8 +554,13 @@ class Chemistry():
     E18       112211     0.0          [E11]
     E19       112        0.0          [E12]
     E20       1112       0.0          [E1, E19]
+    >>> 
+    >>> print(ternary_chem.get_char_poly())
     lambda**6*(lambda - 1)**2*(lambda + 1)**2*(lambda**2 + 1)*(lambda**3 - lambda - 1)*(lambda**5 - lambda**3 + 1)
+    >>> 
+    >>> print(ternary_chem.get_max_eigenvalue())
     1.3247179572447458
+
     ```
 
     
@@ -584,33 +569,27 @@ class Chemistry():
     look and say sequence. 
 
     ```python
-    # Define a (partial) say function to convert integers to balanced ternary:
-    def bal_tern(num):
-        assert num < 11, "bal_tern will only convert integers from 1 to 10."
-        repn = {1:'1', 2:'1T', 3:'10', 4:'11', 5:'1TT', 6:'1T0', 7:'1T1', 8:'10T', 9:'100', 10:'101'}
-        return repn[num]
-
-    # Use the split function factory to generate an appropriate split function: 
-    sff = SplitFuncFactory()
-    sff.declare_split_after('0', 'T')
-    split = sff.get_split()
-
-    # Instantiate the look and say and chemistry objects:
-    bal_tern_ls = LookAndSay(bal_tern)
-    bal_tern_chem = Chemistry(bal_tern_ls, split)
-
-    # Generate persistent elements from the seed '0', and order them according to their relative abundance:
-    bal_tern_chem.generate_elements('0')
-    bal_tern_chem.order_elements('abundance')
-
-    # Print the chemical properties
-    bal_tern_chem.print_periodic_table()
-    print(bal_tern_chem.get_char_poly())
-    print(bal_tern_chem.get_max_eigenvalue()) # golden!
-    ```
-
-    ### Output:
-    ```sh
+    >>> # Define a (partial) say function to convert integers to balanced ternary:
+    ... def bal_tern(num):
+    ...     assert num < 11, "bal_tern will only convert integers from 1 to 10."
+    ...     repn = {1:'1', 2:'1T', 3:'10', 4:'11', 5:'1TT', 6:'1T0', 7:'1T1', 8:'10T', 9:'100', 10:'101'}
+    ...     return repn[num]
+    ... 
+    >>> # Use the split function factory to generate an appropriate split function: 
+    ... sff = SplitFuncFactory()
+    >>> sff.declare_split_after('0', 'T')
+    >>> split = sff.get_split()
+    >>> 
+    >>> # Instantiate the look and say and chemistry objects:
+    ... bal_tern_ls = LookAndSay(bal_tern)
+    >>> bal_tern_chem = Chemistry(bal_tern_ls, split)
+    >>> 
+    >>> # Generate persistent elements from the seed '0', and order them according to their relative abundance:
+    ... bal_tern_chem.generate_elements('0')
+    >>> bal_tern_chem.order_elements('abundance')
+    >>> 
+    >>> # Print the chemical properties
+    ... bal_tern_chem.print_periodic_table()
     element   string   abundance    decay
     E1        1T       23.6067977   [E3]
     E2        11T      23.6067977   [E1, E2]
@@ -618,10 +597,14 @@ class Chemistry():
     E4        110      14.5898034   [E1, E4]
     E5        10       14.5898034   [E6]
     E6        1110     9.0169944    [E5, E4]
+    >>> 
+    >>> print(bal_tern_chem.get_char_poly())
     lambda**3*(lambda - 1)*(lambda**2 - lambda - 1)
-    1.6180339887498953
-    ```
+    >>> 
+    >>> print(bal_tern_chem.get_max_eigenvalue()) # golden!
+    1.6180339887498945
 
+    ```
     """
     def __init__(self, las, split = split_Conway, elements = None):
         super(Chemistry, self).__init__()
@@ -770,17 +753,13 @@ class Chemistry():
 
         ## Example Session:
         ```python
-        ls = LookAndSay()
-        chem = Chemistry(ls)
-        chem.generate_elements('4')
-        print(chem.get_periodic_table())
-        ```
+        >>> ls = LookAndSay()
+        >>> chem = Chemistry(ls)
+        >>> chem.generate_elements('4')
+        >>> print(chem.get_periodic_table())
+        {'H': {'string': '22', 'abundance': 9.1790383, 'decay': [H]}, 'He': {'string': '13112221133211322112211213322112', 'abundance': 0.3237297, 'decay': [Hf, Pa, H, Ca, Li]}, 'Li': {'string': '312211322212221121123222112', 'abundance': 0.4220067, 'decay': [He]}, 'Be': {'string': '111312211312113221133211322112211213322112', 'abundance': 0.2263886, 'decay': [Ge, Ca, Li]}, 'B': {'string': '1321132122211322212221121123222112', 'abundance': 0.295115, 'decay': [Be]}, 'C': {'string': '3113112211322112211213322112', 'abundance': 0.3847053, 'decay': [B]}, 'N': {'string': '111312212221121123222112', 'abundance': 0.501493, 'decay': [C]}, 'O': {'string': '132112211213322112', 'abundance': 0.6537349, 'decay': [N]}, 'F': {'string': '31121123222112', 'abundance': 0.852194, 'decay': [O]}, 'Ne': {'string': '111213322112', 'abundance': 1.1109007, 'decay': [F]}, 'Na': {'string': '123222112', 'abundance': 1.4481449, 'decay': [Ne]}, 'Mg': {'string': '3113322112', 'abundance': 1.8850441, 'decay': [Pm, Na]}, 'Al': {'string': '1113222112', 'abundance': 2.4573007, 'decay': [Mg]}, 'Si': {'string': '1322112', 'abundance': 3.2032813, 'decay': [Al]}, 'P': {'string': '311311222112', 'abundance': 1.4895887, 'decay': [Ho, Si]}, 'S': {'string': '1113122112', 'abundance': 1.9417939, 'decay': [P]}, 'Cl': {'string': '132112', 'abundance': 2.5312784, 'decay': [S]}, 'Ar': {'string': '3112', 'abundance': 3.299717, 'decay': [Cl]}, 'K': {'string': '1112', 'abundance': 4.3014361, 'decay': [Ar]}, 'Ca': {'string': '12', 'abundance': 5.6072543, 'decay': [K]}, 'Sc': {'string': '3113112221133112', 'abundance': 0.9302097, 'decay': [Ho, Pa, H, Ca, Co]}, 'Ti': {'string': '11131221131112', 'abundance': 1.2126003, 'decay': [Sc]}, 'V': {'string': '13211312', 'abundance': 1.5807182, 'decay': [Ti]}, 'Cr': {'string': '31132', 'abundance': 2.0605883, 'decay': [V]}, 'Mn': {'string': '111311222112', 'abundance': 2.686136, 'decay': [Cr, Si]}, 'Fe': {'string': '13122112', 'abundance': 3.5015859, 'decay': [Mn]}, 'Co': {'string': '32112', 'abundance': 4.5645877, 'decay': [Fe]}, 'Ni': {'string': '11133112', 'abundance': 1.3871124, 'decay': [Zn, Co]}, 'Cu': {'string': '131112', 'abundance': 1.8082082, 'decay': [Ni]}, 'Zn': {'string': '312', 'abundance': 2.3571391, 'decay': [Cu]}, 'Ga': {'string': '13221133122211332', 'abundance': 0.1447891, 'decay': [Eu, Ca, Ac, H, Ca, Zn]}, 'Ge': {'string': '31131122211311122113222', 'abundance': 0.1887437, 'decay': [Ho, Ga]}, 'As': {'string': '11131221131211322113322112', 'abundance': 0.0027246, 'decay': [Ge, Na]}, 'Se': {'string': '13211321222113222112', 'abundance': 0.0035518, 'decay': [As]}, 'Br': {'string': '3113112211322112', 'abundance': 0.00463, 'decay': [Se]}, 'Kr': {'string': '11131221222112', 'abundance': 0.0060355, 'decay': [Br]}, 'Rb': {'string': '1321122112', 'abundance': 0.0078678, 'decay': [Kr]}, 'Sr': {'string': '3112112', 'abundance': 0.0102563, 'decay': [Rb]}, 'Y': {'string': '1112133', 'abundance': 0.0133699, 'decay': [Sr, U]}, 'Zr': {'string': '12322211331222113112211', 'abundance': 0.0174286, 'decay': [Y, H, Ca, Tc]}, 'Nb': {'string': '1113122113322113111221131221', 'abundance': 0.0227196, 'decay': [Er, Zr]}, 'Mo': {'string': '13211322211312113211', 'abundance': 0.0296167, 'decay': [Nb]}, 'Tc': {'string': '311322113212221', 'abundance': 0.0386077, 'decay': [Mo]}, 'Ru': {'string': '132211331222113112211', 'abundance': 0.0328995, 'decay': [Eu, Ca, Tc]}, 'Rh': {'string': '311311222113111221131221', 'abundance': 0.042887, 'decay': [Ho, Ru]}, 'Pd': {'string': '111312211312113211', 'abundance': 0.0559065, 'decay': [Rh]}, 'Ag': {'string': '132113212221', 'abundance': 0.0728785, 'decay': [Pd]}, 'Cd': {'string': '3113112211', 'abundance': 0.0950027, 'decay': [Ag]}, 'In': {'string': '11131221', 'abundance': 0.1238434, 'decay': [Cd]}, 'Sn': {'string': '13211', 'abundance': 0.1614395, 'decay': [In]}, 'Sb': {'string': '3112221', 'abundance': 0.2104488, 'decay': [Pm, Sn]}, 'Te': {'string': '1322113312211', 'abundance': 0.2743363, 'decay': [Eu, Ca, Sb]}, 'I': {'string': '311311222113111221', 'abundance': 0.3576186, 'decay': [Ho, Te]}, 'Xe': {'string': '11131221131211', 'abundance': 0.4661834, 'decay': [I]}, 'Cs': {'string': '13211321', 'abundance': 0.6077061, 'decay': [Xe]}, 'Ba': {'string': '311311', 'abundance': 0.7921919, 'decay': [Cs]}, 'La': {'string': '11131', 'abundance': 1.0326833, 'decay': [Ba]}, 'Ce': {'string': '1321133112', 'abundance': 1.3461825, 'decay': [La, H, Ca, Co]}, 'Pr': {'string': '31131112', 'abundance': 1.7548529, 'decay': [Ce]}, 'Nd': {'string': '111312', 'abundance': 2.2875864, 'decay': [Pr]}, 'Pm': {'string': '132', 'abundance': 2.9820456, 'decay': [Nd]}, 'Sm': {'string': '311332', 'abundance': 1.5408115, 'decay': [Pm, Ca, Zn]}, 'Eu': {'string': '1113222', 'abundance': 2.0085669, 'decay': [Sm]}, 'Gd': {'string': '13221133112', 'abundance': 2.1662973, 'decay': [Eu, Ca, Co]}, 'Tb': {'string': '3113112221131112', 'abundance': 2.8239359, 'decay': [Ho, Gd]}, 'Dy': {'string': '111312211312', 'abundance': 3.6812186, 'decay': [Tb]}, 'Ho': {'string': '1321132', 'abundance': 4.7987529, 'decay': [Dy]}, 'Er': {'string': '311311222', 'abundance': 0.1098596, 'decay': [Ho, Pm]}, 'Tm': {'string': '11131221133112', 'abundance': 0.1204908, 'decay': [Er, Ca, Co]}, 'Yb': {'string': '1321131112', 'abundance': 0.1570691, 'decay': [Tm]}, 'Lu': {'string': '311312', 'abundance': 0.2047517, 'decay': [Yb]}, 'Hf': {'string': '11132', 'abundance': 0.2669097, 'decay': [Lu]}, 'Ta': {'string': '13112221133211322112211213322113', 'abundance': 0.0242077, 'decay': [Hf, Pa, H, Ca, W]}, 'W': {'string': '312211322212221121123222113', 'abundance': 0.0315567, 'decay': [Ta]}, 'Re': {'string': '111312211312113221133211322112211213322113', 'abundance': 0.0169288, 'decay': [Ge, Ca, W]}, 'Os': {'string': '1321132122211322212221121123222113', 'abundance': 0.022068, 'decay': [Re]}, 'Ir': {'string': '3113112211322112211213322113', 'abundance': 0.0287673, 'decay': [Os]}, 'Pt': {'string': '111312212221121123222113', 'abundance': 0.0375005, 'decay': [Ir]}, 'Au': {'string': '132112211213322113', 'abundance': 0.0488847, 'decay': [Pt]}, 'Hg': {'string': '31121123222113', 'abundance': 0.063725, 'decay': [Au]}, 'Tl': {'string': '111213322113', 'abundance': 0.0830705, 'decay': [Hg]}, 'Pb': {'string': '123222113', 'abundance': 0.1082888, 'decay': [Tl]}, 'Bi': {'string': '3113322113', 'abundance': 0.1411629, 'decay': [Pm, Pb]}, 'Po': {'string': '1113222113', 'abundance': 0.1840167, 'decay': [Bi]}, 'At': {'string': '1322113', 'abundance': 0.23988, 'decay': [Po]}, 'Rn': {'string': '311311222113', 'abundance': 0.3127021, 'decay': [Ho, At]}, 'Fr': {'string': '1113122113', 'abundance': 0.4076313, 'decay': [Rn]}, 'Ra': {'string': '132113', 'abundance': 0.5313789, 'decay': [Fr]}, 'Ac': {'string': '3113', 'abundance': 0.6926935, 'decay': [Ra]}, 'Th': {'string': '1113', 'abundance': 0.7581905, 'decay': [Ac]}, 'Pa': {'string': '13', 'abundance': 0.9883599, 'decay': [Th]}, 'U': {'string': '3', 'abundance': 0.0102563, 'decay': [Pa]}, 'Np4': {'string': '13112221133211322112211213322114', 'abundance': 0.0, 'decay': [Hf, Pa, H, Ca, Pu4]}, 'Pu4': {'string': '312211322212221121123222114', 'abundance': 0.0, 'decay': [Np4]}}
 
-        ### Output:
-        ```sh
-        {'H': {'string': '22', 'abundance': 9.1790383, 'decay': [H]}, 'He': {'string': '13112221133211322112211213322112', 'abundance': 0.3237297, 'decay': [Hf, Pa, H, Ca, Li]}, 'Li': {'string': '312211322212221121123222112', 'abundance': 0.4220067, 'decay': [He]}, 'Be': {'string': '111312211312113221133211322112211213322112', 'abundance': 0.2263886, 'decay': [Ge, Ca, Li]}, 'B': {'string': '1321132122211322212221121123222112', 'abundance': 0.295115, 'decay': [Be]}, 'C': {'string': '3113112211322112211213322112', 'abundance': 0.3847053, 'decay': [B]}, 'N': {'string': '111312212221121123222112', 'abundance': 0.501493, 'decay': [C]}, 'O': {'string': '132112211213322112', 'abundance': 0.6537349, 'decay': [N]}, 'F': {'string': '31121123222112', 'abundance': 0.852194, 'decay': [O]}, 'Ne': {'string': '111213322112', 'abundance': 1.1109007, 'decay': [F]}, 'Na': {'string': '123222112', 'abundance': 1.4481449, 'decay': [Ne]}, 'Mg': {'string': '3113322112', 'abundance': 1.8850441, 'decay': [Pm, Na]}, 'Al': {'string': '1113222112', 'abundance': 2.4573007, 'decay': [Mg]}, 'Si': {'string': '1322112', 'abundance': 3.2032813, 'decay': [Al]}, 'P': {'string': '311311222112', 'abundance': 1.4895887, 'decay': [Ho, Si]}, 'S': {'string': '1113122112', 'abundance': 1.9417939, 'decay': [P]}, 'Cl': {'string': '132112', 'abundance': 2.5312784, 'decay': [S]}, 'Ar': {'string': '3112', 'abundance': 3.299717, 'decay': [Cl]}, 'K': {'string': '1112', 'abundance': 4.3014361, 'decay': [Ar]}, 'Ca': {'string': '12', 'abundance': 5.6072543, 'decay': [K]}, 'Sc': {'string': '3113112221133112', 'abundance': 0.9302097, 'decay': [Ho, Pa, H, Ca, Co]}, 'Ti': {'string': '11131221131112', 'abundance': 1.2126003, 'decay': [Sc]}, 'V': {'string': '13211312', 'abundance': 1.5807182, 'decay': [Ti]}, 'Cr': {'string': '31132', 'abundance': 2.0605883, 'decay': [V]}, 'Mn': {'string': '111311222112', 'abundance': 2.686136, 'decay': [Cr, Si]}, 'Fe': {'string': '13122112', 'abundance': 3.5015859, 'decay': [Mn]}, 'Co': {'string': '32112', 'abundance': 4.5645877, 'decay': [Fe]}, 'Ni': {'string': '11133112', 'abundance': 1.3871124, 'decay': [Zn, Co]}, 'Cu': {'string': '131112', 'abundance': 1.8082082, 'decay': [Ni]}, 'Zn': {'string': '312', 'abundance': 2.3571391, 'decay': [Cu]}, 'Ga': {'string': '13221133122211332', 'abundance': 0.1447891, 'decay': [Eu, Ca, Ac, H, Ca, Zn]}, 'Ge': {'string': '31131122211311122113222', 'abundance': 0.1887437, 'decay': [Ho, Ga]}, 'As': {'string': '11131221131211322113322112', 'abundance': 0.0027246, 'decay': [Ge, Na]}, 'Se': {'string': '13211321222113222112', 'abundance': 0.0035518, 'decay': [As]}, 'Br': {'string': '3113112211322112', 'abundance': 0.00463, 'decay': [Se]}, 'Kr': {'string': '11131221222112', 'abundance': 0.0060355, 'decay': [Br]}, 'Rb': {'string': '1321122112', 'abundance': 0.0078678, 'decay': [Kr]}, 'Sr': {'string': '3112112', 'abundance': 0.0102563, 'decay': [Rb]}, 'Y': {'string': '1112133', 'abundance': 0.0133699, 'decay': [Sr, U]}, 'Zr': {'string': '12322211331222113112211', 'abundance': 0.0174286, 'decay': [Y, H, Ca, Tc]}, 'Nb': {'string': '1113122113322113111221131221', 'abundance': 0.0227196, 'decay': [Er, Zr]}, 'Mo': {'string': '13211322211312113211', 'abundance': 0.0296167, 'decay': [Nb]}, 'Tc': {'string': '311322113212221', 'abundance': 0.0386077, 'decay': [Mo]}, 'Ru': {'string': '132211331222113112211', 'abundance': 0.0328995, 'decay': [Eu, Ca, Tc]}, 'Rh': {'string': '311311222113111221131221', 'abundance': 0.042887, 'decay': [Ho, Ru]}, 'Pd': {'string': '111312211312113211', 'abundance': 0.0559065, 'decay': [Rh]}, 'Ag': {'string': '132113212221', 'abundance': 0.0728785, 'decay': [Pd]}, 'Cd': {'string': '3113112211', 'abundance': 0.0950027, 'decay': [Ag]}, 'In': {'string': '11131221', 'abundance': 0.1238434, 'decay': [Cd]}, 'Sn': {'string': '13211', 'abundance': 0.1614395, 'decay': [In]}, 'Sb': {'string': '3112221', 'abundance': 0.2104488, 'decay': [Pm, Sn]}, 'Te': {'string': '1322113312211', 'abundance': 0.2743363, 'decay': [Eu, Ca, Sb]}, 'I': {'string': '311311222113111221', 'abundance': 0.3576186, 'decay': [Ho, Te]}, 'Xe': {'string': '11131221131211', 'abundance': 0.4661834, 'decay': [I]}, 'Cs': {'string': '13211321', 'abundance': 0.6077061, 'decay': [Xe]}, 'Ba': {'string': '311311', 'abundance': 0.7921919, 'decay': [Cs]}, 'La': {'string': '11131', 'abundance': 1.0326833, 'decay': [Ba]}, 'Ce': {'string': '1321133112', 'abundance': 1.3461825, 'decay': [La, H, Ca, Co]}, 'Pr': {'string': '31131112', 'abundance': 1.7548529, 'decay': [Ce]}, 'Nd': {'string': '111312', 'abundance': 2.2875864, 'decay': [Pr]}, 'Pm': {'string': '132', 'abundance': 2.9820456, 'decay': [Nd]}, 'Sm': {'string': '311332', 'abundance': 1.5408115, 'decay': [Pm, Ca, Zn]}, 'Eu': {'string': '1113222', 'abundance': 2.0085669, 'decay': [Sm]}, 'Gd': {'string': '13221133112', 'abundance': 2.1662973, 'decay': [Eu, Ca, Co]}, 'Tb': {'string': '3113112221131112', 'abundance': 2.8239359, 'decay': [Ho, Gd]}, 'Dy': {'string': '111312211312', 'abundance': 3.6812186, 'decay': [Tb]}, 'Ho': {'string': '1321132', 'abundance': 4.7987529, 'decay': [Dy]}, 'Er': {'string': '311311222', 'abundance': 0.1098596, 'decay': [Ho, Pm]}, 'Tm': {'string': '11131221133112', 'abundance': 0.1204908, 'decay': [Er, Ca, Co]}, 'Yb': {'string': '1321131112', 'abundance': 0.1570691, 'decay': [Tm]}, 'Lu': {'string': '311312', 'abundance': 0.2047517, 'decay': [Yb]}, 'Hf': {'string': '11132', 'abundance': 0.2669097, 'decay': [Lu]}, 'Ta': {'string': '13112221133211322112211213322113', 'abundance': 0.0242077, 'decay': [Hf, Pa, H, Ca, W]}, 'W': {'string': '312211322212221121123222113', 'abundance': 0.0315567, 'decay': [Ta]}, 'Re': {'string': '111312211312113221133211322112211213322113', 'abundance': 0.0169288, 'decay': [Ge, Ca, W]}, 'Os': {'string': '1321132122211322212221121123222113', 'abundance': 0.022068, 'decay': [Re]}, 'Ir': {'string': '3113112211322112211213322113', 'abundance': 0.0287673, 'decay': [Os]}, 'Pt': {'string': '111312212221121123222113', 'abundance': 0.0375005, 'decay': [Ir]}, 'Au': {'string': '132112211213322113', 'abundance': 0.0488847, 'decay': [Pt]}, 'Hg': {'string': '31121123222113', 'abundance': 0.063725, 'decay': [Au]}, 'Tl': {'string': '111213322113', 'abundance': 0.0830705, 'decay': [Hg]}, 'Pb': {'string': '123222113', 'abundance': 0.1082888, 'decay': [Tl]}, 'Bi': {'string': '3113322113', 'abundance': 0.1411629, 'decay': [Pm, Pb]}, 'Po': {'string': '1113222113', 'abundance': 0.1840167, 'decay': [Bi]}, 'At': {'string': '1322113', 'abundance': 0.23988, 'decay': [Po]}, 'Rn': {'string': '311311222113', 'abundance': 0.3127021, 'decay': [Ho, At]}, 'Fr': {'string': '1113122113', 'abundance': 0.4076313, 'decay': [Rn]}, 'Ra': {'string': '132113', 'abundance': 0.5313789, 'decay': [Fr]}, 'Ac': {'string': '3113', 'abundance': 0.6926935, 'decay': [Ra]}, 'Th': {'string': '1113', 'abundance': 0.7581905, 'decay': [Ac]}, 'Pa': {'string': '13', 'abundance': 0.9883599, 'decay': [Th]}, 'U': {'string': '3', 'abundance': 0.0102563, 'decay': [Pa]}, 'Pu4': {'string': '312211322212221121123222114', 'abundance': 0.0, 'decay': [Np4]}, 'Np4': {'string': '13112221133211322112211213322114', 'abundance': 0.0, 'decay': [Hf, Pa, H, Ca, Pu4]}}
         ```
-
         """
         return {e.get_name() : {'string' : e.get_string(), 
                                 'abundance' : self._get_abundances(dec_places, abundance_sum)[i],
@@ -969,33 +948,27 @@ class SplitFuncFactory():
     The following illustrates how the split function factory can 
     be used to create such a split function:
     ```python
-    sff = SplitFuncFactory()
-    sff.declare_split_after('0')
-    split = sff.get_split()
-    string = '1101230022200012301325023'
-    print(split(string))
-    ```
-
-    ### Output:
-    ```sh
+    >>> sff = SplitFuncFactory()
+    >>> sff.declare_split_after('0')
+    >>> split = sff.get_split()
+    >>> string = '1101230022200012301325023'
+    >>> print(split(string))
     ['110', '12300', '222000', '1230', '13250', '23']
+
     ```
 
 
     ## Example Session: A combination of multiple methods.
     ```python
-    sff = SplitFuncFactory()
-    sff.declare_split_before('111')
-    sff.declare_split_after('2', '30')
-    sff.declare_splitting_pairs(('11', '333'))
-    split = sff.get_split()
-    string = '1234411154211333234530411113333344'
-    print(split(string))
-    ```
-
-    ### Output:
-    ```sh
+    >>> sff = SplitFuncFactory()
+    >>> sff.declare_split_before('111')
+    >>> sff.declare_split_after('2', '30')
+    >>> sff.declare_splitting_pairs(('11', '333'))
+    >>> split = sff.get_split()
+    >>> string = '1234411154211333234530411113333344'
+    >>> print(split(string))
     ['12', '344', '111542', '11', '3332', '34530', '4', '1111', '3333344']
+
     ```
     """
     def __init__(self):
@@ -1044,16 +1017,13 @@ class SplitFuncFactory():
 
         ## Example Session:
         ```python
-        sff = SplitFuncFactory()
-        sff.declare_splitting_pairs(('311', '223'), ('0', '1'))
-        split = sff.get_split()
-        string = '12311223323112011200011110234234'
-        print(split(string))
-        ```
-
-        ### Output:
-        ```sh
+        >>> sff = SplitFuncFactory()
+        >>> sff.declare_splitting_pairs(('311', '223'), ('0', '1'))
+        >>> split = sff.get_split()
+        >>> string = '12311223323112011200011110234234'
+        >>> print(split(string))
         ['12311', '2233231120', '112000', '11110234234']
+
         ```
         """
         for pair in pairs:
@@ -1065,16 +1035,13 @@ class SplitFuncFactory():
         
         ## Example Session:
         ```python
-        sff = SplitFuncFactory()
-        sff.declare_split_after('1', '20')
-        split = sff.get_split()
-        string = '12311223323112011200011110234234'
-        print(split(string))
-        ```
-
-        ### Output:
-        ```sh
+        >>> sff = SplitFuncFactory()
+        >>> sff.declare_split_after('1', '20')
+        >>> split = sff.get_split()
+        >>> string = '12311223323112011200011110234234'
+        >>> print(split(string))
         ['1', '2311', '22332311', '20', '11', '20001111', '0234234']
+
         ```
         """
         for chunk in chunks:
@@ -1085,16 +1052,13 @@ class SplitFuncFactory():
 
         ## Example Session:
         ```python
-        sff = SplitFuncFactory()
-        sff.declare_split_before('0', '31')
-        split = sff.get_split()
-        string = '12311223323112011200011110234234'
-        print(split(string))
-        ```
-
-        ### Output:
-        ```sh
+        >>> sff = SplitFuncFactory()
+        >>> sff.declare_split_before('0', '31')
+        >>> split = sff.get_split()
+        >>> string = '12311223323112011200011110234234'
+        >>> print(split(string))
         ['12', '31122332', '3112', '0112', '0001111', '0234234']
+
         ```
         """
         for chunk in chunks:
