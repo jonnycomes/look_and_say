@@ -1071,8 +1071,7 @@ class Cosmology():
     A class for proving Conway's Cosmological Theorem.
     Currently this will only prove The Cosmological Theorem 
     for the standard base ten look and say sequences where every term
-    consists of strings of some of the digits 1 through 9. The default
-    digits considered are the crucial ones: 1, 2, and 3.  
+    consists of strings of some of the digits 1, 2, and 3.  
     '''
     def __init__(self, digits = '123'):
         self.look_and_say = LookAndSay()
