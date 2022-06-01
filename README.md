@@ -66,6 +66,8 @@ lambda**18*(lambda - 1)**2*(lambda + 1)*(lambda**71 - lambda**69 - 2*lambda**68 
 The following session shows how to use the module to explore a nonstandard look and say sequence. We use the binary number system known as [Gray code](https://en.wikipedia.org/wiki/Gray_code#n-ary_Gray_code) to generate the sequence. The corresponding LookAndSay object depends on the *say function* which converts a positive integer into its Gray code.
 
 ```python
+>>> from look_and_say import *
+>>>
 >>> # Define the "say function"
 >>> def gray(num):
 ...     assert num < 8, "This say function can only count to 7."
