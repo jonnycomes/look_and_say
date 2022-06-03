@@ -54,19 +54,19 @@ The following session shows how to use the module to explore a nonstandard look 
 >>> from look_and_say import *
 >>>
 >>> # Define the "say function"
->>> def gray(num):
+... def gray(num):
 ...     assert num < 8, "This say function can only count to 7."
 ...     gray_code = {1:'1', 2:'11', 3:'10', 4:'110', 5:'111', 6:'101', 7:'100'}
 ...     return gray_code[num]
 ... 
 >>> # Create the LookAndSay object and generate a look and say sequence
->>> gray_ls = LookAndSay(gray)
+... gray_ls = LookAndSay(gray)
 >>> gray_ls.generate_sequence(seed='0', num_iterations=6)
 >>> gray_ls.get_sequence()
 ['0', '10', '1110', '10110', '111011110', '10110110110', '1110111101111011110']
 >>> 
 >>> # Use a BinaryChemistry object to determine the chemical properties
->>> gray_chem = BinaryChemistry(gray_ls)
+... gray_chem = BinaryChemistry(gray_ls)
 >>> gray_chem.generate_elements('0')
 >>> gray_chem.print_periodic_table()
 element   string   abundance    decay
@@ -76,12 +76,12 @@ E3        1110     0.0          [E1, E2]
 E4        11110    41.4213562   [E2, E2]
 >>> 
 >>> # The maximal real eigenvalue of the decay matrix gives the long term
->>> # growth rate of look and say sequences.
->>> gray_chem.get_max_eigenvalue()
+... # growth rate of look and say sequences.
+... gray_chem.get_max_eigenvalue()
 1.4142135623730947
 >>> 
 >>> # The growth rate is the maximal real root of the characteristic polynomial
->>> gray_chem.get_char_poly()
+... gray_chem.get_char_poly()
 (lambda - 1)*(lambda + 1)*(lambda**2 - 2)
 
 ```
