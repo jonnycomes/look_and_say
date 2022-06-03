@@ -1100,6 +1100,20 @@ class Cosmology():
             days += 1
         return days
 
+    def decay_tree(self, string):
+        '''
+        Starting with the passed string, the say_what_you_see operation is applied
+        repeatedly until the result splits as a compound of common elements. 
+        Returns a nested dictionary corresponding to the resulting *decay tree*: 
+        The root of the tree is the passed string, the children of a node are the 
+        atoms obtained by applying the say_what_you_see operation to the node and 
+        splitting the result, the leaves are the nodes corresponding to common elements.
+        '''
+        if string in self.common_strings:
+            return string
+        return {string: [self.decay_tree(atom) for atom in self.split(self.look_and_say.say_what_you_see(string))]}
+
+
     def proof(self, day = 9):
         '''
         Uses a backtracking algorithm to prove Conway's Cosmological Theorem. If we pass the parameter

@@ -35,11 +35,11 @@ Hydrogen: {'string': '22', 'abundance': 91790.383216, 'decay': [H]}
 >>> print('Thulium:', pt['Tm'])
 Thulium: {'string': '11131221133112', 'abundance': 1204.9083841, 'decay': [Er, Ca, Co]}
 >>> 
->>> # Conway's constant can be found as the maximal real eigenvalue of the 
-... # characteristic polynomial of the decay matrix:
+>>> # Conway's constant can be found as the maximal real eigenvalue of the decay matrix:
 ... chem.get_max_eigenvalue()
 1.3035772690342984
->>> chem.get_char_poly()
+>>> # Conway's constant is root of the degree 71 factor of the characteristic polynomial:
+... chem.get_char_poly()
 lambda**18*(lambda - 1)**2*(lambda + 1)*(lambda**71 - lambda**69 - 2*lambda**68 - lambda**67 + 2*lambda**66 + 2*lambda**65 + lambda**64 - lambda**63 - lambda**62 - lambda**61 - lambda**60 - lambda**59 + 2*lambda**58 + 5*lambda**57 + 3*lambda**56 - 2*lambda**55 - 10*lambda**54 - 3*lambda**53 - 2*lambda**52 + 6*lambda**51 + 6*lambda**50 + lambda**49 + 9*lambda**48 - 3*lambda**47 - 7*lambda**46 - 8*lambda**45 - 8*lambda**44 + 10*lambda**43 + 6*lambda**42 + 8*lambda**41 - 5*lambda**40 - 12*lambda**39 + 7*lambda**38 - 7*lambda**37 + 7*lambda**36 + lambda**35 - 3*lambda**34 + 10*lambda**33 + lambda**32 - 6*lambda**31 - 2*lambda**30 - 10*lambda**29 - 3*lambda**28 + 2*lambda**27 + 9*lambda**26 - 3*lambda**25 + 14*lambda**24 - 8*lambda**23 - 7*lambda**21 + 9*lambda**20 + 3*lambda**19 - 4*lambda**18 - 10*lambda**17 - 7*lambda**16 + 12*lambda**15 + 7*lambda**14 + 2*lambda**13 - 12*lambda**12 - 4*lambda**11 - 2*lambda**10 + 5*lambda**9 + lambda**7 - 7*lambda**6 + 7*lambda**5 - 4*lambda**4 + 12*lambda**3 - 6*lambda**2 + 3*lambda - 6)
 
 ```
@@ -76,7 +76,7 @@ E3        1110     0.0          [E1, E2]
 E4        11110    41.4213562   [E2, E2]
 >>> 
 >>> # The maximal real eigenvalue of the decay matrix gives the long term
->>> # growth rate of the look and say sequence.
+>>> # growth rate of look and say sequences.
 >>> gray_chem.get_max_eigenvalue()
 1.4142135623730947
 >>> 
@@ -141,11 +141,12 @@ E18       112211     0.0          [E11]
 E19       112        0.0          [E12]
 E20       1112       0.0          [E1, E19]
 >>>
->>> # Show the characteristic polynomial and its maximal real root, 
->>> # which gives the generic growth rate of the look and say sequences.
->>> print(ternary_chem.get_char_poly(latex=True))
-\lambda^{6} \left(\lambda - 1\right)^{2} \left(\lambda + 1\right)^{2} \left(\lambda^{2} + 1\right) \left(\lambda^{3} - \lambda - 1\right) \left(\lambda^{5} - \lambda^{3} + 1\right)
->>> print(ternary_chem.get_max_eigenvalue())
+>>> # Show the maximal real eigenvalue which gives the generic growth rate of the look and say sequences.
+... print(ternary_chem.get_max_eigenvalue())
 1.3247179572447458
+>>> 
+>>> # The characteristic polynomial formatted in latex:
+... print(ternary_chem.get_char_poly(latex=True))
+\lambda^{6} \left(\lambda - 1\right)^{2} \left(\lambda + 1\right)^{2} \left(\lambda^{2} + 1\right) \left(\lambda^{3} - \lambda - 1\right) \left(\lambda^{5} - \lambda^{3} + 1\right)
 
 ```
