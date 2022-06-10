@@ -1,7 +1,7 @@
+<img src="tests/coverage-badge.svg">
+
 look_and_say
 ============
-
-[![Coverage Status](https://coveralls.io/repos/github/jonnycomes/look_and_say/badge.svg?branch=main)](https://coveralls.io/github/jonnycomes/look_and_say?branch=main)
 
 A python module for exploring look and say sequences in the spirit of John H Conway.
 
