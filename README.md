@@ -1,6 +1,8 @@
 look_and_say
 ============
 
+[![Coverage Status](https://coveralls.io/repos/github/jonnycomes/look_and_say/badge.svg?branch=main)](https://coveralls.io/github/jonnycomes/look_and_say?branch=main)
+
 A python module for exploring look and say sequences in the spirit of John H Conway.
 
 The following assumes familiarity with the terminology and notation for look and sequences introduced by Conway in his delightful article [The Weird and Wonderful Chemistry of Audioactive Decay](https://link.springer.com/chapter/10.1007/978-1-4612-4808-8_53). 

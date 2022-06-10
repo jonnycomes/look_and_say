@@ -1,0 +1,1 @@
+[![Coverage Status](https://coveralls.io/repos/github/jonnycomes/look_and_say/badge.svg?branch=main)](https://coveralls.io/github/jonnycomes/look_and_say?branch=main)
