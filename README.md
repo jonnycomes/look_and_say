@@ -13,7 +13,7 @@ This module can be used to recover several of Conway's results on standard look 
 
 # Documentation
 
-Full documentation for the module can be found [here](https://jonnycomes.github.io/look_and_say/docs/look_and_say.html).
+Full documentation for the module can be found [here](https://jonnycomes.github.io/look_and_say/docs).
 
 
 # Example Sessions
