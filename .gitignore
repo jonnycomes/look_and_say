@@ -1,5 +1,6 @@
 sandbox/
 .DS_Store
+__pycache__/
 
 # Python Script for creating README.md
 create_readme.py
