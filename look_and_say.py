@@ -241,15 +241,15 @@ class LookAndSay():
         result += self._chunk_op(count, letter)
         return result
      
-    def generate_sequence(self, seed, num_iterations):
+    def generate_sequence(self, seed, terms):
         """
         Generates the look and say sequence. The parameter ``seed`` is 
-        the initial term in the sequence, and ``num_iterations`` is the 
+        the initial term in the sequence, and ``terms`` is the 
         number of terms generated.
         """
         if not seed: return None # handles empty seed, which is falsy
         result = [seed]
-        for _ in range(num_iterations):
+        for _ in range(terms-1):
             result.append(self.say_what_you_see(result[-1]))
         self.sequence = result
 
@@ -258,9 +258,9 @@ class LookAndSay():
         Returns a list of the ratios of lengths of 
         successive terms in the look and say sequence.
         """
-        num_iterations = len(self.sequence)
-        assert num_iterations > 1, 'Look and say sequence does not have enough terms to compute the ratio of lengths.'
-        return [len(self.sequence[i+1]) / len(self.sequence[i]) for i in range(num_iterations - 1)]
+        terms = len(self.sequence)
+        assert terms > 1, 'Look and say sequence does not have enough terms to compute the ratio of lengths.'
+        return [len(self.sequence[i+1]) / len(self.sequence[i]) for i in range(terms - 1)]
 
     def get_last_length_ratio(self):
         """

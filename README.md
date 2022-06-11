@@ -33,9 +33,9 @@ The following session illustrates how the ``look_and_say`` module can be used to
 '113231'
 >>> 
 >>> # Generate a look and say sequence
-... decimal.generate_sequence(seed='1', num_iterations=5)
+... decimal.generate_sequence(seed='1', terms=5)
 >>> decimal.get_sequence()
-['1', '11', '21', '1211', '111221', '312211']
+['1', '11', '21', '1211', '111221']
 >>> 
 >>> # Use Conway's splitting theorem to search for all the elements 
 ... # in the look and say sequence generated from the seed '1'. 
@@ -78,9 +78,9 @@ The following session shows how to use the module to explore a nonstandard look 
 ... 
 >>> # Create the LookAndSay object and generate a look and say sequence
 ... gray_ls = LookAndSay(gray)
->>> gray_ls.generate_sequence(seed='0', num_iterations=6)
+>>> gray_ls.generate_sequence(seed='0', terms=6)
 >>> gray_ls.get_sequence()
-['0', '10', '1110', '10110', '111011110', '10110110110', '1110111101111011110']
+['0', '10', '1110', '10110', '111011110', '10110110110']
 >>> 
 >>> # Use a BinaryChemistry object to determine the chemical properties
 ... gray_chem = BinaryChemistry(gray_ls)
