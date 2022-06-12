@@ -17,9 +17,9 @@ def test_decimal_sequence():
 
 
 ##### Testing the standard binary LookAndSay ######
-def say(num):
+def binary_say(num):
     return f'{num:b}'
-binary = LookAndSay(say)
+binary = LookAndSay(binary_say)
 
 def test_binary_say_what_you_see():
     '''Testing the say_what_you_see method for the standard binary look and say'''
@@ -35,11 +35,20 @@ def test_binary_sequence():
 
 
 ##### Testing a LookAndSay object from a 2 parameter say function (triple stutter with echo) ######
-def say(num, char):
+def stutter_echo_say(num, char):
     return str(num)*3 + char*2
-stutter_echo = LookAndSay(say)
+stutter_echo = LookAndSay(stutter_echo_say)
 
 def test_2_parameter_say_what_you_see():
     '''Testing the say_what_you_see method for a two parameter (stuttering with echo) say function'''
     assert stutter_echo.say_what_you_see('112220') == '222113332211100'
+
+def test_2_parameter_say_sequence():
+    '''Testing q 2 parameter say what you see sequence'''
+    stutter_echo.generate_sequence(seed='2', terms=4)
+    seq = stutter_echo.get_sequence()
+    assert seq == ['2', '11122', '3331122222', '333332221155522']
+    assert stutter_echo.get_length_ratios() == [5, 2, 1.5]
+    assert stutter_echo.get_last_length_ratio() == 1.5
+
 
