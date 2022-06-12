@@ -975,7 +975,6 @@ class SplitFuncFactory():
         self._splitting_pairs = []
         self._chunks_before_split = []
         self._chunks_after_split = []
-        self._split_conditions = []
 
     def get_split(self):
         """Returns the split function."""
@@ -1004,9 +1003,6 @@ class SplitFuncFactory():
                 return True
         for l, r in self._splitting_pairs:
             if len(l) <= len(L) and len(r) <= len(R) and l == L[-len(l):] and r == R[:len(r)]:
-                return True
-        for condition in self._split_conditions:
-            if condition(L, R):
                 return True
         return False
 

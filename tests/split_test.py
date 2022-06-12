@@ -8,9 +8,13 @@ def test_split_Conway_methuselum():
     '''Methuselum does not split'''
     assert split_Conway('2233322211n') == ['2233322211n']
 
-def test_split_Conway_multiple_splits():
+def test_split_Conway_multiple_splits1():
     '''Testing the splitting of a string that splits at multiple positions'''
-    assert split_Conway('1211132213') == ['12', '1113', '22', '13']
+    assert split_Conway('12111322138127') == ['12', '1113', '22', '138', '12', '7']
+
+def test_split_Conway_multiple_splits2():
+    '''Testing the splitting of another string that splits at multiple positions'''
+    assert split_Conway('132211132122311229') == ['13', '22', '111321', '22', '311', '22', '9']
 
 def test_split_func_factory_declare_split_after_0():
     '''Testing the declare_split_after method after runs of 0's'''

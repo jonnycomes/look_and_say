@@ -46,6 +46,16 @@ def test_order_elements_by_abundance():
     assert elements[-3].get_name() == 'As'
     assert {e.get_name() for e in elements[-2:]} == {'Pu9', 'Np9'}
 
+def test_print_periodic_table(capsys):
+    '''Testing the print_periodic_table method'''
+    decimal_chem.print_periodic_table(abundance_sum = 10**6)
+    captured = capsys.readouterr()
+    assert 'Pu9' in captured.out
+    assert 'Np9' in captured.out
+    assert '[Hf, Pa, H, Ca, W]' in captured.out
+    assert '91790.38' in captured.out
+    assert '111312211312113221133211322112211213322112' in captured.out
+
 def test_clear_elements():
     '''Testing the clear_elements method'''
     decimal_chem.clear_elements()
