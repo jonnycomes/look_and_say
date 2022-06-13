@@ -108,4 +108,4 @@ def test_negafibnary_max_eigenvalue():
 def test_negafibnary_char_poly():
     '''Testing the characteristic polynomial for the negafibnary Chemistry'''
     assert sympy.poly(negafibnary_chem.get_char_poly()).all_coeffs() == [1, -1, -1]
-   
+    assert sympy.poly(negafibnary_chem.get_char_poly(factor=False)).all_coeffs() == [1, -1, -1]

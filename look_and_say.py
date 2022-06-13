@@ -918,7 +918,7 @@ class Element():
 
     def __hash__(self):
         """Overrides the default implementation"""
-        return hash(tuple(sorted(self.__dict__.items())))
+        return hash((self.string, self.las))
 
     def _set_decay(self, elements):
         self.decay = elements
@@ -994,7 +994,7 @@ class SplitFuncFactory():
 
     def _is_split(self, L, R):
         if L == '' or R == '':
-            return True
+            return True # pragma: no cover
         if L[-1] == R[0]:
             return False
         for l in self._chunks_before_split:
@@ -1233,17 +1233,9 @@ class Cosmology():
         Returns True if the string kid *might* be contained in the result of applying
         the say-what-you-see operation day-times to some string. Note that this method
         will only return False when kid cannot be part of a day-old descendant of 
-        any string,
-        but may return True even if kid is not contained in any day-old descendant.
+        any string, but may return True even if kid is not contained in any day-old descendant.
         '''
-        # To speed things up, we first check the compendium sets:
-        # if the kid has a parent who is already in a compendium, we know it's parent
-        # has (possibly) a day-old ancestor, so certainly the kid also (possibly) has one.
-        for parent in self._parents(kid):
-            if len(parent) < len(self._compendium_sets) and parent in self._compendium_sets[len(parent)]:
-                return True
-
-        # Now apply the parents function day-times and see what we get:
+        # Apply the parents function day-times and see what we get:
         ancestors = [kid]
         for _ in range(day):
             next_ancestors = []
@@ -1252,5 +1244,3 @@ class Cosmology():
             ancestors = next_ancestors
 
         return len(ancestors) != 0
-
-
