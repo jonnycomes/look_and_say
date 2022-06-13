@@ -15,7 +15,7 @@ setup(
     author="Jonny Comes",
     author_email='jonnycomes@gmail.com',
     name='look_and_say',
-    version='0.1.9',
+    version='0.1.10',
     python_requires='>=3.6',
     py_modules=['look_and_say'],
     license="MIT license",
@@ -28,7 +28,7 @@ setup(
     tests_require=test_requirements,
     url='https://github.com/jonnycomes/look_and_say',
     project_urls={
-        "Documentation": "https://jonnycomes.github.io/look_and_say/docs/look_and_say.html",
+        "Documentation": "https://jonnycomes.github.io/look_and_say/docs/",
         },
     zip_safe=False,
     )
