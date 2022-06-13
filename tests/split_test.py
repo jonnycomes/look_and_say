@@ -1,5 +1,11 @@
 from look_and_say import *
 
+# def test_is_split_pair_Conway_empty_strings():
+#     '''Testing that _is_split_pair_Conway returns True whenever one of the pair is empty'''
+#     assert _is_split_pair_Conway('', '123') 
+#     assert _is_split_pair_Conway('43234', '') 
+#     assert _is_split_pair_Conway('', '') 
+
 def test_split_Conway_empty():
     '''The empty string does not split'''
     assert split_Conway('') == ['']

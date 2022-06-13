@@ -14,4 +14,4 @@ def test_cosmology_proof(capsys):
     cosmo = Cosmology()
     cosmo.proof()
     captured = capsys.readouterr()
-    assert '27 days' in captured.out
+    assert 'bound of 27 days for the age of an exotic element' in captured.out
