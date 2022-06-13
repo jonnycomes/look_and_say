@@ -40,7 +40,7 @@ def split_Conway(string):
 def _is_split_pair_Conway(L, R):
     """Implementation of Conway's Splitting Theorem"""
     if L == '' or R == '':
-            return True
+            return True # pragma: no cover
     if L[-1] not in ['1', '2', '3'] and R[0] in ['1', '2', '3']: # n] and [m
             return True
     if L[-1] == '2': # 2]
@@ -79,7 +79,9 @@ def _conway_name(element):
 
 def _conway_number(element):
     string = element.get_string()
-    if string in _CONWAY_ELEMENTS:
+    if string == '':
+        return 0
+    elif string in _CONWAY_ELEMENTS:
         return _CONWAY_ELEMENTS[string]['number']
     else: # Handling transuranic elements
         return 92 * int(string[:9]) + ord(string[-1])
@@ -227,7 +229,7 @@ class LookAndSay():
         using the standard (default) LookAndSay object, 
         ``say_what_you_see('1112222333')`` returns ``'314233'``.
         """
-        if not string: return None # handles empty string, which is falsy
+        if not string: return '' # handles empty string, which is falsy
         letter = string[0]
         result = ''
         count = 0
@@ -652,7 +654,7 @@ class Chemistry():
             if len(common_elements) < len(self.elements):
                 self.elements = list(common_elements)
             else: 
-                break
+                break # pragma: no cover
 
     def generate_elements(self, *seeds, reset = True):
         """

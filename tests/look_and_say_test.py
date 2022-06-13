@@ -7,6 +7,10 @@ def test_say_what_you_see():
     '''Testing the say_what_you_see method for the standard look and say'''
     assert decimal.say_what_you_see('11133222200') == '31234220'
 
+def test_say_what_you_see_on_empty():
+    '''Testing that say_what_you_see on the empty string returns the empty string'''
+    assert decimal.say_what_you_see('') == ''
+
 def test_decimal_sequence():
     '''Testing the decimal say what you see sequence'''
     decimal.generate_sequence(seed='1', terms=6)
