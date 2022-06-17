@@ -670,7 +670,8 @@ class Chemistry():
         strings = [self.las.say_what_you_see(seed) for seed in seeds] #only look at 2-day-old strings
         self._generate_all_elements(strings)
         self._remove_intermittent_elements()
-        self.order_elements('string')
+        if reset:
+            self.order_elements('string')
         self._name_elements()
 
     def _name_elements(self):
@@ -763,6 +764,7 @@ class Chemistry():
 
         ```
         """
+
         return {e.get_name() : {'string' : e.get_string(), 
                                 'abundance' : self._get_abundances(dec_places, abundance_sum)[i],
                                 'decay' : e.get_decay()}
