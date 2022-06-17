@@ -1,4 +1,4 @@
-<img src="https://github.com/jonnycomes/look_and_say/blob/main/tests/coverage-badge.svg">
+![](https://github.com/jonnycomes/look_and_say/blob/main/tests/coverage-badge.svg)
 
 look_and_say
 ============
