@@ -1,4 +1,4 @@
-![](https://github.com/jonnycomes/look_and_say/blob/main/tests/coverage-badge.svg)
+![coverage-badge](https://github.com/jonnycomes/look_and_say/blob/main/tests/coverage-badge.svg?raw=True)
 
 look_and_say
 ============
