@@ -93,10 +93,10 @@ class LookAndSay():
     A class responsible for the fundamental say-what-you-see operation
     that generates a look and say sequence. The parameter ``say`` in the
     constructor is a function that determines the decay of a chunk of the form
-    \\(a^b\\). The say function can have one or two parameters:
+    $a^b$. The say function can have one or two parameters:
 
-    * If the say function accepts one parameter, the LookAndSay object will correspond to the decay \\(a^b\\to say(b)a\\).
-    * If the say function accepts two parameters, the LookAndSay object will correspond to the decay \\(a^b\\to say(b, a)\\).
+    * If the say function accepts one parameter, the LookAndSay object will correspond to the decay $a^b\\to say(b)a$.
+    * If the say function accepts two parameters, the LookAndSay object will correspond to the decay $a^b\\to say(b, a)$.
 
     When no parameter is passed to the constructor, the LookAndSay
     object will correspond to standard base ten look and say sequences.
@@ -163,7 +163,7 @@ class LookAndSay():
     ## Example Sessions: Two parameter say functions
 
     Here is a *look-and-say-again* from the paper [*Stuttering Conway Sequences Are Still Conway Sequences* by Brier et al](https://arxiv.org/abs/2006.06837).
-    The say function for this example corresponds to the decay \\(a^b\\to bbaa\\).
+    The say function for this example corresponds to the decay $a^b\\to bbaa$.
     ```python
     >>> def say_again(char_count, char):
     ...     return 2 * str(char_count) + 2 * char
@@ -734,7 +734,7 @@ class Chemistry():
         """
         Returns a list of relative abundances of each element.
         By default the abundances are given as percentages, 
-        so they will differ from Conway's abundances by a factor of \\(10^4\\).
+        so they will differ from Conway's abundances by a factor of $10^4$.
         The abundances can be renormalized by setting the parameter ``abundance_sum``.
         The order of the list corresponds to the order of the list of elements.
         """
@@ -773,7 +773,7 @@ class Chemistry():
     def print_periodic_table(self, dec_places = 7, abundance_sum = 100):
         """
         Prints the periodic table. Note the abundances are given as percentages, 
-        so they will differ from Conway's abundances by a factor of \\(10^4\\).
+        so they will differ from Conway's abundances by a factor of $10^4$.
         The parameter ``dec_places`` refers to the accuracy of the abundances.
         """
         pt = self.get_periodic_table(dec_places, abundance_sum)
@@ -821,7 +821,7 @@ class BinaryChemistry(Chemistry):
     A chemistry for binary look and say sequences that split as 1.0 
     (i.e. whenever a 1 is left of a 0). This chemistry is valid whenever
     the say-what-you-see operation maps 
-    \\(a^b\\) to \\([b]a\\) where \\([b]\\) is a binary
+    $a^b$ to $[b]a$ where $[b]$ is a binary
     string that always starts with a 1. For example, this chemistry is 
     valid for standard base two binary look and say sequences. 
 
@@ -855,7 +855,7 @@ class BinaryChemistry(Chemistry):
 
     ## Example Session: Twindragon Binary
     The following chemistry corresponds to the binary number system using 
-    the complex base \\(-1+i.\\) This binary number system is known as *twindragon binary*.
+    the complex base $-1+i.$ This binary number system is known as *twindragon binary*.
 
     ```python
     >>> def twindragon_say(num):
