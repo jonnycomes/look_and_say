@@ -16,7 +16,9 @@ This module can be used to recover several of Conway's results on standard look 
 Full documentation for the module can be found [here](https://jonnycomes.github.io/look_and_say/docs).
 
 
-# Example Sessions
+# Straight to example sessions
+
+You can read more details about all the objects and methods in the ``look_and_say`` module below. Here are some example sessions for the reader who wants to jump right into the code.
 
 ## Standard decimal
 
@@ -52,8 +54,8 @@ Hydrogen: {'string': '22', 'abundance': 91790.383216, 'decay': [H]}
 >>> print('Thulium:', pt['Tm'])
 Thulium: {'string': '11131221133112', 'abundance': 1204.9083841, 'decay': [Er, Ca, Co]}
 >>> 
->>> # Conway's constant can be found as the maximal real eigenvalue of the decay matrix:
-... chem.get_max_eigenvalue()
+>>> # Conway's constant can be found as the dominant (i.e. maximal real) eigenvalue of the decay matrix:
+... chem.get_dom_eigenvalue()
 1.3035772690342982
 >>> # Conway's constant is root of the degree 71 factor of the characteristic polynomial:
 ... chem.get_char_poly()
@@ -72,6 +74,7 @@ The following session shows how to use the module to explore a nonstandard look 
 >>>
 >>> # Define the "say function"
 ... def gray(num):
+...     '''Returns the binary Gray code of an integer from 1 to 7.'''
 ...     assert num < 8, "This say function can only count to 7."
 ...     gray_code = {1:'1', 2:'11', 3:'10', 4:'110', 5:'111', 6:'101', 7:'100'}
 ...     return gray_code[num]
@@ -92,9 +95,9 @@ E2        110      58.5786438   [E4]
 E3        1110     0.0          [E1, E2]
 E4        11110    41.4213562   [E2, E2]
 >>> 
->>> # The maximal real eigenvalue of the decay matrix gives the long term
+>>> # The dominant eigenvalue of the decay matrix gives the long term
 ... # growth rate of look and say sequences.
-... gray_chem.get_max_eigenvalue()
+... gray_chem.get_dom_eigenvalue()
 1.4142135623730958
 >>> 
 >>> # The growth rate is the maximal real root of the characteristic polynomial
@@ -158,8 +161,8 @@ E18       112211     0.0          [E11]
 E19       112        0.0          [E12]
 E20       1112       0.0          [E1, E19]
 >>>
->>> # Show the maximal real eigenvalue which gives the generic growth rate of the look and say sequences.
-... print(ternary_chem.get_max_eigenvalue())
+>>> # Show the dominant eigenvalue which gives the generic growth rate of the look and say sequences.
+... print(ternary_chem.get_dom_eigenvalue())
 1.3247179572447458
 >>> 
 >>> # The characteristic polynomial formatted in latex:

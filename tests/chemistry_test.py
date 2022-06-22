@@ -101,9 +101,9 @@ def test_negafibnary_get_decay_matrix():
     negafibnary_chem.order_elements('abundance')
     assert negafibnary_chem.get_decay_matrix() == [[1,1],[1,0]]
 
-def test_negafibnary_max_eigenvalue():
+def test_negafibnary_dom_eigenvalue():
     '''Testing the max eigenvalue for the negafibnary Chemistry'''
-    assert round(negafibnary_chem.get_max_eigenvalue(), 3) == 1.618
+    assert round(negafibnary_chem.get_dom_eigenvalue(), 3) == 1.618
 
 def test_negafibnary_char_poly():
     '''Testing the characteristic polynomial for the negafibnary Chemistry'''

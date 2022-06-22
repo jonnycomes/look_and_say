@@ -3,6 +3,8 @@
 
 .. include:: ./docs/EXAMPLESESSIONS.md
 
+.. include:: ./docs/MAINDOCS.md
+
 .. include:: ./docs/PROJECTS.md
 
 .. include:: ./docs/ACKNOWLEDGMENTS.md
@@ -391,7 +393,7 @@ class Chemistry():
     >>> print(chem.get_char_poly())
     lambda**18*(lambda - 1)**2*(lambda + 1)*(lambda**71 - lambda**69 - 2*lambda**68 - lambda**67 + 2*lambda**66 + 2*lambda**65 + lambda**64 - lambda**63 - lambda**62 - lambda**61 - lambda**60 - lambda**59 + 2*lambda**58 + 5*lambda**57 + 3*lambda**56 - 2*lambda**55 - 10*lambda**54 - 3*lambda**53 - 2*lambda**52 + 6*lambda**51 + 6*lambda**50 + lambda**49 + 9*lambda**48 - 3*lambda**47 - 7*lambda**46 - 8*lambda**45 - 8*lambda**44 + 10*lambda**43 + 6*lambda**42 + 8*lambda**41 - 5*lambda**40 - 12*lambda**39 + 7*lambda**38 - 7*lambda**37 + 7*lambda**36 + lambda**35 - 3*lambda**34 + 10*lambda**33 + lambda**32 - 6*lambda**31 - 2*lambda**30 - 10*lambda**29 - 3*lambda**28 + 2*lambda**27 + 9*lambda**26 - 3*lambda**25 + 14*lambda**24 - 8*lambda**23 - 7*lambda**21 + 9*lambda**20 + 3*lambda**19 - 4*lambda**18 - 10*lambda**17 - 7*lambda**16 + 12*lambda**15 + 7*lambda**14 + 2*lambda**13 - 12*lambda**12 - 4*lambda**11 - 2*lambda**10 + 5*lambda**9 + lambda**7 - 7*lambda**6 + 7*lambda**5 - 4*lambda**4 + 12*lambda**3 - 6*lambda**2 + 3*lambda - 6)
     >>> 
-    >>> print(chem.get_max_eigenvalue())
+    >>> print(chem.get_dom_eigenvalue())
     1.303577269034296
    
     ```
@@ -560,7 +562,7 @@ class Chemistry():
     >>> print(ternary_chem.get_char_poly())
     lambda**6*(lambda - 1)**2*(lambda + 1)**2*(lambda**2 + 1)*(lambda**3 - lambda - 1)*(lambda**5 - lambda**3 + 1)
     >>> 
-    >>> print(ternary_chem.get_max_eigenvalue())
+    >>> print(ternary_chem.get_dom_eigenvalue())
     1.3247179572447458
 
     ```
@@ -603,7 +605,7 @@ class Chemistry():
     >>> print(bal_tern_chem.get_char_poly())
     lambda**3*(lambda - 1)*(lambda**2 - lambda - 1)
     >>> 
-    >>> print(bal_tern_chem.get_max_eigenvalue()) # golden!
+    >>> print(bal_tern_chem.get_dom_eigenvalue()) # golden!
     1.6180339887498958
 
     ```
@@ -619,6 +621,12 @@ class Chemistry():
     def get_elements(self):
         """Returns the elements as a list."""
         return self.elements
+
+    def get_element(self, name):
+        """Returns the element with the given name. Returns None there is no element with the given name."""
+        for e in self.elements:
+            if e.get_name() == name:
+                return e
 
     def clear_elements(self):
         """Resets the list of elements back to the empty list."""
@@ -699,7 +707,7 @@ class Chemistry():
             mat.append(row)
         return mat
 
-    def get_max_eigenvalue(self):
+    def get_dom_eigenvalue(self):
         """
         Returns the maximal real eigenvalue of the decay matrix.
         In the standard case, this will give Conway's constant. 
@@ -708,7 +716,7 @@ class Chemistry():
         is larger than (the absolute value) of every other eigenvalue.
         This assumption is usually guaranteed by the Perron-Frobenius Theorem.
         """
-        assert len(self.elements) > 0, "The get_max_eigenvalue method requires a nonempty list of elements.\n\tTo fix: Use the generate_elements method prior to calling get_max_eigenvalue."
+        assert len(self.elements) > 0, "The get_dom_eigenvalue method requires a nonempty list of elements.\n\tTo fix: Use the generate_elements method prior to calling get_dom_eigenvalue."
         eigenstuff = numpy.linalg.eig(numpy.array(self.get_decay_matrix()))
         eigenvalues = eigenstuff[0]
         return max(eigenvalues).real
@@ -848,7 +856,7 @@ class BinaryChemistry(Chemistry):
     E9        11       0.0          [E2, E10]
     E10       1        0.0          [E9]
     >>>
-    >>> print(binary_chem.get_max_eigenvalue())
+    >>> print(binary_chem.get_dom_eigenvalue())
     1.4655712318767664
 
     ```
