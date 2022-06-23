@@ -1,7 +1,7 @@
 
 # Straight to example sessions
 
-You can read more details about all the objects and methods in the ``look_and_say`` module below. Here are some example sessions for the reader who wants to jump right into the code.
+You can read more details about all the objects and methods in the ``look_and_say`` module [here](https://jonnycomes.github.io/look_and_say/docs/look_and_say.html#detailed-documentation). Here are some example sessions for the reader who wants to skip the details.
 
 ## Standard decimal
 
