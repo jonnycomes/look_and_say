@@ -1,6 +1,8 @@
 """
 .. include:: ./docs/SUMMARY.md
 
+.. include:: ./docs/INSTALL.md
+
 .. include:: ./docs/EXAMPLESESSIONS.md
 
 .. include:: ./docs/MAINDOCS.md

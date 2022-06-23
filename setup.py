@@ -15,7 +15,7 @@ setup(
     author="Jonny Comes",
     author_email='jonnycomes@gmail.com',
     name='look_and_say',
-    version='0.1.14',
+    version='0.1.1',
     python_requires='>=3.6',
     py_modules=['look_and_say'],
     license="MIT license",
