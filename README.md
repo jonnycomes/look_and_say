@@ -18,7 +18,7 @@ Full documentation for the module can be found [here](https://jonnycomes.github.
 
 # Straight to example sessions
 
-You can read more details about all the objects and methods in the ``look_and_say`` module [here](https://jonnycomes.github.io/look_and_say/docs/look_and_say.html#detailed-documentation). Here are some example sessions for the reader who wants to skip the details.
+You can read more details about all the objects and methods in the ``look_and_say`` module [here](https://jonnycomes.github.io/look_and_say/docs/look_and_say.html#detailed-documentation). The following example sessions skip those details and get straight to some results. More example sessions can be found [here](https://jonnycomes.github.io/look_and_say/docs/look_and_say.html#more-examples).
 
 ## Standard decimal
 

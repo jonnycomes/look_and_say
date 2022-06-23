@@ -632,6 +632,7 @@ The default parameter is ``day = 9``, which results in a proof of the Cosmologic
 
 The proof is essentially the same as that of [Zeilberger](https://www.ams.org/journals/era/1997-03-11/S1079-6762-97-00026-7/S1079-6762-97-00026-7.pdf). The implementation is similar to that of [Litherland's proof1](https://oeis.org/A005150/a005150_4.pdf).
 
+<a name="more-examples"></a>
 # More examples 
 
 ## Conway's chemistry with transuranic elements
