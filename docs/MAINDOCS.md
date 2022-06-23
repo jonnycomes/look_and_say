@@ -168,8 +168,7 @@ You can specify multiple chunks to split after:
 >>> sff = SplitFuncFactory()
 >>> sff.declare_split_after('1', '20')
 >>> split = sff.get_split()
->>> string = '12311223323112011200011110234234'
->>> print(split(string))
+>>> split('12311223323112011200011110234234')
 ['1', '2311', '22332311', '20', '11', '20001111', '0234234']
 
 ```
@@ -178,8 +177,7 @@ Here is an example specifying strings to split before:
 >>> sff = SplitFuncFactory()
 >>> sff.declare_split_before('0', '31')
 >>> split = sff.get_split()
->>> string = '12311223323112011200011110234234'
->>> print(split(string))
+>>> split('12311223323112011200011110234234')
 ['12', '31122332', '3112', '0112', '0001111', '0234234']
 
 ```
@@ -188,8 +186,7 @@ Here is an example where multiple splitting pairs are declared:
 >>> sff = SplitFuncFactory()
 >>> sff.declare_splitting_pairs(('311', '223'), ('0', '1'))
 >>> split = sff.get_split()
->>> string = '12311223323112011200011110234234'
->>> print(split(string))
+>>> split('12311223323112011200011110234234')
 ['12311', '2233231120', '112000', '11110234234']
 
 ```
@@ -347,7 +344,7 @@ U         3                                            102.5628525     [Pa]
 ```
 
 <a name="std-binary-chem"></a>
-## Binary Chemistry
+## Binary chemistry
 
 To determine the chemistry of standard binary look and say sequences (see [above](#std-binary-las)) we use a ``BinaryChemistry`` object:
 ```python
