@@ -530,11 +530,11 @@ class Cosmology():
     '''
     A class for proving Conway's Cosmological Theorem.
     Currently this will only prove The Cosmological Theorem 
-    for the standard base ten look and say sequences where every term
+    for the standard decimal look and say sequences where every term
     consists of strings of some of the digits 1, 2, and 3.  
     '''
     def __init__(self, digits = '123'):
-        self.look_and_say = LookAndSay()
+        self.las = LookAndSay()
         self.split = split_Conway
         self.digits = digits
         self._compendium_sets = []
@@ -554,7 +554,7 @@ class Cosmology():
         while atoms != []:
             next_atoms = []
             for atom in atoms:
-                new_atoms = self.split(self.look_and_say.say_what_you_see(atom))
+                new_atoms = self.split(self.las.say_what_you_see(atom))
                 next_atoms += [a for a in new_atoms if a not in self.common_strings]
             atoms = next_atoms
             days += 1
@@ -571,7 +571,7 @@ class Cosmology():
         '''
         if string in self.common_strings:
             return string
-        return {string: [self.decay_tree(atom) for atom in self.split(self.look_and_say.say_what_you_see(string))]}
+        return {string: [self.decay_tree(atom) for atom in self.split(self.las.say_what_you_see(string))]}
 
 
     def proof(self, day = 9):

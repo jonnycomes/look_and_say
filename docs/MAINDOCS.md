@@ -622,9 +622,37 @@ This will not happen if the elements are named via Conway or if the parameter ``
 
 # Cosmology
 
+Currently the ``Cosmology`` class is only implemented for the standard decimal look and say sequences where digits in the terms of the look and say sequences are restricted to 1, 2, and 3.
+
+## Computing the age of an exotic element
+
+The ``Cosmology`` method ``days_exotic()`` will return the number of days it takes for a string to decay into a compound of common elements. For example, the following computes the number of days it takes for Methuselum to evolve into a compound of common elements:
+```python
+>>> cosmo = Cosmology()
+>>> methuselum = '22333222112'
+>>> cosmo.days_exotic(methuselum)
+24
+
+```
+
+## The decay tree of a string
+
+The ``Cosmology`` method ``decay_tree(string)`` starts with the passed ``string``, then the say_what_you_see operation is applied repeatedly until the result splits as a compound of common elements. 
+The method returns a nested dictionary corresponding to the resulting *decay tree*: The root of the tree is the passed ``string``, the children of a node are the atoms obtained by applying the say_what_you_see operation to the node and splitting the result, the leaves are the nodes corresponding to common elements. For example, the following session computes the decay trees of '1' and Methuselum:
+```python
+>>> cosmo.decay_tree('1')
+{'1': [{'11': [{'21': [{'1211': [{'111221': [{'312211': [{'13112221': ['11132', '13211']}]}]}]}]}]}]}
+>>>
+>>> cosmo.decay_tree(methuselum)
+{'22333222112': [{'2233322112': [{'2233222112': [{'2223322112': [{'3223222112': [{'132213322112': [{'1113221123222112': [{'311322211213322112': [{'1321133221121123222112': ['11131', '22', {'123222112211213322112': [{'11121332212221121123222112': ['3112112', {'32211322112211213322112': [{'1322211322212221121123222112': [{'11133221133211322112211213322112': [{'3123222': [{'1311121332': [{'11133112112': ['312', {'321122112': [{'131221222112': [{'1113112211322112': [{'311321222113222112': [{'1321131211322113322112': [{'111312211311122113222': [{'3113112221133122211332': ['1321132', '13', '22', '12', '3113', '22', '12', '312']}]}, '123222112']}]}]}]}]}]}, '312']}]}, '12', '312211322212221121123222112']}]}]}]}]}]}]}]}]}]}]}]}]}]}
+
+```
+
 ## Proof of Conway's Cosmology Theorem
 
-The ``proof()`` method in the ``Cosmology`` class uses a backtracking algorithm to prove Conway's Cosmological Theorem. If we pass the parameter ``day = N`` the algorithm searches for all strings that might appear as chunks of an N-day old element. The search starts with strings of length 1 (i.e. the digits) and then searches for strings of length 2, then length 3, etc. For each string found in the search, the algorithm repeatedly applies the say-what-you-see operation until the result is a compound of common elements. The algorithm terminates when for some positive integer L, there are no strings of length L that can appear as chunks of an N-day old element, and all strings of length less than L which might appear as a chunk of an N-day old element are shown to eventually decay into a compound of common elements.
+The ``proof()`` method in the ``Cosmology`` class uses a backtracking algorithm to prove Conway's Cosmological Theorem. Currently the proof is only valid for the standard decimal look and say sequences where every term consists of strings of some of the digits 1, 2, and 3.
+
+If we run the method ``proof(day = N)`` the algorithm searches for all strings that might appear as chunks of an N-day old element. The search starts with strings of length 1 (i.e. the digits) and then searches for strings of length 2, then length 3, etc. For each string found in the search, the algorithm repeatedly applies the say-what-you-see operation until the result is a compound of common elements. The algorithm terminates when for some positive integer L, there are no strings of length L that can appear as chunks of an N-day old element, and all strings of length less than L which might appear as a chunk of an N-day old element are shown to eventually decay into a compound of common elements.
 
 Running the program prints a few details about the search. In particular, an upper bound for the age of an exotic (i.e. not common) element is displayed.  
 
