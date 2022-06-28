@@ -1,7 +1,9 @@
+# A place to play with things
 sandbox/
+
+# Auto-created files 
 .DS_Store
 __pycache__/
-htmlcov/
 
 # Python Script for creating README.md
 create_readme.py
